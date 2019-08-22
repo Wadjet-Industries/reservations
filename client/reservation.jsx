@@ -1,20 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+const Reservations = (props) => (
+  <div>
+    Hello this is reservations!
+  </div>
+)
 
 
-class Reservations extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-        Hello this is reservations!
-      </div>
-    )
-  }
-}
-
-
-export default Reservations
+export default Reservations;
