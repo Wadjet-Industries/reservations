@@ -63,7 +63,8 @@ const generateListing = (listing, numberOfSeats, openHour, closeHour) => {
   //fix my document generation function
 
   const generateDocumentPerTime = (date) => {
-    const DateCollection = mongoose.model(`${date}`, reservationSchema);
+    const DateCollection = mongoose.models(date) || mongoose.model(`${date}`, reservationSchema);
+
     const all = [];
     for (let i = openHour; i <= closeHour; i += 0.5) {
       let time;
@@ -118,9 +119,10 @@ const generateListing = (listing, numberOfSeats, openHour, closeHour) => {
 
 (() => {
   for (let i = 1; i <= 100; i++) {
-    let listing = `L${i}`;
-    let seats = Math.floor(Math.random() * 101);
-    let openHour = Math.floor(Math.random() * 24);
-    let closeHour = openHour + Math.ceil(Math.random() * (24 - openHour));
+    const list = `L${i}`;
+    const seats = Math.floor(Math.random() * 101);
+    const openingHour = Math.floor(Math.random() * 24);
+    const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+    generateListing(list, seats, openingHour, closingHour);
   }
 })();
