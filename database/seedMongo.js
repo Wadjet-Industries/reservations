@@ -33,6 +33,9 @@ db.once('open', () => {
   });
 
   const ReservationDocument = mongoose.model('Reservation', reservationSchema);
+  ReservationDocument.deleteMany({}).exec()
+    .then(() => { console.log('Documents Removed'); })
+    .catch((err) => { console.log('Error in removing', err); });
 
   let startDay;
   let startYear;
