@@ -7,27 +7,19 @@
 // Open from 5:30pm till 10pm, and can sit a maximum number of 20 people
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
+// const emitter = require('')
+
+// emitter.setMaxListers(0);
+
+mongoose.connect('mongodb://localhost/Reservations', { useNewUrlParser: true })
+  .then(() => { console.log('Mango be connected'); })
+  .catch((error) => { console.log('Mango tree have error ', error); });
+
+const db = mongoose.connection;
+
+
 
 const generateListing = (listing, numberOfSeats, openHour, closeHour) => {
-  const dropCurrentDatabase = mongoose.connection.dropDatabase();
-
-  const listingURL = `mongodb://localhost/${listing}`;
-
-  const currentConnection = mongoose.connect(listingURL, { useNewUrlParser: true });
-
-  // change promise handling of thens to flow better
-
-  mongoose.connect(listingURL, { useNewUrlParser: true })
-    .then(() => { console.log('Mango intial connected'); })
-    .catch((error) => { console.log('Error with Mango Connect', error); return error; })
-    .then(() => (dropCurrentDatabase))
-    .then(() => { console.log('database dropped'); })
-    .catch((err) => { console.log('could not drop database', err); return err; })
-    .then(() => (currentConnection))
-    .then(() => { console.log('Mango final connected'); })
-    .catch((error) => { console.log('Error with Mango Reconnect', error); });
-
-  const db = mongoose.connection;
 
 
   const reservationSchema = new mongoose.Schema({
@@ -58,12 +50,14 @@ const generateListing = (listing, numberOfSeats, openHour, closeHour) => {
     new Date(year, month, 0).getDate()
   );
 
-  let count = 0;
+  // let count = 0;
 
   //fix my document generation function
 
   const generateDocumentPerTime = (date) => {
-    const DateCollection = mongoose.models(date) || mongoose.model(`${date}`, reservationSchema);
+    // console.log('schema', reservationSchema);
+    delete db.models[`${date}`];
+    const DateCollection = mongoose.model(`${date}`, reservationSchema);
 
     const all = [];
     for (let i = openHour; i <= closeHour; i += 0.5) {
@@ -87,42 +81,52 @@ const generateListing = (listing, numberOfSeats, openHour, closeHour) => {
         }
       }));
     }
-    Promise.all(all);
+    return Promise.all(all);
   };
 
-  //given the month i can generate days
-  //given a date I can generate times and push them
-
-  const generateDocumentsPerDay = (month, day, year) => {
-    const numbDays = daysInMonth(month, year);
-    if (count === 100) {
-      // eslint-disable-next-line no-useless-return
-      return;
-    }
-    if (day <= numbDays) {
-      const collectionDate = `M${month}-D${day}-Y${year}`;
-      generateDocumentPerTime(collectionDate);
-      count++;
-      generateDocumentsPerDay(month, day + 1, year);
-    }
-    if (numbDays < day) {
-      if (month === 12) {
-        generateDocumentsPerDay(1, 1, year + 1);
-      } else {
-        generateDocumentsPerDay(month + 1, 1, year);
+  const generateDocumentPerDay = (month, day, year) => {
+    const allDays = [];
+    const monthDays = daysInMonth(month, year);
+    for (let i = 0; i < 100; i++) {
+      if (monthDays < day) {
+        day = 1;
+        if(month === 12) {
+          month = 1;
+          year += 1;
+        } else {
+          month += 1;
+        }
       }
+      const currentDate = `m${month}-d${day}-y${year}`
+      allDays.push(generateDocumentPerTime(currentDate));
+      day++;
     }
-  };
+    return Promise.all(allDays);
+  }
 
-  generateDocumentsPerDay(startMonth, startDay, startYear);
+  mongoose.connect(listingURL, { useNewUrlParser: true })
+    // .then(() => { console.log('Mango intial connected',listingURL); })
+    // .catch((error) => { console.log('Error with Mango Connect', error); return error; })
+    // .then(() => (dropCurrentDatabase))
+    // .then(() => { console.log('database dropped', listingURL); })
+    // .catch((err) => { console.log('could not drop database', err); return err; })
+    // .then(() => (currentConnection))
+    .then(() => { console.log('Mango final  connected', listingURL); })
+    .catch((error) => { console.log('Error with Mango Connect', error, listingURL); })
+    .then(() => (generateDocumentPerDay(startMonth, startDay, startYear)))
+    .catch((error) => { console.log('Error with day generation', error); });
 };
 
+
+
 (() => {
-  for (let i = 1; i <= 100; i++) {
+  const allData = [];
+  for (let i = 1; i <= 50; i++) {
     const list = `L${i}`;
     const seats = Math.floor(Math.random() * 101);
     const openingHour = Math.floor(Math.random() * 24);
     const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
-    generateListing(list, seats, openingHour, closingHour);
+    allData.push(generateListing(list, seats, openingHour, closingHour));
   }
+  Promise.all(allData);
 })();
