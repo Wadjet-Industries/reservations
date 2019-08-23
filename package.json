@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "npx webpack --config webpack.config.js -w -d",
-    "server-dev": "nodemon server/server.js"
+    "server-dev": "nodemon server/server.js",
+    "seed": "node database/seedMongo.js"
   },
   "dependencies": {},
   "devDependencies": {

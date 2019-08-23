@@ -96,7 +96,7 @@ db.once('open', () => {
         }
       }
       const currentDate = `m${month}-d${day}-y${year}`;
-      const thisDate = { Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
+      const thisDate =  { Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
       allDays.push(thisDate);
       day++;
     }
