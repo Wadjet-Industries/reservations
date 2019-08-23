@@ -35,25 +35,25 @@ const reservationSchema = new mongoose.Schema({
 });
 
   // algorithm to generate data starting from this month and day
-let startDay;
-let startYear;
-let startMonth;
+// let startDay;
+// let startYear;
+// let startMonth;
 
-(() => {
-  const date = new Date();
-  startDay = date.getDate();
-  startYear = date.getFullYear();
-  startMonth = date.getMonth() + 1;
-  // return `${startYear}-${startMonth}-${startDay}`;
-})();
+// (() => {
+//   const date = new Date();
+//   startDay = date.getDate();
+//   startYear = date.getFullYear();
+//   startMonth = date.getMonth() + 1;
+//   // return `${startYear}-${startMonth}-${startDay}`;
+// })();
 
 const daysInMonth = (month, year) => (
   new Date(year, month, 0).getDate()
 );
 
-const generateSeatsPerTime = (openHour, closeHour) => {
+const generateSeatsPerTimePerDay = (openHour, closeHour, totalSeats) => {
   const all = [];
-  const totalSeats = Math.floor(Math.random() * 101);
+
   for (let i = openHour; i <= closeHour; i += 0.5) {
     let time;
     if (i % 1 !== 0) {
@@ -75,34 +75,36 @@ const generateSeatsPerTime = (openHour, closeHour) => {
   return all;
 };
 
-// const generateDocumentPerDay = (month, day, year) => {
-//   const allDays = [];
-//   const monthDays = daysInMonth(month, year);
-//   for (let i = 0; i < 100; i++) {
-//     if (monthDays < day) {
-//       day = 1;
-//       if(month === 12) {
-//         month = 1;
-//         year += 1;
-//       } else {
-//         month += 1;
-//       }
-//     }
-//     const currentDate = `m${month}-d${day}-y${year}`
-//     allDays.push(generateDocumentPerTime(currentDate));
-//     day++;
-//   }
-//   return Promise.all(allDays);
-// }
+const generateDatesPerListing = (month, day, year) => {
+  const allDays = [];
+  const monthDays = daysInMonth(month, year);
+  const seats = Math.floor(Math.random() * 101);
+  const openingHour = Math.floor(Math.random() * 24);
+  const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+  allDays.push({ openingHour, closingHour });
+  for (let i = 0; i < 100; i++) {
+    if (monthDays < day) {
+      day = 1;
+      if (month === 12) {
+        month = 1;
+        year += 1;
+      } else {
+        month += 1;
+      }
+    }
+    const currentDate = `m${month}-d${day}-y${year}`;
+    const thisDate = { [currentDate]: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
+    allDays.push(thisDate);
+    day++;
+  }
+  return allDays;
+}
 
 
 // (() => {
 //   const allData = [];
 //   for (let i = 1; i <= 50; i++) {
 //     const list = `L${i}`;
-//     const seats = Math.floor(Math.random() * 101);
-    const openingHour = Math.floor(Math.random() * 24);
-    const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
 //     allData.push(generateListing(list, seats, openingHour, closingHour));
 //   }
 //   Promise.all(allData);
