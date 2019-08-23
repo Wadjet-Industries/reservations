@@ -3,13 +3,8 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 
-// Data will assume the restaurant serves sushi omakase
-// Open from 5:30pm till 10pm, and can sit a maximum number of 20 people
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
-// const emitter = require('')
-
-// emitter.setMaxListers(0);
 
 mongoose.connect('mongodb://localhost/Reservations', { useNewUrlParser: true })
   .then(() => { console.log('Mango be connected'); })
