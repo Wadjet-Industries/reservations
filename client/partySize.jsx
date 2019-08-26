@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PartyTitle = styled.h2`
+const PartyTitle = styled.div`
 color: #000;
 font-size: 15px;
 `;

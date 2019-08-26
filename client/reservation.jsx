@@ -8,7 +8,7 @@ import PartySize from './partySize.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
 
-const Title = styled.h1`
+const Title = styled.div`
 color: #000;
 font-size: 20px;
 align-self: center;
