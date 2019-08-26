@@ -3,6 +3,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import styled from 'styled-components';
+import PartySize from './partySize.jsx';
 
 const Title = styled.h1`
 color: red;
@@ -18,6 +19,7 @@ class Reservations extends React.Component {
     return (
       <div>
         <Title>Make a reservation</Title>
+        <PartySize />
       </div>
     );
   }
