@@ -14,11 +14,21 @@ border-top: none;
 border-right: none;
 border-left: none;
 background: #ffffff;
-width: 25%;
+width: 90%;
+{PartySelect}: hover {
+  border-bottom: 2px solid #DA3743
+}
+
+
+`;
+
+const SelectDiv = styled.div`
 `;
 
 const PartySelectDiv = styled.div`
 `
+
+const PartyFor = styled.span``
 
 const PartySize = (props) => {
   const options = [];
@@ -28,11 +38,11 @@ const PartySize = (props) => {
   return (
     <PartySelectDiv>
       <PartyTitle>Party Size</PartyTitle>
-      <div>
+      <SelectDiv>
         <PartySelect>
           {options}
         </PartySelect>
-      </div>
+      </SelectDiv>
     </PartySelectDiv>
   )
 };

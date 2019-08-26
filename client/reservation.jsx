@@ -6,8 +6,16 @@ import styled from 'styled-components';
 import PartySize from './partySize.jsx';
 
 const Title = styled.h1`
-color: red;
+color: #000;
 font-size: 20px;
+align-self: center;
+`;
+
+const Reservation = styled.div`
+display: flex;
+flex-direction: column;
+border: 1px solid black;
+width: 25%;
 `;
 
 class Reservations extends React.Component {
@@ -17,10 +25,10 @@ class Reservations extends React.Component {
 
   render() {
     return (
-      <div>
+      <Reservation>
         <Title>Make a reservation</Title>
         <PartySize />
-      </div>
+      </Reservation>
     );
   }
 }
