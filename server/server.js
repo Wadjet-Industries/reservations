@@ -7,8 +7,9 @@ const database = require('../database/database.js')
 
 app.use(express.static('public'));
 
-app.get('/api/L1/reservations', (req, res) => {
-  database.getListingData('L1')
+app.get('/api/:id/reservations', (req, res) => {
+  let param = req.params.id;
+  database.getListingData(param)
     .then((data) => {
       const dataForListing = data[0].Dates.slice(1);
       res.send(dataForListing);
