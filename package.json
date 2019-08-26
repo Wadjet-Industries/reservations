@@ -14,7 +14,9 @@
     "nodemon": "nodemon server/server.js",
     "test": "jest --watchAll --config jest-config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "styled-components": "^4.3.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
@@ -52,8 +54,8 @@
   },
   "jest": {
     "transform": {
-    "^.+\\.jsx$": "babel-jest",
-    "^.+\\.js$": "babel-jest"
+      "^.+\\.jsx$": "babel-jest",
+      "^.+\\.js$": "babel-jest"
     }
   }
 }

@@ -9,6 +9,6 @@ configure({ adapter: new Adapter() });
 test('Text in module', () => {
   const wrapper = shallow(<Reservations />);
 
-  expect((wrapper).contains('Hello this is reservations!')).toBe(true);
+  expect((wrapper).contains('Make a reservation')).toBe(true);
 
 })
