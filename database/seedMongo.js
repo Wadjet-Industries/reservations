@@ -18,6 +18,8 @@ db.once('open', () => {
     Listing: String,
     Dates: [
       {
+        Seats: Number,
+        Hours: String,
         Date: String,
         Seats: [
           {
@@ -54,7 +56,6 @@ db.once('open', () => {
 
   const generateSeatsPerTimePerDay = (openHour, closeHour, totalSeats) => {
     const all = [];
-
     for (let i = openHour; i <= closeHour; i += 0.5) {
       let time;
       if (i % 1 !== 0) {
@@ -94,7 +95,8 @@ db.once('open', () => {
         }
       }
       const currentDate = `m${month}-d${day}-y${year}`;
-      const thisDate =  { Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
+      const hours = `${openingHour}-${closingHour}`
+      const thisDate =  { Seats: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
       allDays.push(thisDate);
       day++;
     }

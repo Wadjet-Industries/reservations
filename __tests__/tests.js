@@ -12,3 +12,9 @@ test('Text in module', () => {
   expect((wrapper).contains('Make a reservation')).toBe(true);
 
 })
+
+test('party size module', () => {
+  const wrapper = shallow(<Reservations />);
+
+  expect((wrapper).containsMatchingElement(<PartySize />)).toBe(true);
+})
