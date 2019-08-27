@@ -14,7 +14,7 @@ border-top: none;
 border-right: none;
 border-left: none;
 background: #ffffff;
-width: 90%;
+width: 100%;
 {PartySelect}: hover {
   border-bottom: 2px solid #DA3743
 }

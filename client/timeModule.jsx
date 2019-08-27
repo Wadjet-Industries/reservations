@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const TimeDiv = styled.div`
-// border: 1px solid black;
+box-sizing: border-box;
+padding-left: 4%;
+padding-right: 4%;
 width: 50%;
 `;
 
