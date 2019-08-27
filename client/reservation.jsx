@@ -109,22 +109,28 @@ class Reservations extends React.Component {
   componentDidMount() {
     const loc = window.location.pathname;
     const id = loc.split('/')[1];
-    this.getListingData(id);
-  }
-
-  getListingData(listing) {
-    fetch(`/api/${listing}/reservations`, {
-      method: 'GET',
-    })
-      .then((res) => (
-        res.json()
-      ))
+    this.getListingData(id)
       .then((data) => {
         this.listingData = data;
         this.setState({
           hours: data[0].Hours,
         });
       });
+  }
+
+  getListingData(listing) {
+    return fetch(`/api/${listing}/reservations`, {
+      method: 'GET',
+    })
+      .then((res) => (
+        res.json()
+      ))
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => {
+        console.log('Error with retrieving data', err);
+      })
   }
 
   render() {
