@@ -81,6 +81,8 @@ align-self: center;
 height: 15%;
 `;
 
+FindDiv.displayName = 'FindDiv';
+
 const BookedDiv = styled.div`
 box-sizing: border-box;
 width: 100%;
@@ -151,7 +153,7 @@ class Reservations extends React.Component {
   }
 
   findTime(event) {
-    event.preventDefault();
+    // event.preventDefault();
     this.setState({
       find: true,
     });
