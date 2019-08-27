@@ -29,9 +29,9 @@ height: 50%;
 `;
 
 const TimeModule = (props) => {
-  const fakeData = '8-19.5';
+  const { hours } = props;
   const timeOptions = [];
-  const openClose = fakeData.split('-');
+  const openClose = hours.split('-');
 
   for (let i = Number(openClose[0]); i <= Number(openClose[1]); i += 0.5) {
     let time;

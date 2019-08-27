@@ -96,6 +96,35 @@ font-size: 80%;
 class Reservations extends React.Component {
   constructor(props) {
     super(props);
+
+    this.listingData = [];
+
+    this.state = {
+      hours: '',
+    };
+
+    this.getListingData = this.getListingData.bind(this);
+  }
+
+  componentDidMount() {
+    const loc = window.location.pathname;
+    const id = loc.split('/')[1];
+    this.getListingData(id);
+  }
+
+  getListingData(listing) {
+    fetch(`/api/${listing}/reservations`, {
+      method: 'GET',
+    })
+      .then((res) => (
+        res.json()
+      ))
+      .then((data) => {
+        this.listingData = data;
+        this.setState({
+          hours: data[0].Hours,
+        });
+      });
   }
 
   render() {
@@ -109,7 +138,7 @@ class Reservations extends React.Component {
         </PartyModule>
         <DateTime>
           <DateModule />
-          <TimeModule />
+          <TimeModule hours={this.state.hours} />
         </DateTime>
         <FindDiv>
           <FindTable>Find a Table</FindTable>
