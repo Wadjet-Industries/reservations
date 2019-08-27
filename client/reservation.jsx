@@ -101,12 +101,18 @@ background-color: #DA3743;
 border: 1px solid #fff;
 color: #fff;
 border-radius: 8%;
+width: 33%;
 `;
 
 const SelectReservation = styled.div`
 background-color: #fff;
-box-sizing: border-box;
+// box-sizing: border-box;
 display: flex;
+justify-content: space-evenly;
+height: 200px;
+`;
+
+const SelectTitle = styled.span`
 `;
 
 class Reservations extends React.Component {
@@ -191,7 +197,13 @@ class Reservations extends React.Component {
 
       findReservation.push(<PossibleTime>{time}</PossibleTime>);
     }
-    const selectTime = <SelectReservation>{findReservation}</SelectReservation>;
+
+    const selectTime = (
+      <SelectReservation>
+        <SelectTitle>Select a time:</SelectTitle>
+        {findReservation}
+      </SelectReservation>
+    );
 
     return (
       <Reservation>
