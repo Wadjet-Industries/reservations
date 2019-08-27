@@ -123,6 +123,7 @@ class Reservations extends React.Component {
 
     this.getListingData = this.getListingData.bind(this);
     this.findTime = this.findTime.bind(this);
+    this.setReservationTime = this.setReservationTime.bind(this);
   }
 
   componentDidMount() {
@@ -152,12 +153,19 @@ class Reservations extends React.Component {
       });
   }
 
+  setReservationTime(event) {
+    let newTime = Number(event.target.value);
+    this.setState({
+      time: newTime,
+    });
+  }
+
   findTime(event) {
-    // event.preventDefault();
     this.setState({
       find: true,
     });
   }
+
 
   render() {
     const findReservation = [];
@@ -183,7 +191,6 @@ class Reservations extends React.Component {
 
       findReservation.push(<PossibleTime>{time}</PossibleTime>);
     }
-
     const selectTime = <SelectReservation>{findReservation}</SelectReservation>;
 
     return (
@@ -196,7 +203,7 @@ class Reservations extends React.Component {
         </PartyModule>
         <DateTime>
           <DateModule />
-          <TimeModule hours={this.state.hours} />
+          <TimeModule setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
           {this.state.find ? selectTime : <FindTable onClick={this.findTime}>Find a Table</FindTable>}

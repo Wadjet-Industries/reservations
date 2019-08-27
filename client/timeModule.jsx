@@ -28,10 +28,10 @@ margin: none;
 height: 50%;
 `;
 
-const TimeModule = (props) => {
-  const { hours } = props;
+const TimeModule = ({ hours, setReservationTimes }) => {
+  const hour = hours;
   const timeOptions = [];
-  const openClose = hours.split('-');
+  const openClose = hour.split('-');
   for (let i = Number(openClose[0]); i <= Number(openClose[1]); i += 0.5) {
     let time;
     let amPm = i;
@@ -49,7 +49,7 @@ const TimeModule = (props) => {
   return (
     <TimeDiv>
       <TimeTitle>Time</TimeTitle>
-      <TimeSelect>
+      <TimeSelect onChange={setReservationTimes}>
         {timeOptions}
       </TimeSelect>
     </TimeDiv>
