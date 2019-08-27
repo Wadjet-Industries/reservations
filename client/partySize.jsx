@@ -20,8 +20,6 @@ width: 100%;
 {PartySelect}: hover {
   border-bottom: 2px solid #DA3743
 }
-
-
 `;
 
 const SelectDiv = styled.div`
@@ -30,9 +28,8 @@ const SelectDiv = styled.div`
 const PartySelectDiv = styled.div`
 `
 
-const PartyFor = styled.span``
-
 const PartySize = (props) => {
+  //take in max table amount
   const options = [];
   for (let i = 1; i <= 20; i++) {
     options.push(<option value="{i}">{i}</option>);

@@ -34,14 +34,16 @@ display: flex;
 flex-direction: column;
 border: 1px solid black;
 width: 25%;
-height: 300px;
+height: 25%;
 `;
 
 const PartyModule = styled.div`
 border-sizing: border-box;
-padding: 4%;
+padding-right: 4%;
+padding-left: 4%;
 align-self: center;
 width: 90%;
+height: 15%;
 `;
 
 const DateTime = styled.div`
@@ -52,6 +54,7 @@ padding-right: 4%;
 padding-bottom: 4%;
 display: flex;
 width: 90%;
+height: 15%;
 `;
 
 const FindTable = styled.button`
@@ -76,6 +79,19 @@ align-self: center;
 height: 15%;
 `;
 
+const BookedDiv = styled.div`
+width: 90%;
+display: flex;
+align-self: center;
+padding-top: 5%;
+padding-bottom: 5%;
+`;
+
+const Booked = styled.div`
+align-self: left;
+font-size: 80%;
+`;
+
 class Reservations extends React.Component {
   constructor(props) {
     super(props);
@@ -97,6 +113,11 @@ class Reservations extends React.Component {
         <FindDiv>
           <FindTable>Find a Table</FindTable>
         </FindDiv>
+        <BookedDiv>
+          <Booked>
+            Booked 65 times today
+          </Booked>
+        </BookedDiv>
       </Reservation>
     );
   }
