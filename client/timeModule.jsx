@@ -32,11 +32,9 @@ const TimeModule = (props) => {
   const { hours } = props;
   const timeOptions = [];
   const openClose = hours.split('-');
-
   for (let i = Number(openClose[0]); i <= Number(openClose[1]); i += 0.5) {
     let time;
     let amPm = i;
-    let timeOption;
     if (i > 12) {
       amPm = i - 12;
     }
@@ -47,6 +45,7 @@ const TimeModule = (props) => {
     }
     timeOptions.push(<option value={i}>{time}</option>);
   }
+
   return (
     <TimeDiv>
       <TimeTitle>Time</TimeTitle>

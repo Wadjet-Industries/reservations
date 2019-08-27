@@ -12,7 +12,8 @@
     "server-dev": "nodemon server/server.js",
     "seed": "node database/seedMongo.js",
     "nodemon": "nodemon server/server.js",
-    "test": "jest --watchAll --config jest.config.js"
+    "test:watch": "jest --watchAll --config jest.config.js",
+    "test:coverage": "jest --verbose --coverage"
   },
   "dependencies": {
     "styled-components": "^4.3.2"

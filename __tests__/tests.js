@@ -4,6 +4,7 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import Reservations from '../client/reservation';
 import 'whatwg-fetch';
+import TimeModule from '../client/timeModule.jsx';
 
 configure({ adapter: new Adapter() });
 
@@ -16,6 +17,12 @@ test('use jsdom in this test file', () => {
   expect(element).not.toBeNull();
 });
 
+
+let listing;
+beforeAll(() => {
+  listing = new Reservations();
+});
+
 // Test reservations module
 describe('Reservations Module', () => {
 
@@ -25,11 +32,34 @@ describe('Reservations Module', () => {
     expect((wrapper).contains('Make a reservation')).toBe(true);
   });
 
-  it ('fetches data from server', done => {
-    const listing = new Reservations();
-    listing.getListingData('L1');
+  it ('fetches data from server and checks length', done => {
 
+    listing.getListingData('L1')
+      .then((data) => {
+        expect(data.length).toEqual(100);
+      })
+
+    done();
   })
-})
+});
+
+describe('Time Module', () => {
+  let wrapper;
+  let testHours = '16-23.5';
+
+  beforeEach(() => {
+    wrapper = mount(<TimeModule hours={testHours} />);
+  })
+  it('expects component to render', () => {
+    // const wrapper = mount(<TimeModule hours={'16-23.5'} />)
+    const wrap = shallow(<TimeModule hours={'16-23.5'} />);
+
+    expect(wrap.exists()).toBe(true);
+  });
+
+  it('expects TimeSelect to have time options', () => {
+    expect(wrapper.find('select').children()).toHaveLength(16);
+  })
+});
 
 

@@ -118,7 +118,7 @@ class Reservations extends React.Component {
       });
   }
 
-  getListingData(listing) {
+  getListingData(listing='L1') {
     return fetch(`/api/${listing}/reservations`, {
       method: 'GET',
     })
