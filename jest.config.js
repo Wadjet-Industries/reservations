@@ -1,13 +1,19 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
-const { defaults } = require('jest-config');
 
 module.exports = {
   verbose: true,
   moduleFileExtensions: ["js", "jsx"],
   moduleDirectories: ['node_modules'],
   modulePaths: ['<rootDir>/client'],
-  // All imported modules in your tests should be mocked automatically
+  transform: {
+    "^.+\\.jsx$": "babel-jest",
+    "^.+\\.js$": "babel-jest"
+  },
+  clearMocks: true,
+  coverageDirectory: "coverage",
+};
+// All imported modules in your tests should be mocked automatically
   // automock: false,
 
   // Stop running tests after `n` failures
@@ -20,7 +26,6 @@ module.exports = {
   // cacheDirectory: "/private/var/folders/36/dc2xw5_d2lv33sp0ymk0z7kw0000gn/T/jest_dx",
 
   // Automatically clear mock calls and instances between every test
-  clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -29,7 +34,6 @@ module.exports = {
   // collectCoverageFrom: null,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -133,12 +137,11 @@ module.exports = {
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
 
-
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  // testEnvironment: "jest-environment-jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -174,14 +177,11 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   // transform: null,
-  transform: {
-    "^.+\\.jsx$": "babel-jest",
-    "^.+\\.js$": "babel-jest"
-  }
+
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+    //   "/node_modules/"
+    // ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
@@ -194,4 +194,3 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};

@@ -5,7 +5,9 @@ const app = express();
 const port = 3000;
 const database = require('../database/database.js')
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+
+app.use('/:id/reservations', express.static('public'));
 
 app.get('/api/:id/reservations', (req, res) => {
   const param = req.params.id;
