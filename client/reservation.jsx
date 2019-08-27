@@ -94,8 +94,17 @@ align-self: left;
 font-size: 80%;
 `;
 
-const SelectReservation = styled.span`
-background-color: rgb(216, 217, 219);
+const PossibleTime = styled.button`
+background-color: #DA3743;
+border: 1px solid #fff;
+color: #fff;
+border-radius: 8%;
+`;
+
+const SelectReservation = styled.div`
+background-color: #fff;
+box-sizing: border-box;
+display: flex;
 `;
 
 class Reservations extends React.Component {
@@ -111,6 +120,7 @@ class Reservations extends React.Component {
     };
 
     this.getListingData = this.getListingData.bind(this);
+    this.findTime = this.findTime.bind(this);
   }
 
   componentDidMount() {
@@ -137,7 +147,14 @@ class Reservations extends React.Component {
       })
       .catch((err) => {
         console.log('Error with retrieving data', err);
-      })
+      });
+  }
+
+  findTime(event) {
+    event.preventDefault();
+    this.setState({
+      find: true,
+    });
   }
 
   render() {
@@ -162,8 +179,10 @@ class Reservations extends React.Component {
         time = `${hour}:00 ${(pM ? 'PM' : 'AM')}`;
       }
 
-      findReservation.push(<SelectReservation>{time}</SelectReservation>);
+      findReservation.push(<PossibleTime>{time}</PossibleTime>);
     }
+
+    const selectTime = <SelectReservation>{findReservation}</SelectReservation>;
 
     return (
       <Reservation>
@@ -178,14 +197,14 @@ class Reservations extends React.Component {
           <TimeModule hours={this.state.hours} />
         </DateTime>
         <FindDiv>
-          <FindTable>Find a Table</FindTable>
+          {this.state.find ? selectTime : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
         </FindDiv>
         <BookedDiv>
           <Booked>
             Booked 65 times today
           </Booked>
         </BookedDiv>
-        {findReservation}
+        {/* {selectTime} */}
       </Reservation>
     );
   }
