@@ -10,18 +10,23 @@ margin-left: 2.5%;
 const TimeSelect = styled.select`
 -webkit-appearance: none;
 -webkit-border-radius: 0px;
+height: 50%;
 border: none;
 border-bottom: 1px solid rgb(216, 217, 219);
 border-right: none;
 border-left: none;
 background: #ffffff;
 width: 100%;
-{PartySelect}: hover {
+{DateSelect}: hover {
   border-bottom: 2px solid #DA3743
 }
+margin: none;
 `;
 
-const TimeTitle = styled.div``
+const TimeTitle = styled.div`
+margin: none;
+height: 50%;
+`;
 
 const TimeModule = (props) => {
   const fakeData = '8-19.5';
