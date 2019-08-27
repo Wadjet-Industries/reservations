@@ -33,8 +33,8 @@ boder-sizing: border-box;
 display: flex;
 flex-direction: column;
 border: 1px solid black;
-width: 25%;
-height: 25%;
+width: 20%;
+height: 300px;
 `;
 
 const PartyModule = styled.div`
@@ -75,16 +75,17 @@ box-sizing: border-box;
 width: 100%;
 padding-left: 4%;
 padding-right: 4%;
+margin-top: 5%;
 align-self: center;
 height: 15%;
 `;
 
 const BookedDiv = styled.div`
-width: 90%;
+box-sizing: border-box;
+width: 100%;
 display: flex;
 align-self: center;
-padding-top: 5%;
-padding-bottom: 5%;
+padding: 4%;
 `;
 
 const Booked = styled.div`
