@@ -45,10 +45,13 @@ width: 90%;
 `;
 
 const DateTime = styled.div`
+align-self: center;
 border-sizing: border-box;
-padding: 4%;
+padding-left: 4%;
+padding-right: 4%;
+padding-bottom: 4%;
 display: flex;
-width: 100%;
+width: 90%;
 `;
 
 const FindTable = styled.button`

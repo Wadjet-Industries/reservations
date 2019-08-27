@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 const TimeDiv = styled.div`
 box-sizing: border-box;
-padding-left: 4%;
-padding-right: 4%;
 width: 50%;
+margin-left: 2.5%;
 `;
 
 const TimeSelect = styled.select`
@@ -16,7 +15,7 @@ border-bottom: 1px solid rgb(216, 217, 219);
 border-right: none;
 border-left: none;
 background: #ffffff;
-width: 90%;
+width: 100%;
 {PartySelect}: hover {
   border-bottom: 2px solid #DA3743
 }
