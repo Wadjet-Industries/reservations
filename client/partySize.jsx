@@ -10,6 +10,8 @@ font-size: 15px;
 const PartySelect = styled.select`
 -webkit-appearance: none;
 -webkit-border-radius: 0px;
+border: none;
+border-bottom: 1px solid rgb(216, 217, 219);
 border-top: none;
 border-right: none;
 border-left: none;

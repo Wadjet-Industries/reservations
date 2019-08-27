@@ -15,7 +15,17 @@ color: #000;
 font-size: 120%;
 align-self: center;
 text-align: center;
-border-bottom: 1px solid #666;
+border-bottom: 1px solid rgb(216, 217, 219);
+padding-bottom: 4%;
+`;
+
+const TitleModule = styled.div`
+width: 90%;
+border-sizing: border-box;
+display: flex;
+align-self: center;
+flex-direction: column;
+padding: 4%;
 `;
 
 const Reservation = styled.div`
@@ -29,18 +39,16 @@ height: 300px;
 
 const PartyModule = styled.div`
 border-sizing: border-box;
-padding-left: 4%;
-padding-right: 4%;
+padding: 4%;
 align-self: center;
 width: 90%;
 `;
 
 const DateTime = styled.div`
 border-sizing: border-box;
+padding: 4%;
 display: flex;
 width: 100%;
-padding-left: 4%;
-padding-right: 4%;
 `;
 
 const FindTable = styled.button`
@@ -73,7 +81,9 @@ class Reservations extends React.Component {
   render() {
     return (
       <Reservation>
-        <Title>Make a reservation</Title>
+        <TitleModule>
+          <Title>Make a reservation</Title>
+        </TitleModule>
         <PartyModule>
           <PartySize />
         </PartyModule>
