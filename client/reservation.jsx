@@ -158,6 +158,7 @@ class Reservations extends React.Component {
     this.setReservationTime = this.setReservationTime.bind(this);
     this.findPartySize = this.findPartySize.bind(this);
     this.getDay = this.getDay.bind(this);
+    this.findTimeRange = this.findTimeRange.bind(this);
   }
 
   componentDidMount() {
@@ -191,13 +192,18 @@ class Reservations extends React.Component {
     });
   }
 
-  // findTimeRange() {
-  //   const startReserveMoment = moment(time).subtract(1, 'h').subtract(15, 'm');
-  //   const endReserveMoment = moment(time).add(1, 'h').add(15, 'm');
-  //   const timeRange = this.state.dayReservations.filter((times) => {
-  //     const reservationTimeMoment =
-  //   })
-  // }
+  findTimeRange() {
+    const startReserveMoment = moment(this.state.time).subtract(1, 'h').subtract(30, 'm').format();
+    const endReserveMoment = moment(this.state.time).add(1, 'h').add(30, 'm').format();
+    const timeRange = this.state.dayReservations.filter((times) => {
+      const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
+      const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
+      if (testAfter && testBefore) {
+        return true;
+      }
+      return false;
+    });
+  }
 
   getListingData(listing = 'L1') {
     return fetch(`/api/${listing}/reservations`, {
