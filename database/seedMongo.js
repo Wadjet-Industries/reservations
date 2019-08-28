@@ -3,8 +3,9 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 
-const Promise = require('bluebird');
 const mongoose = require('mongoose');
+const moment = require('moment');
+
 
 mongoose.connect('mongodb://localhost/Reservations', { useNewUrlParser: true })
   .then(() => { console.log('Mango be connected'); })
@@ -39,32 +40,29 @@ db.once('open', () => {
     .then(() => { console.log('Documents Removed'); })
     .catch((err) => { console.log('Error in removing', err); });
 
-  let startDay;
-  let startYear;
-  let startMonth;
+  const generateMomentTime = (time) => {
+    const date = moment().local().format().slice(0, 11);
+    const timeZone = moment().local().format().slice(19);
+    let hour = Math.floor(time);
+    if(hour < 10) {
+      hour = `0${hour}`;
+    }
+    if (time % 1 !== 0) {
+      return `${date}${hour}:30:00${timeZone}`;
+    }
+    return `${date}${hour}:00:00${timeZone}`;
+  };
 
-  (() => {
-    const date = new Date();
-    startDay = date.getDate();
-    startYear = date.getFullYear();
-    startMonth = date.getMonth() + 1;
-  })();
-
-  const daysInMonth = (month, year) => (
-    new Date(year, month, 0).getDate()
-  );
-
-  const generateSeatsPerTimePerDay = (openHour, closeHour, totalSeats) => {
+  const generateSeatsPerTimePerDay = (openHour, closeHour, totalSeats, dayMoment) => {
     const all = [];
-    for (let i = openHour; i <= closeHour; i += 0.5) {
-      let time;
-      if (i % 1 !== 0) {
-        time = `${(i - 0.5)}:30`;
-      } else {
-        time = `${i}:00`;
-      }
+    const currentStartHour = moment(openHour);
+    const currentEndHour = moment(closeHour);
+
+    let durate = moment.duration(currentEndHour.diff(currentStartHour)).as('hours');
+    while (durate >= 0) {
       const reserved = Math.floor(Math.random() * (totalSeats + 1));
       const open = totalSeats - reserved;
+      const time = currentStartHour.format();
       const dateTime = {
         time,
         reservations: {
@@ -73,36 +71,32 @@ db.once('open', () => {
         }
       };
       all.push(dateTime);
+      currentStartHour.add(30, 'm');
+      durate = moment.duration(currentEndHour.diff(currentStartHour)).as('hours');
     }
     return all;
   };
 
-  const generateDatesPerListing = (month, day, year) => {
+  const generateDatesPerListing = () => {
     const allDays = [];
-    const monthDays = daysInMonth(month, year);
     const seats = Math.floor(Math.random() * 101);
-    const openingHour = Math.floor(Math.random() * 24);
-    const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
-    allDays.push({ openingHour, closingHour });
+    let openingHour = Math.floor(Math.random() * 24);
+    let closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+    openingHour = generateMomentTime(openingHour);
+    closingHour = generateMomentTime(closingHour);
+    const current = moment().local();
     for (let i = 0; i < 100; i++) {
-      if (monthDays < day) {
-        day = 1;
-        if (month === 12) {
-          month = 1;
-          year += 1;
-        } else {
-          month += 1;
-        }
-      }
-      const currentDate = `m${month}-d${day}-y${year}`;
-      const hours = `${openingHour}-${closingHour}`
-      const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
+      const currentDate = current.format();
+      const hours = `${openingHour}--${closingHour}`
+      const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats, currentDate)
+      };
+      current.add(1, 'day');
       allDays.push(thisDate);
-      day++;
     }
     return allDays;
   };
 
+  generateDatesPerListing();
 
   (() => {
     const allData = [];
@@ -110,12 +104,12 @@ db.once('open', () => {
       const list = `L${i}`;
       const restaurantObj = {
         Listing: list,
-        Dates: generateDatesPerListing(startMonth, startDay, startYear)
+        Dates: generateDatesPerListing()
       };
       const restaurant = new ReservationDocument(restaurantObj);
-      allData.push(restaurant.save());
+      allData.push(restaurant);
     }
-    Promise.all(allData)
+    ReservationDocument.insertMany(allData)
       .then(() => { console.log('Mango planted'); })
       .catch((error) => { console.log('Error with Mango planting', error); });
   })();

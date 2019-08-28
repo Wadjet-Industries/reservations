@@ -46,20 +46,19 @@ describe('Reservations Module', () => {
     const wrapper = shallow(<Reservations />);
     wrapper.find('FindDiv').children().simulate('click');
     wrapper.update();
-    expect(wrapper.find('FindDiv').children().children()).toHaveLength(5);
+    expect(wrapper.find('FindDiv').contains('Select a time:')).toBe(true);
   })
 });
 
 describe('Time Module', () => {
   let wrapper;
-  let testHours = '16-23.5';
+  let testHours = '2019-08-27T16:00:00-07:00--2019-08-27T23:30:00-07:00';
 
   beforeEach(() => {
     wrapper = mount(<TimeModule hours={testHours} />);
   })
   it('expects component to render', () => {
-    const wrap = shallow(<TimeModule hours={'16-23.5'} />);
-
+    const wrap = shallow(<TimeModule hours={'2019-08-27T16:00:00-07:00--2019-08-27T23:30:00-07:00'} />);
     expect(wrap.exists()).toBe(true);
   });
 

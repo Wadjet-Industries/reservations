@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 
 const TimeDiv = styled.div`
 box-sizing: border-box;
@@ -31,19 +32,15 @@ height: 50%;
 const TimeModule = ({ hours, setReservationTimes }) => {
   const hour = hours;
   const timeOptions = [];
-  const openClose = hour.split('-');
-  for (let i = Number(openClose[0]); i <= Number(openClose[1]); i += 0.5) {
-    let time;
-    let amPm = i;
-    if (i > 12) {
-      amPm = i - 12;
-    }
-    if (i % 1 !== 0) {
-      time = `${amPm - 0.5}:30 ${(i > 12 ? 'PM' : 'AM')}`;
-    } else {
-      time = `${amPm}:00 ${(i > 12 ? 'PM' : 'AM')}`;
-    }
-    timeOptions.push(<option value={i}>{time}</option>);
+  const openClose = hour.split('--');
+  const startHour = moment(openClose[0]);
+  const closeHour = moment(openClose[1]);
+  let durate = moment.duration(closeHour.diff(startHour)).as('hours');
+  while (durate >= 0) {
+    const time = startHour.format('h:mm A');
+    timeOptions.push(<option value={startHour.format()}>{time}</option>);
+    startHour.add(30, 'm');
+    durate = moment.duration(closeHour.diff(startHour)).as('hours');
   }
 
   return (
