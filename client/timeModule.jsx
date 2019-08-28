@@ -22,6 +22,7 @@ width: 100%;
   border-bottom: 2px solid #DA3743
 }
 margin: none;
+outline: none;
 `;
 
 const TimeTitle = styled.div`

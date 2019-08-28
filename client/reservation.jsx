@@ -12,7 +12,7 @@ import moment from 'moment';
 
 const Title = styled.div`
 width: 100%;
-border-sizing: border-box;
+box-sizing: border-box;
 color: #000;
 font-size: 120%;
 align-self: center;
@@ -23,7 +23,7 @@ padding-bottom: 4%;
 
 const TitleModule = styled.div`
 width: 90%;
-border-sizing: border-box;
+box-sizing: border-box;
 display: flex;
 align-self: center;
 flex-direction: column;
@@ -33,7 +33,8 @@ margin-left: auto;
 `;
 
 const Reservation = styled.div`
-boder-sizing: border-box;
+position: fixed;
+box-sizing: border-box;
 display: flex;
 flex-direction: column;
 border: 1px solid black;
@@ -42,7 +43,7 @@ height: 300px;
 `;
 
 const PartyModule = styled.div`
-border-sizing: border-box;
+box-sizing: border-box;
 padding-right: 4%;
 padding-left: 4%;
 align-self: center;
@@ -54,7 +55,7 @@ margin-left: auto;
 
 const DateTime = styled.div`
 align-self: center;
-border-sizing: border-box;
+box-sizing: border-box;
 padding-left: 4%;
 padding-right: 4%;
 padding-bottom: 4%;
@@ -144,7 +145,7 @@ class Reservations extends React.Component {
       hours: '',
       find: false,
       time: '',
-      partySize: 0,
+      partyAmount: 1,
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -190,7 +191,7 @@ class Reservations extends React.Component {
 
   findPartySize(event) {
     this.setState({
-      partySize: event.target.value,
+      partyAmount: event.target.value,
     });
   }
 
@@ -226,7 +227,7 @@ class Reservations extends React.Component {
           <Title>Make a reservation</Title>
         </TitleModule>
         <PartyModule>
-          <PartySize findPartySize={this.findPartySize} />
+          <PartySize size={this.state.partyAmount} findPartySize={this.findPartySize} />
         </PartyModule>
         <DateTime>
           <DateModule />
