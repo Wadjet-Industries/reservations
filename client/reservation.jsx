@@ -147,12 +147,15 @@ class Reservations extends React.Component {
       find: false,
       time: '',
       partySize: 0,
+      date: '',
+      dayReservations: [],
     };
 
     this.getListingData = this.getListingData.bind(this);
     this.findTime = this.findTime.bind(this);
     this.setReservationTime = this.setReservationTime.bind(this);
     this.findPartySize = this.findPartySize.bind(this);
+    this.getDay = this.getDay.bind(this);
   }
 
   componentDidMount() {
@@ -163,9 +166,26 @@ class Reservations extends React.Component {
         this.listingData = data;
         this.setState({
           hours: data[0].Hours,
-          time: data[0].Hours.split('--')[0]
+          time: data[0].Hours.split('--')[0],
         });
+      })
+      .then(() => {
+        const currentDay = moment().format().slice(0, 10);
+        this.setState({
+          date: currentDay,
+        });
+        this.getDay();
       });
+  }
+
+  getDay() {
+    const dayReserves = this.listingData.filter((day) => {
+      const daysInFile = day.Date.slice(0, 10);
+      return daysInFile === this.state.date;
+    });
+    this.setState({
+      dayReservations: dayReserves[0].Seats,
+    })
   }
 
   getListingData(listing = 'L1') {
