@@ -20,17 +20,31 @@ width: 100%;
 {PartySelect}: hover {
   border-bottom: 2px solid #DA3743
 }
+color: #fff;
+outline: none;
 `;
 
 PartySelect.displayName = 'PartySelect';
 
+const PartyDisplay = styled.div`
+box-sizing: border-box;
+width: 82%;
+align-items: center;
+position: absolute;
+pointer-events: none;
+font-size: 85%;
+margin-left: auto;
+margin-right: auto;
+`;
+
 const SelectDiv = styled.div`
+width: 100%;
 `;
 
 const PartySelectDiv = styled.div`
-`
+`;
 
-const PartySize = ({ findPartySize }) => {
+const PartySize = ({ findPartySize, size }) => {
   //take in max table amount
   const options = [];
   for (let i = 1; i <= 20; i++) {
@@ -40,6 +54,7 @@ const PartySize = ({ findPartySize }) => {
     <PartySelectDiv>
       <PartyTitle>Party Size</PartyTitle>
       <SelectDiv>
+        <PartyDisplay>For {size}</PartyDisplay>
         <PartySelect onChange={findPartySize}>
           {options}
         </PartySelect>
