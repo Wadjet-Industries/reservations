@@ -149,7 +149,6 @@ class Reservations extends React.Component {
       time: '',
       partySize: 1,
       date: '',
-      dayReservations: [],
       openSeatTimes: [],
     };
 
