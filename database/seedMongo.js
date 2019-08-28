@@ -3,7 +3,6 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 
-const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
@@ -42,26 +41,22 @@ db.once('open', () => {
     .catch((err) => { console.log('Error in removing', err); });
 
   const generateMomentTime = (time) => {
+    const date = moment().local().format().slice(0, 11);
+    const timeZone = moment().local().format().slice(19);
     let hour = Math.floor(time);
     if(hour < 10) {
-      hour = `0${hour}`
+      hour = `0${hour}`;
     }
     if (time % 1 !== 0) {
-      return `${hour}:30:00`;
+      return `${date}${hour}:30:00${timeZone}`;
     }
-    return `${hour}:00:00`;
+    return `${date}${hour}:00:00${timeZone}`;
   };
 
   const generateSeatsPerTimePerDay = (openHour, closeHour, totalSeats, dayMoment) => {
     const all = [];
-    const date = dayMoment.slice(0, 11);
-    const timeZone = dayMoment.slice(19);
-    let currentStartHour = generateMomentTime(openHour);
-    let currentEndHour = generateMomentTime(closeHour);
-    currentStartHour = `${date}${currentStartHour}${timeZone}`;
-    currentEndHour = `${date}${currentEndHour}${timeZone}`;
-    currentStartHour = moment(currentStartHour);
-    currentEndHour = moment(currentEndHour);
+    const currentStartHour = moment(openHour);
+    const currentEndHour = moment(closeHour);
 
     let durate = moment.duration(currentEndHour.diff(currentStartHour)).as('hours');
     while (durate >= 0) {
@@ -85,13 +80,14 @@ db.once('open', () => {
   const generateDatesPerListing = () => {
     const allDays = [];
     const seats = Math.floor(Math.random() * 101);
-    const openingHour = Math.floor(Math.random() * 24);
-    const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+    let openingHour = Math.floor(Math.random() * 24);
+    let closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+    openingHour = generateMomentTime(openingHour);
+    closingHour = generateMomentTime(closingHour);
     const current = moment().local();
     for (let i = 0; i < 100; i++) {
       const currentDate = current.format();
-      // console.log(typeof currentDate);
-      const hours = `${openingHour}-${closingHour}`
+      const hours = `${openingHour}--${closingHour}`
       const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats, currentDate)
       };
       current.add(1, 'day');
@@ -100,6 +96,7 @@ db.once('open', () => {
     return allDays;
   };
 
+  generateDatesPerListing();
 
   (() => {
     const allData = [];
@@ -110,12 +107,8 @@ db.once('open', () => {
         Dates: generateDatesPerListing()
       };
       const restaurant = new ReservationDocument(restaurantObj);
-      // allData.push(restaurant.save();
       allData.push(restaurant);
     }
-    // Promise.all(allData)
-    // .then(() => { console.log('Mango planted'); })
-    //   .catch((error) => { console.log('Error with Mango planting', error); });
     ReservationDocument.insertMany(allData)
       .then(() => { console.log('Mango planted'); })
       .catch((error) => { console.log('Error with Mango planting', error); });
