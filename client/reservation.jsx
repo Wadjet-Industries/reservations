@@ -163,7 +163,6 @@ class Reservations extends React.Component {
 =======
       partySize: 1,
       date: '',
-      dayReservations: [],
       openSeatTimes: [],
 >>>>>>> 1e8f562... refactor code to remove extra states and flow cleaner
     };
