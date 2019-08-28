@@ -17,7 +17,7 @@ border-right: none;
 border-left: none;
 background: #ffffff;
 width: 100%;
-{DateSelect}: hover {
+{TimeSelect}: hover {
   border-bottom: 2px solid #DA3743
 }
 margin: none;

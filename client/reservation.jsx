@@ -27,6 +27,8 @@ display: flex;
 align-self: center;
 flex-direction: column;
 padding: 4%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 const Reservation = styled.div`
@@ -45,6 +47,8 @@ padding-left: 4%;
 align-self: center;
 width: 90%;
 height: 15%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 const DateTime = styled.div`
@@ -66,6 +70,10 @@ width: 100%;
 height: 100%;
 size: 50%;
 font-size: 90%;
+{FindTable}: hover {
+  opacity: 0.7;
+}
+border-radius: 4%;
 `;
 
 
@@ -79,6 +87,8 @@ padding-right: 4%;
 margin-top: 5%;
 align-self: center;
 height: 15%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 FindDiv.displayName = 'FindDiv';
@@ -89,6 +99,8 @@ width: 100%;
 display: flex;
 align-self: center;
 padding: 4%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 const Booked = styled.div`
@@ -96,17 +108,36 @@ align-self: left;
 font-size: 80%;
 `;
 
-const PossibleTime = styled.button`
+const PossibleTime = styled.div`
 background-color: #DA3743;
 border: 1px solid #fff;
 color: #fff;
 border-radius: 8%;
+width: 33%;
+display: block;
+{PossibleTime}: hover {
+  opacity: 0.7;
+}
+<<<<<<< HEAD
+=======
+height: 32px;
+>>>>>>> 13d225a8ea314bbad2a6ab773c393ccee34a448b
 `;
 
 const SelectReservation = styled.div`
 background-color: #fff;
 box-sizing: border-box;
 display: flex;
+justify-content: space-evenly;
+align-content: space-between;
+`;
+
+<<<<<<< HEAD
+const SelectTitle = styled.span`
+=======
+const SelectTitle = styled.div`
+align-self: center;
+>>>>>>> 13d225a8ea314bbad2a6ab773c393ccee34a448b
 `;
 
 class Reservations extends React.Component {
@@ -191,7 +222,13 @@ class Reservations extends React.Component {
 
       findReservation.push(<PossibleTime>{time}</PossibleTime>);
     }
-    const selectTime = <SelectReservation>{findReservation}</SelectReservation>;
+
+    const selectTime = (
+      <SelectReservation>
+        <SelectTitle>Select a time:</SelectTitle>
+        {findReservation}
+      </SelectReservation>
+    );
 
     return (
       <Reservation>
@@ -213,7 +250,6 @@ class Reservations extends React.Component {
             Booked 65 times today
           </Booked>
         </BookedDiv>
-        {/* {selectTime} */}
       </Reservation>
     );
   }
