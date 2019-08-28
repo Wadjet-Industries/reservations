@@ -62,7 +62,7 @@ db.once('open', () => {
     while (durate >= 0) {
       const reserved = Math.floor(Math.random() * (totalSeats + 1));
       const open = totalSeats - reserved;
-      const time = currentStartHour.clone().format();
+      const time = currentStartHour.format();
       const dateTime = {
         time,
         reservations: {

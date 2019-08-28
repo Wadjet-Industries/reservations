@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import PartySize from './partySize.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
+import moment from 'moment';
 
 const Title = styled.div`
 width: 100%;
@@ -141,7 +142,7 @@ class Reservations extends React.Component {
     this.state = {
       hours: '',
       find: false,
-      time: 16,
+      time: '',
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -177,7 +178,7 @@ class Reservations extends React.Component {
   }
 
   setReservationTime(event) {
-    let newTime = Number(event.target.value);
+    const newTime = event.target.value;
     this.setState({
       time: newTime,
     });
@@ -192,27 +193,14 @@ class Reservations extends React.Component {
 
   render() {
     const findReservation = [];
-    for (let i = this.state.time - 0.5; i <= this.state.time + 0.5; i += 0.25) {
-      let time;
-      let amPm = i;
-      let pM = i > 12;
-      if (pM) {
-        amPm = i - 12;
-      }
-      const hour = Math.floor(amPm);
-      const quarters = hour * 4;
-      const timeQuarter = amPm * 4;
-      if (timeQuarter - quarters === 1) {
-        time = `${hour}:15 ${(pM ? 'PM' : 'AM')}`;
-      } else if (timeQuarter - quarters === 2) {
-        time = `${hour}:30 ${(pM ? 'PM' : 'AM')}`;
-      } else if (timeQuarter - quarters === 3) {
-        time = `${hour}:45 ${(pM ? 'PM' : 'AM')}`;
-      } else {
-        time = `${hour}:00 ${(pM ? 'PM' : 'AM')}`;
-      }
-
+    const startTimeRange = moment(this.state.time).subtract(30, 'm');
+    const endTimeRange = moment(this.state.time).add(30, 'm');
+    let durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    while (durate >= 0) {
+      const time = startTimeRange.format('h:mm A');
       findReservation.push(<PossibleTime>{time}</PossibleTime>);
+      startTimeRange.add(15, 'm');
+      durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
     }
 
     const selectTime = (
