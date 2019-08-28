@@ -149,6 +149,7 @@ class Reservations extends React.Component {
       find: false,
       time: '',
 <<<<<<< HEAD
+<<<<<<< HEAD
       partyAmount: 1,
 =======
       partySize: 0,
@@ -159,6 +160,12 @@ class Reservations extends React.Component {
 =======
       reservationRange: [],
 >>>>>>> 0e3c48e... fix server response after refactor seed data
+=======
+      partySize: 1,
+      date: '',
+      dayReservations: [],
+      openSeatTimes: [],
+>>>>>>> 1e8f562... refactor code to remove extra states and flow cleaner
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -194,11 +201,10 @@ class Reservations extends React.Component {
       const daysInFile = day.Date.slice(0, 10);
       return daysInFile === this.state.date;
     });
-    this.setState({
-      dayReservations: dayReserves[0].Seats,
-    });
+    this.findTimeRange(dayReserves[0].Seats);
   }
 
+<<<<<<< HEAD
   // findTimeRange() {
   //   const startReserveMoment = moment(time).subtract(1, 'h').subtract(15, 'm');
   //   const endReserveMoment = moment(time).add(1, 'h').add(15, 'm');
@@ -206,6 +212,35 @@ class Reservations extends React.Component {
   //     const reservationTimeMoment =
   //   })
   // }
+=======
+  findTimeRange(day) {
+    const startReserveMoment = moment(this.state.time).subtract(1, 'h').subtract(30, 'm').format();
+    const endReserveMoment = moment(this.state.time).add(1, 'h').add(30, 'm').format();
+    const timeRange = day.filter((times) => {
+      const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
+      const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
+      if (testAfter && testBefore) {
+        return true;
+      }
+      return false;
+    });
+    const openTimes = this.getOpenSeatTimes(timeRange);
+    this.setState({
+      openSeatTimes: openTimes
+    })
+  }
+
+  getOpenSeatTimes(reserveRange) {
+    const openSeats = reserveRange.filter((seatTimes) => {
+      return this.state.partySize <= seatTimes.reservations.open;
+    });
+    return openSeats;
+  }
+
+  findSeatsForAGivenReservationTime() {
+    this.getDay();
+  }
+>>>>>>> 1e8f562... refactor code to remove extra states and flow cleaner
 
   getListingData(listing = 'L1') {
     return fetch(`/api/${listing}/reservations`, {
