@@ -128,6 +128,7 @@ display: flex;
 justify-content: space-evenly;
 align-content: space-between;
 `;
+SelectReservation.displayName = 'SelectReservation';
 
 const SelectTitle = styled.div`
 align-self: center;
