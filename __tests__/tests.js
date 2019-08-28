@@ -27,6 +27,10 @@ beforeAll(() => {
 // Test reservations module
 describe('Reservations Module', () => {
 
+  it('renders on page load', () => {
+    const wrapper = shallow(<Reservations />);
+    expect(wrapper.exists()).toBe(true);
+  })
   it('Text in module', () => {
     const wrapper = shallow(<Reservations />);
 
@@ -49,6 +53,7 @@ describe('Reservations Module', () => {
     wrapper.update();
     expect(wrapper.find('FindDiv').contains('Select a time:')).toBe(true);
   })
+
 });
 
 describe('Time Module', () => {

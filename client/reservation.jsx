@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
 /* eslint-disable no-useless-constructor */
@@ -149,6 +150,7 @@ class Reservations extends React.Component {
       partySize: 0,
       date: '',
       dayReservations: [],
+      reservationRange: [],
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -161,6 +163,7 @@ class Reservations extends React.Component {
   componentDidMount() {
     const loc = window.location.pathname;
     const id = loc.split('/')[1];
+    //change intial render data for hours and time to go from current date and start restaurant time
     this.getListingData(id)
       .then((data) => {
         this.listingData = data;
@@ -185,8 +188,16 @@ class Reservations extends React.Component {
     });
     this.setState({
       dayReservations: dayReserves[0].Seats,
-    })
+    });
   }
+
+  // findTimeRange() {
+  //   const startReserveMoment = moment(time).subtract(1, 'h').subtract(15, 'm');
+  //   const endReserveMoment = moment(time).add(1, 'h').add(15, 'm');
+  //   const timeRange = this.state.dayReservations.filter((times) => {
+  //     const reservationTimeMoment =
+  //   })
+  // }
 
   getListingData(listing = 'L1') {
     return fetch(`/api/${listing}/reservations`, {

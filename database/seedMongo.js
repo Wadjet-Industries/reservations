@@ -85,6 +85,7 @@ db.once('open', () => {
     openingHour = generateMomentTime(openingHour);
     closingHour = generateMomentTime(closingHour);
     const current = moment().local();
+
     for (let i = 0; i < 100; i++) {
       const currentDate = current.format();
       const hours = `${openingHour}--${closingHour}`

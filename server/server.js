@@ -11,7 +11,7 @@ app.get('/api/:id/reservations', (req, res) => {
   const param = req.params.id;
   database.getListingData(param)
     .then((data) => {
-      const dataForListing = data[0].Dates.slice(1);
+      const dataForListing = data[0].Dates.slice();
       res.send(dataForListing);
     })
     .catch((err) => {
