@@ -118,10 +118,6 @@ display: block;
 {PossibleTime}: hover {
   opacity: 0.7;
 }
-<<<<<<< HEAD
-=======
-height: 32px;
->>>>>>> 13d225a8ea314bbad2a6ab773c393ccee34a448b
 `;
 
 const SelectReservation = styled.div`
@@ -132,12 +128,8 @@ justify-content: space-evenly;
 align-content: space-between;
 `;
 
-<<<<<<< HEAD
-const SelectTitle = styled.span`
-=======
 const SelectTitle = styled.div`
 align-self: center;
->>>>>>> 13d225a8ea314bbad2a6ab773c393ccee34a448b
 `;
 
 class Reservations extends React.Component {
