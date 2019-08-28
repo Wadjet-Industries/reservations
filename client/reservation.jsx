@@ -66,6 +66,10 @@ width: 100%;
 height: 100%;
 size: 50%;
 font-size: 90%;
+{FindTable}: hover {
+  opacity: 0.7;
+}
+border-radius: 4%;
 `;
 
 
@@ -102,14 +106,18 @@ border: 1px solid #fff;
 color: #fff;
 border-radius: 8%;
 width: 33%;
+display: block;
+{PossibleTime}: hover {
+  opacity: 0.7;
+}
 `;
 
 const SelectReservation = styled.div`
 background-color: #fff;
-// box-sizing: border-box;
+box-sizing: border-box;
 display: flex;
 justify-content: space-evenly;
-height: 200px;
+align-content: space-between;
 `;
 
 const SelectTitle = styled.span`
