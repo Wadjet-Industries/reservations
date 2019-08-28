@@ -144,11 +144,13 @@ class Reservations extends React.Component {
       hours: '',
       find: false,
       time: '',
+      partySize: 0,
     };
 
     this.getListingData = this.getListingData.bind(this);
     this.findTime = this.findTime.bind(this);
     this.setReservationTime = this.setReservationTime.bind(this);
+    this.findPartySize = this.findPartySize.bind(this);
   }
 
   componentDidMount() {
@@ -159,6 +161,7 @@ class Reservations extends React.Component {
         this.listingData = data;
         this.setState({
           hours: data[0].Hours,
+          time: data[0].Hours.split('--')[0]
         });
       });
   }
@@ -182,6 +185,12 @@ class Reservations extends React.Component {
     const newTime = event.target.value;
     this.setState({
       time: newTime,
+    });
+  }
+
+  findPartySize(event) {
+    this.setState({
+      partySize: event.target.value,
     });
   }
 
@@ -217,7 +226,7 @@ class Reservations extends React.Component {
           <Title>Make a reservation</Title>
         </TitleModule>
         <PartyModule>
-          <PartySize />
+          <PartySize findPartySize={this.findPartySize} />
         </PartyModule>
         <DateTime>
           <DateModule />
