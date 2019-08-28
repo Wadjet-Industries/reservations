@@ -147,10 +147,9 @@ class Reservations extends React.Component {
       hours: '',
       find: false,
       time: '',
-      partySize: 0,
+      partySize: 1,
       date: '',
       dayReservations: [],
-      reservationRange: [],
       openSeatTimes: [],
     };
 
@@ -190,15 +189,13 @@ class Reservations extends React.Component {
       const daysInFile = day.Date.slice(0, 10);
       return daysInFile === this.state.date;
     });
-    this.setState({
-      dayReservations: dayReserves[0].Seats,
-    });
+    this.findTimeRange(dayReserves[0].Seats);
   }
 
-  findTimeRange() {
+  findTimeRange(day) {
     const startReserveMoment = moment(this.state.time).subtract(1, 'h').subtract(30, 'm').format();
     const endReserveMoment = moment(this.state.time).add(1, 'h').add(30, 'm').format();
-    const timeRange = this.state.dayReservations.filter((times) => {
+    const timeRange = day.filter((times) => {
       const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
       const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
       if (testAfter && testBefore) {
@@ -207,7 +204,9 @@ class Reservations extends React.Component {
       return false;
     });
     const openTimes = this.getOpenSeatTimes(timeRange);
-    console.log('open', openTimes);
+    this.setState({
+      openSeatTimes: openTimes
+    })
   }
 
   getOpenSeatTimes(reserveRange) {
@@ -219,7 +218,6 @@ class Reservations extends React.Component {
 
   findSeatsForAGivenReservationTime() {
     this.getDay();
-    this.findTimeRange();
   }
 
   getListingData(listing = 'L1') {
