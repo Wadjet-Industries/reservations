@@ -27,6 +27,8 @@ display: flex;
 align-self: center;
 flex-direction: column;
 padding: 4%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 const Reservation = styled.div`
@@ -45,6 +47,8 @@ padding-left: 4%;
 align-self: center;
 width: 90%;
 height: 15%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 const DateTime = styled.div`
@@ -83,6 +87,8 @@ padding-right: 4%;
 margin-top: 5%;
 align-self: center;
 height: 15%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 FindDiv.displayName = 'FindDiv';
@@ -93,6 +99,8 @@ width: 100%;
 display: flex;
 align-self: center;
 padding: 4%;
+margin-right: auto;
+margin-left: auto;
 `;
 
 const Booked = styled.div`
@@ -100,7 +108,7 @@ align-self: left;
 font-size: 80%;
 `;
 
-const PossibleTime = styled.button`
+const PossibleTime = styled.div`
 background-color: #DA3743;
 border: 1px solid #fff;
 color: #fff;
@@ -110,6 +118,7 @@ display: block;
 {PossibleTime}: hover {
   opacity: 0.7;
 }
+height: 32px;
 `;
 
 const SelectReservation = styled.div`
@@ -120,7 +129,8 @@ justify-content: space-evenly;
 align-content: space-between;
 `;
 
-const SelectTitle = styled.span`
+const SelectTitle = styled.div`
+align-self: center;
 `;
 
 class Reservations extends React.Component {
@@ -225,7 +235,6 @@ class Reservations extends React.Component {
             Booked 65 times today
           </Booked>
         </BookedDiv>
-        {/* {selectTime} */}
       </Reservation>
     );
   }

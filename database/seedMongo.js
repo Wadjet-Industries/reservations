@@ -18,7 +18,7 @@ db.once('open', () => {
     Listing: String,
     Dates: [
       {
-        Seats: Number,
+        SeatNumber: Number,
         Hours: String,
         Date: String,
         Seats: [
@@ -96,7 +96,7 @@ db.once('open', () => {
       }
       const currentDate = `m${month}-d${day}-y${year}`;
       const hours = `${openingHour}-${closingHour}`
-      const thisDate =  { Seats: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
+      const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats) };
       allDays.push(thisDate);
       day++;
     }
