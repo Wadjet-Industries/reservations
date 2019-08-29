@@ -40,9 +40,9 @@ db.once('open', () => {
     .then(() => { console.log('Documents Removed'); })
     .catch((err) => { console.log('Error in removing', err); });
 
-  const generateMomentTime = (time) => {
-    const date = moment().local().format().slice(0, 11);
-    const timeZone = moment().local().format().slice(19);
+  const generateMomentTime = (thisMoment, time) => {
+    const date = thisMoment.format().slice(0, 11);
+    const timeZone = thisMoment.format().slice(19);
     let hour = Math.floor(time);
     if(hour < 10) {
       hour = `0${hour}`;
@@ -82,14 +82,14 @@ db.once('open', () => {
     const seats = Math.floor(Math.random() * 101);
     let openingHour = Math.floor(Math.random() * 24);
     let closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
-    openingHour = generateMomentTime(openingHour);
-    closingHour = generateMomentTime(closingHour);
     const current = moment().local();
 
     for (let i = 0; i < 100; i++) {
       const currentDate = current.format();
-      const hours = `${openingHour}--${closingHour}`
-      const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(openingHour, closingHour, seats, currentDate)
+      const open = generateMomentTime(current, openingHour);
+      const close = generateMomentTime(current, closingHour);
+      const hours = `${open}--${close}`
+      const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(open, close, seats, currentDate)
       };
       current.add(1, 'day');
       allDays.push(thisDate);
