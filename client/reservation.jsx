@@ -205,7 +205,6 @@ class Reservations extends React.Component {
       return false;
     });
     const openTimes = this.getOpenSeatTimes(timeRange);
-    console.log(openTimes);
     this.setState({
       openSeatTimes: openTimes
     })
@@ -277,7 +276,6 @@ class Reservations extends React.Component {
       allAvailableTimes.push(time.time, availableTimeAdd15);
     });
 
-    console.log('all', allAvailableTimes);
     if (allAvailableTimes.length === 0) {
       findReservation.push(errorMessage);
     } else if (allAvailableTimes.length < 5) {
@@ -293,8 +291,38 @@ class Reservations extends React.Component {
           findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
         }
       }
-    } else {
-
+    } else if (allAvailableTimes.indexOf(this.state.time) === -1) {
+      let findTimes = [];
+      const filtered = allAvailableTimes.filter((time) => {
+        return moment(time).isBefore(close) && moment(time).isSameOrAfter(open);
+      });
+      const diff = filtered.map((time) => {
+        const minute = moment(time).diff((moment(this.state.time)), 'minutes');
+        return Math.abs(minute);
+      });
+      const sorted = diff.map(time => time).sort();
+      if (filtered.length <= 5) {
+        findTimes = filtered;
+      } else {
+        for (let i = 0; i < 5; i++) {
+          const index = diff.indexOf(sorted[i]);
+          findTimes.push(filtered[index]);
+          diff[index] = true;
+        }
+        findTimes.sort((timeA, timeB) => {
+          if (moment(timeA).isBefore(timeB)) {
+            return -1;
+          } else if (moment(timeA).isAfter(timeB)) {
+            return 1;
+          } else if (moment(timeA).isSame(timeB)) {
+            return 0;
+          }
+        });
+      }
+      findReservation = findTimes.map((time) => {
+        const availableTime = moment(time).format('h:mm A');
+        return (<PossibleTime>{availableTime}</PossibleTime>);
+      });
     }
 
     const selectTime = (
