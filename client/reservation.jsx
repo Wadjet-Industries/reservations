@@ -81,6 +81,7 @@ font-size: 90%;
 border-radius: 4%;
 `;
 
+FindTable.displayName = 'FindTable';
 
 const FindDiv = styled.div`
 display: flex;

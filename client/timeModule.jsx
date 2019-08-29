@@ -25,10 +25,14 @@ margin: none;
 outline: none;
 `;
 
+TimeSelect.displayName = 'TimeSelect';
+
 const TimeTitle = styled.div`
 margin: none;
 height: 50%;
 `;
+
+TimeTitle.displayName = 'TimeTitle';
 
 const TimeModule = ({ hours, setReservationTimes }) => {
   const hour = hours;
