@@ -239,12 +239,14 @@ class Reservations extends React.Component {
     const newTime = event.target.value;
     this.setState({
       time: newTime,
+      find: false,
     });
   }
 
   findPartySize(event) {
     this.setState({
       partySize: event.target.value,
+      find: false,
     });
   }
 
