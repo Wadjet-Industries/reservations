@@ -37,9 +37,11 @@ position: fixed;
 box-sizing: border-box;
 display: flex;
 flex-direction: column;
-border: 1px solid black;
+// border: 1px solid black;
 width: 20%;
 height: 300px;
+border-radius: 1px;
+box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
 `;
 
 const PartyModule = styled.div`
