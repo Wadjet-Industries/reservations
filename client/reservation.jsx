@@ -125,6 +125,8 @@ display: block;
 }
 `;
 
+const ErrorMessage = styled.div``;
+
 const SelectReservation = styled.div`
 background-color: #fff;
 box-sizing: border-box;
@@ -160,7 +162,6 @@ class Reservations extends React.Component {
     this.getDay = this.getDay.bind(this);
     this.findTimeRange = this.findTimeRange.bind(this);
     this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
-    this.findSeatsForAGivenReservationTime = this.findSeatsForAGivenReservationTime.bind(this);
   }
 
   componentDidMount() {
@@ -204,6 +205,7 @@ class Reservations extends React.Component {
       return false;
     });
     const openTimes = this.getOpenSeatTimes(timeRange);
+    console.log(openTimes);
     this.setState({
       openSeatTimes: openTimes
     })
@@ -214,10 +216,6 @@ class Reservations extends React.Component {
       return this.state.partySize <= seatTimes.reservations.open;
     });
     return openSeats;
-  }
-
-  findSeatsForAGivenReservationTime() {
-    this.getDay();
   }
 
   getListingData(listing = 'L1') {
@@ -251,7 +249,7 @@ class Reservations extends React.Component {
   }
 
   findTime(event) {
-    this.findSeatsForAGivenReservationTime();
+    this.getDay();
     this.setState({
       find: true,
     });
@@ -260,14 +258,36 @@ class Reservations extends React.Component {
 
   render() {
     const findReservation = [];
-    const startTimeRange = moment(this.state.time).subtract(30, 'm');
-    const endTimeRange = moment(this.state.time).add(30, 'm');
-    let durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
-    while (durate >= 0) {
-      const time = startTimeRange.format('h:mm A');
-      findReservation.push(<PossibleTime>{time}</PossibleTime>);
-      startTimeRange.add(15, 'm');
-      durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    const errorMessage = (
+      <ErrorMessage>
+        At the moment, there's no online availability within 2.5 hours of {moment(this.state.time).format('h:mm A')}.
+        <br />
+        Have another time in mind?
+      </ErrorMessage>
+    );
+    // const startTimeRange = moment(this.state.time).subtract(30, 'm');
+    // const endTimeRange = moment(this.state.time).add(30, 'm');
+    // let durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    // while (durate >= 0) {
+    //   const time = startTimeRange.format('h:mm A');
+    //   findReservation.push(<PossibleTime>{time}</PossibleTime>);
+    //   startTimeRange.add(15, 'm');
+    //   durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    // }
+    const allAvailableTimes = [];
+    this.state.openSeatTimes.forEach((time) => {
+      const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
+      allAvailableTimes.push(time.time, availableTimeAdd15);
+    });
+    console.log(allAvailableTimes);
+    if (allAvailableTimes.length === 0) {
+      findReservation.push(errorMessage);
+    } else if (allAvailableTimes.indexOf(this.state.time) !== -1) {
+      const indexTime = allAvailableTimes.indexOf(this.state.time);
+      for (let i = indexTime - 2; i <= indexTime + 2; i++) {
+        const availableTime = moment(allAvailableTimes[i]).format('h:mm A');
+        findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
+      }
     }
 
     const selectTime = (
