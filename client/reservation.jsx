@@ -164,6 +164,7 @@ class Reservations extends React.Component {
     this.getDay = this.getDay.bind(this);
     this.findTimeRange = this.findTimeRange.bind(this);
     this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
+    this.updateTimeForDays = this.updateTimeForDays.bind(this);
   }
 
   componentDidMount() {
@@ -173,10 +174,6 @@ class Reservations extends React.Component {
     this.getListingData(id)
       .then((data) => {
         this.listingData = data;
-        this.setState({
-          hours: data[0].Hours,
-          time: data[0].Hours.split('--')[0],
-        });
       })
       .then(() => {
         const currentDay = moment().format().slice(0, 10);
@@ -184,6 +181,7 @@ class Reservations extends React.Component {
           date: currentDay,
         });
         this.getDay();
+        this.updateTimeForDays();
       });
   }
 
@@ -193,6 +191,17 @@ class Reservations extends React.Component {
       return daysInFile === this.state.date;
     });
     this.findTimeRange(dayReserves[0].Seats);
+  }
+
+  updateTimeForDays() {
+    const dayTimes = this.listingData.filter((day) => {
+      const daysFile = day.Date.slice(0, 10);
+      return daysFile === this.state.date;
+    });
+    this.setState({
+      hours: dayTimes[0].Hours,
+      time: dayTimes[0].Hours.split('--')[0],
+    });
   }
 
   findTimeRange(day) {
