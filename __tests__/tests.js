@@ -43,7 +43,8 @@ describe('Reservations Module', () => {
     const reservationInstance = shallow(<Reservations />);
 
     expect(fetchSpy).toBeCalled();
-  })
+  });
+
 });
 
 describe('Time Module', () => {
