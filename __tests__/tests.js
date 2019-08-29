@@ -3,9 +3,11 @@ import { configure, shallow, mount, render, setupMount } from 'enzyme';
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import Reservations from '../client/reservation';
-import 'whatwg-fetch';
 import TimeModule from '../client/timeModule.jsx';
 import PartySize from '../client/partySize.jsx';
+import fetch from '../__mocks__/fetch.js';
+
+global.fetch = fetch;
 
 configure({ adapter: new Adapter() });
 
@@ -18,12 +20,6 @@ test('use jsdom in this test file', () => {
   expect(element).not.toBeNull();
 });
 
-
-let listing;
-beforeAll(() => {
-  listing = new Reservations();
-});
-
 // Test reservations module
 describe('Reservations Module', () => {
 
@@ -31,29 +27,23 @@ describe('Reservations Module', () => {
     const wrapper = shallow(<Reservations />);
     expect(wrapper.exists()).toBe(true);
   })
+
   it('Text in module', () => {
     const wrapper = shallow(<Reservations />);
-
     expect((wrapper).contains('Make a reservation')).toBe(true);
   });
 
-  it ('fetches data from server and checks length', done => {
-
-    listing.getListingData('L1')
-      .then((data) => {
-        expect(data.length).toEqual(100);
-      })
-
-    done();
-  })
-
-  it('renders select times on click', () => {
+  it('tests find state value to initialize as false', () => {
     const wrapper = shallow(<Reservations />);
-    wrapper.find('FindDiv').children().simulate('click');
-    wrapper.update();
-    expect(wrapper.find('FindDiv').contains('Select a time:')).toBe(true);
-  })
+    expect(wrapper.state('find')).toBe(false);
+  });
 
+  it('should fetch data from server', () => {
+    const fetchSpy = jest.spyOn(window, 'fetch');
+    const reservationInstance = shallow(<Reservations />);
+
+    expect(fetchSpy).toBeCalled();
+  })
 });
 
 describe('Time Module', () => {
