@@ -126,6 +126,8 @@ display: block;
 }
 `;
 
+const ErrorMessage = styled.div``;
+
 const SelectReservation = styled.div`
 background-color: #fff;
 box-sizing: border-box;
@@ -173,6 +175,11 @@ class Reservations extends React.Component {
     this.setReservationTime = this.setReservationTime.bind(this);
     this.findPartySize = this.findPartySize.bind(this);
     this.getDay = this.getDay.bind(this);
+<<<<<<< HEAD
+=======
+    this.findTimeRange = this.findTimeRange.bind(this);
+    this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
+>>>>>>> e41fe2e... have logic to render 5 times to reserve based off of selected time
   }
 
   componentDidMount() {
@@ -204,15 +211,6 @@ class Reservations extends React.Component {
     this.findTimeRange(dayReserves[0].Seats);
   }
 
-<<<<<<< HEAD
-  // findTimeRange() {
-  //   const startReserveMoment = moment(time).subtract(1, 'h').subtract(15, 'm');
-  //   const endReserveMoment = moment(time).add(1, 'h').add(15, 'm');
-  //   const timeRange = this.state.dayReservations.filter((times) => {
-  //     const reservationTimeMoment =
-  //   })
-  // }
-=======
   findTimeRange(day) {
     const startReserveMoment = moment(this.state.time).subtract(1, 'h').subtract(30, 'm').format();
     const endReserveMoment = moment(this.state.time).add(1, 'h').add(30, 'm').format();
@@ -225,6 +223,7 @@ class Reservations extends React.Component {
       return false;
     });
     const openTimes = this.getOpenSeatTimes(timeRange);
+    console.log(openTimes);
     this.setState({
       openSeatTimes: openTimes
     })
@@ -237,10 +236,6 @@ class Reservations extends React.Component {
     return openSeats;
   }
 
-  findSeatsForAGivenReservationTime() {
-    this.getDay();
-  }
->>>>>>> 1e8f562... refactor code to remove extra states and flow cleaner
 
   getListingData(listing = 'L1') {
     return fetch(`/api/${listing}/reservations`, {
@@ -267,16 +262,13 @@ class Reservations extends React.Component {
 
   findPartySize(event) {
     this.setState({
-<<<<<<< HEAD
-      partyAmount: event.target.value,
-=======
       partySize: event.target.value,
       find: false,
->>>>>>> 955c33d... added functionality to bring back find table button when switching times and party sizes
     });
   }
 
   findTime(event) {
+    this.getDay();
     this.setState({
       find: true,
     });
@@ -285,14 +277,36 @@ class Reservations extends React.Component {
 
   render() {
     const findReservation = [];
-    const startTimeRange = moment(this.state.time).subtract(30, 'm');
-    const endTimeRange = moment(this.state.time).add(30, 'm');
-    let durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
-    while (durate >= 0) {
-      const time = startTimeRange.format('h:mm A');
-      findReservation.push(<PossibleTime>{time}</PossibleTime>);
-      startTimeRange.add(15, 'm');
-      durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    const errorMessage = (
+      <ErrorMessage>
+        At the moment, there's no online availability within 2.5 hours of {moment(this.state.time).format('h:mm A')}.
+        <br />
+        Have another time in mind?
+      </ErrorMessage>
+    );
+    // const startTimeRange = moment(this.state.time).subtract(30, 'm');
+    // const endTimeRange = moment(this.state.time).add(30, 'm');
+    // let durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    // while (durate >= 0) {
+    //   const time = startTimeRange.format('h:mm A');
+    //   findReservation.push(<PossibleTime>{time}</PossibleTime>);
+    //   startTimeRange.add(15, 'm');
+    //   durate = moment.duration(endTimeRange.diff(startTimeRange)).as('hours');
+    // }
+    const allAvailableTimes = [];
+    this.state.openSeatTimes.forEach((time) => {
+      const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
+      allAvailableTimes.push(time.time, availableTimeAdd15);
+    });
+    console.log(allAvailableTimes);
+    if (allAvailableTimes.length === 0) {
+      findReservation.push(errorMessage);
+    } else if (allAvailableTimes.indexOf(this.state.time) !== -1) {
+      const indexTime = allAvailableTimes.indexOf(this.state.time);
+      for (let i = indexTime - 2; i <= indexTime + 2; i++) {
+        const availableTime = moment(allAvailableTimes[i]).format('h:mm A');
+        findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
+      }
     }
 
     const selectTime = (
