@@ -152,7 +152,6 @@ class Reservations extends React.Component {
       find: false,
       time: '',
       partyAmount: 1,
-      partySize: 1,
       date: '',
       openSeatTimes: [],
       month: {},
@@ -227,7 +226,7 @@ class Reservations extends React.Component {
 
   getOpenSeatTimes(reserveRange) {
     const openSeats = reserveRange.filter((seatTimes) => {
-      return this.state.partySize <= seatTimes.reservations.open;
+      return this.state.partyAmount <= seatTimes.reservations.open;
     });
     return openSeats;
   }
@@ -259,7 +258,7 @@ class Reservations extends React.Component {
   findPartySize(event) {
     this.getDay();
     this.setState({
-      partySize: event.target.value,
+      partyAmount: event.target.value,
       find: false,
     });
   }

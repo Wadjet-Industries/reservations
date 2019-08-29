@@ -54,7 +54,7 @@ const PartySize = ({ findPartySize, size }) => {
     <PartySelectDiv>
       <PartyTitle>Party Size</PartyTitle>
       <SelectDiv>
-        <PartyDisplay>For {size}</PartyDisplay>
+        <PartyDisplay>For { size }</PartyDisplay>
         <PartySelect onChange={findPartySize}>
           {options}
         </PartySelect>
