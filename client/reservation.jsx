@@ -151,23 +151,10 @@ class Reservations extends React.Component {
       hours: '',
       find: false,
       time: '',
-<<<<<<< HEAD
-<<<<<<< HEAD
       partyAmount: 1,
-=======
-      partySize: 0,
-      date: '',
-      dayReservations: [],
-<<<<<<< HEAD
->>>>>>> 852b47e... add function that filters out all reservation times for that specific day and sets default values to be that day and their seats
-=======
-      reservationRange: [],
->>>>>>> 0e3c48e... fix server response after refactor seed data
-=======
       partySize: 1,
       date: '',
       openSeatTimes: [],
->>>>>>> 1e8f562... refactor code to remove extra states and flow cleaner
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -175,11 +162,8 @@ class Reservations extends React.Component {
     this.setReservationTime = this.setReservationTime.bind(this);
     this.findPartySize = this.findPartySize.bind(this);
     this.getDay = this.getDay.bind(this);
-<<<<<<< HEAD
-=======
     this.findTimeRange = this.findTimeRange.bind(this);
     this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
->>>>>>> e41fe2e... have logic to render 5 times to reserve based off of selected time
   }
 
   componentDidMount() {
@@ -234,7 +218,6 @@ class Reservations extends React.Component {
     });
     return openSeats;
   }
-
 
   getListingData(listing = 'L1') {
     return fetch(`/api/${listing}/reservations`, {
