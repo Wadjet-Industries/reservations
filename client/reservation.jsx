@@ -261,12 +261,18 @@ class Reservations extends React.Component {
     const newTime = event.target.value;
     this.setState({
       time: newTime,
+      find: false,
     });
   }
 
   findPartySize(event) {
     this.setState({
+<<<<<<< HEAD
       partyAmount: event.target.value,
+=======
+      partySize: event.target.value,
+      find: false,
+>>>>>>> 955c33d... added functionality to bring back find table button when switching times and party sizes
     });
   }
 

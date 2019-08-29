@@ -48,18 +48,15 @@ describe('Reservations Module', () => {
 });
 
 describe('Time Module', () => {
-  let wrapper;
   let testHours = '2019-08-27T16:00:00-07:00--2019-08-27T23:30:00-07:00';
 
-  beforeEach(() => {
-    wrapper = mount(<TimeModule hours={testHours} />);
-  })
   it('expects component to render', () => {
-    const wrap = shallow(<TimeModule hours={'2019-08-27T16:00:00-07:00--2019-08-27T23:30:00-07:00'} />);
+    const wrap = shallow(<TimeModule hours={testHours} />);
     expect(wrap.exists()).toBe(true);
   });
 
   it('expects TimeSelect to have time options', () => {
+    const wrapper = mount(<TimeModule hours={testHours}/>);
     expect(wrapper.find('select').children()).toHaveLength(16);
   });
 });
