@@ -155,6 +155,7 @@ class Reservations extends React.Component {
       partySize: 1,
       date: '',
       openSeatTimes: [],
+      month: {},
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -176,12 +177,15 @@ class Reservations extends React.Component {
         this.listingData = data;
       })
       .then(() => {
-        const currentDay = moment().format().slice(0, 10);
+        const currentDay = moment().local().format().slice(0, 10);
+        const currentMonth = moment().local().format('MMMM');
         this.setState({
           date: currentDay,
+          month: {month: currentMonth, ISO: moment().local().format()},
         });
-        this.getDay();
+        // console.log(moment(this.state.month).add(1, 'M'));
         this.updateTimeForDays();
+        this.getDay();
       });
   }
 
