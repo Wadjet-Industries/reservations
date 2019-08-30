@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import CalenderDay from './calenderDayModule.jsx';
 
-const CalenderWeek = ({ week, selectDate, openCalender, changeShownDate }) => {
+const CalenderWeek = ({ month, week, selectDate, openCalender, changeShownDate }) => {
   return (
     <tr>
       {week.map((day) => {
-        return <CalenderDay changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} day={day} />;
+        return <CalenderDay month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} day={day} />;
       })}
     </tr>
   )

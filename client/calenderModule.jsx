@@ -67,7 +67,7 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender, changeSho
   return (
     <CalenderDiv>
       <CalenderTitleDiv>
-        <BackButton onClick={back}>Back</BackButton>
+        {(moment(month.ISO).isSame(moment().local(), 'month')) ? <button></button> : <BackButton onClick={back}>Back</BackButton>}
         <CalenderTitle>{month.month}</CalenderTitle>
         <NextButton onClick={next}>Next</NextButton>
       </CalenderTitleDiv>
@@ -83,7 +83,7 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender, changeSho
             <th>Sat</th>
           </tr>
           {calender.map((week) => {
-            return <CalenderWeek changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;
+            return <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;
           })}
       </thead>
     </CalenderGrid>
