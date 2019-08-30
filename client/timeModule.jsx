@@ -38,8 +38,8 @@ const TimeModule = ({ hours, setReservationTimes }) => {
   const hour = hours;
   const timeOptions = [];
   const openClose = hour.split('--');
-  const startHour = moment(openClose[0]);
-  const closeHour = moment(openClose[1]);
+  const startHour = moment(openClose[0]).startOf('day');
+  const closeHour = moment(openClose[1]).endOf('day') ;
   let durate = moment.duration(closeHour.diff(startHour)).as('hours');
   while (durate >= 0) {
     const time = startHour.format('h:mm A');

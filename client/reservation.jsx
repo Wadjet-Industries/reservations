@@ -194,7 +194,7 @@ class Reservations extends React.Component {
           date: currentDay,
           month: { month: currentMonth, ISO: moment().local().format() },
           hours: dayTimes[0].Hours,
-          time: dayTimes[0].Hours.split('--')[0],
+          time: moment().local().startOf('day').format(),
         });
         this.getDay();
       });
@@ -224,8 +224,8 @@ class Reservations extends React.Component {
   }
 
   findTimeRange(day, time) {
-    const startReserveMoment = moment(time).subtract(1, 'h').subtract(30, 'm').format();
-    const endReserveMoment = moment(time).add(1, 'h').add(30, 'm').format();
+    const startReserveMoment = moment(time).subtract(2, 'h').subtract(30, 'm').format();
+    const endReserveMoment = moment(time).add(2, 'h').add(30, 'm').format();
     const timeRange = day.filter((times) => {
       const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
       const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
@@ -286,6 +286,7 @@ class Reservations extends React.Component {
           month: selectedMonth,
           ISO: selectedDate,
         },
+        find: false,
       });
     } else {
       this.setState({
@@ -296,6 +297,7 @@ class Reservations extends React.Component {
           month: selectedMonth,
           ISO: selectedDate,
         },
+        find: false,
       });
       this.findTimeRange(dayTimes[0].Seats, dayTimes[0].Hours.split('--')[0]);
     }
@@ -340,13 +342,20 @@ class Reservations extends React.Component {
     );
     const open = this.state.hours.split('--')[0];
     const close = this.state.hours.split('--')[1];
-
-    const allAvailableTimes = [];
-
+    console.log(this.state.openSeatTimes)
+    let allAvailableTimes = [];
     this.state.openSeatTimes.forEach((time) => {
       const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
       allAvailableTimes.push(time.time, availableTimeAdd15);
     });
+
+    allAvailableTimes = allAvailableTimes.filter((time) => {
+      const compareTime = moment(time);
+      if (compareTime.isBefore(close) && compareTime.isSameOrAfter(open)) {
+        return (Math.abs(moment(time).diff(moment(this.state.time), 'minutes')) <= 150);
+      }
+    });
+
     if (allAvailableTimes.length === 0) {
       findReservation.push(errorMessage);
     } else if (allAvailableTimes.length < 5) {
