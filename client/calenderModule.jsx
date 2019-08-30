@@ -11,16 +11,16 @@ box-sizing: border-box;
 display: flex;
 flex-direction: column;
 align-items: center;
+background-color: #f1f2f4;
+border: 1px solid #d8d9db;
 `;
 
 
 const CalenderDiv = styled.div`
-width: 288px;
-height: 302px;
+width: 256px;
+height: 271px;
 position: absolute;
 box-sizing: border-box;
-background-color: #f1f2f4;
-border: 1px solid #d8d9db;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -31,27 +31,62 @@ justify-content: center;
 const CalenderTitleDiv = styled.div`
 align-self: center;
 box-sizing: border-box;
+// position: absolute;
+height: 32px;
+box-sizing: border-box;
 `;
 
-const CalenderTitle = styled.span``;
+const CalenderTitle = styled.span`
+
+`;
 
 const CalenderGrid = styled.table`
 box-sizing: border-box;
 border-collapse: collapse;
-// align-self: center;
-// justify-content: center;
-position: aboslute;
+position: relative;
 `;
 
-const SwapButton = styled.button`
-border-radius: 25%;
+const NextButton = styled.span`
+border-radius: 50%;
 {NextButton}: hover {
   border: 2px solid #DA3743
 };
+position: absolute;
+background-size: 6px 8px;
+background-position: center;
+background-repeat: no-repeat;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5.24 8.07'%3E%3Cg%3E%3Cpath style='fill:%23333' d='M5.09 3.68L4.39 3 1.56.15a.5.5 0 0 0-.71 0l-.7.7a.5.5 0 0 0 0 .71L2.62 4 .15 6.51a.5.5 0 0 0 0 .71l.71.71a.5.5 0 0 0 .71 0L4.39 5.1l.71-.71a.5.5 0 0 0-.01-.71z'/%3E%3C/g%3E%3C/svg%3E");
+width: 32px;
+height: 32px;
+border: 1px solid #d8d9db;
+box-sizing: border-box;
 `;
 
-const noBackButton = styled.button`
-color: #d8d9db;
+
+
+const BackButton = styled.span`
+border-radius: 50%;
+{NextButton}: hover {
+  border: 2px solid #DA3743
+};
+position: absolute;
+background-size: 6px 8px;
+background-position: center;
+background-repeat: no-repeat;
+transform: scaleX(-1);
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5.24 8.07'%3E%3Cg%3E%3Cpath style='fill:%23333' d='M5.09 3.68L4.39 3 1.56.15a.5.5 0 0 0-.71 0l-.7.7a.5.5 0 0 0 0 .71L2.62 4 .15 6.51a.5.5 0 0 0 0 .71l.71.71a.5.5 0 0 0 .71 0L4.39 5.1l.71-.71a.5.5 0 0 0-.01-.71z'/%3E%3C/g%3E%3C/svg%3E");
+width: 32px;
+height: 32px;
+border: 1px solid #d8d9db;
+box-sizing: border-box;`;
+
+const WeekDays = styled.th`
+font-weight: 400;
+`;
+
+const NoBackButton = styled(BackButton)`
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5.24 8.07'%3E%3Cg%3E%3Cpath style='fill:%23E1E1E1' d='M5.09 3.68L4.39 3 1.56.15a.5.5 0 0 0-.71 0l-.7.7a.5.5 0 0 0 0 .71L2.62 4 .15 6.51a.5.5 0 0 0 0 .71l.71.71a.5.5 0 0 0 .71 0L4.39 5.1l.71-.71a.5.5 0 0 0-.01-.71z'/%3E%3C/g%3E%3C/svg%3E");
+pointer-events: none;
 `;
 
 const CalenderModule = ({ selectDate, month, next, back, openCalender, changeShownDate }) => {
@@ -76,20 +111,20 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender, changeSho
     <CalenderContainer>
       <CalenderDiv>
         <CalenderTitleDiv>
-          {(moment(month.ISO).isSame(moment().local(), 'month')) ? <button></button> : <SwapButton onClick={back}>Back</SwapButton>}
+          {(moment(month.ISO).isSame(moment().local(), 'month')) ? <NoBackButton></NoBackButton> : <BackButton onClick={back}></BackButton>}
           <CalenderTitle>{month.month}</CalenderTitle>
-          <SwapButton onClick={next}>Next</SwapButton>
+          <NextButton onClick={next}> </NextButton>
         </CalenderTitleDiv>
         <CalenderGrid>
           <thead>
             <tr>
-              <th>Sun</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
+              <WeekDays>Sun</WeekDays>
+              <WeekDays>Mon</WeekDays>
+              <WeekDays>Tue</WeekDays>
+              <WeekDays>Wed</WeekDays>
+              <WeekDays>Thu</WeekDays>
+              <WeekDays>Fri</WeekDays>
+              <WeekDays>Sat</WeekDays>
             </tr>
             {calender.map((week) => {
               return <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;

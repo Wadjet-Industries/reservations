@@ -342,7 +342,6 @@ class Reservations extends React.Component {
     );
     const open = this.state.hours.split('--')[0];
     const close = this.state.hours.split('--')[1];
-    console.log(this.state.openSeatTimes)
     let allAvailableTimes = [];
     this.state.openSeatTimes.forEach((time) => {
       const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
