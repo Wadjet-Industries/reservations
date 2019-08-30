@@ -13,6 +13,7 @@ flex-direction: column;
 align-items: center;
 background-color: #f1f2f4;
 border: 1px solid #d8d9db;
+justify-content: space-around;
 `;
 
 
@@ -25,7 +26,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 align-self: center;
-justify-content: center;
 `;
 
 const CalenderTitleDiv = styled.div`
