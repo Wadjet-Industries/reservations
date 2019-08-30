@@ -6,10 +6,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import styled from 'styled-components';
-import PartySize from './partySize.jsx';
+import moment from 'moment';
+import PartySize from './partySizeModule.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
-import moment from 'moment';
 
 const Title = styled.div`
 width: 100%;
@@ -39,8 +39,8 @@ box-sizing: border-box;
 display: flex;
 flex-direction: column;
 // border: 1px solid black;
-width: 20%;
-height: 300px;
+width: 320px;
+height: 306.12px;
 border-radius: 1px;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
 `;
@@ -141,6 +141,12 @@ const SelectTitle = styled.div`
 align-self: center;
 `;
 
+const SelectReservationTime = styled.div`
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+`;
+
 class Reservations extends React.Component {
   constructor(props) {
     super(props);
@@ -152,9 +158,9 @@ class Reservations extends React.Component {
       find: false,
       time: '',
       partyAmount: 1,
-      partySize: 1,
       date: '',
       openSeatTimes: [],
+      month: { month: '', ISO: '' },
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -164,59 +170,34 @@ class Reservations extends React.Component {
     this.getDay = this.getDay.bind(this);
     this.findTimeRange = this.findTimeRange.bind(this);
     this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
+    // this.updateTimeForDays = this.updateTimeForDays.bind(this);
+    this.selectDate = this.selectDate.bind(this);
+    this.nextMonth = this.nextMonth.bind(this);
+    this.backMonth = this.backMonth.bind(this);
   }
 
   componentDidMount() {
     const loc = window.location.pathname;
     const id = loc.split('/')[1];
-    //change intial render data for hours and time to go from current date and start restaurant time
     this.getListingData(id)
       .then((data) => {
         this.listingData = data;
-        this.setState({
-          hours: data[0].Hours,
-          time: data[0].Hours.split('--')[0],
-        });
       })
       .then(() => {
-        const currentDay = moment().format().slice(0, 10);
+        const currentDay = moment().local().format().slice(0, 10);
+        const currentMonth = moment().local().format('MMMM YYYY');
+        const dayTimes = this.listingData.filter((day) => {
+          const daysFile = day.Date.slice(0, 10);
+          return daysFile === currentDay;
+        });
         this.setState({
           date: currentDay,
+          month: { month: currentMonth, ISO: moment().local().format() },
+          hours: dayTimes[0].Hours,
+          time: moment().local().startOf('day').format(),
         });
         this.getDay();
       });
-  }
-
-  getDay() {
-    const dayReserves = this.listingData.filter((day) => {
-      const daysInFile = day.Date.slice(0, 10);
-      return daysInFile === this.state.date;
-    });
-    this.findTimeRange(dayReserves[0].Seats);
-  }
-
-  findTimeRange(day) {
-    const startReserveMoment = moment(this.state.time).subtract(1, 'h').subtract(30, 'm').format();
-    const endReserveMoment = moment(this.state.time).add(1, 'h').add(30, 'm').format();
-    const timeRange = day.filter((times) => {
-      const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
-      const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
-      if (testAfter && testBefore) {
-        return true;
-      }
-      return false;
-    });
-    const openTimes = this.getOpenSeatTimes(timeRange);
-    this.setState({
-      openSeatTimes: openTimes
-    })
-  }
-
-  getOpenSeatTimes(reserveRange) {
-    const openSeats = reserveRange.filter((seatTimes) => {
-      return this.state.partySize <= seatTimes.reservations.open;
-    });
-    return openSeats;
   }
 
   getListingData(listing = 'L1') {
@@ -234,6 +215,38 @@ class Reservations extends React.Component {
       });
   }
 
+  getDay() {
+    const dayReserves = this.listingData.filter((day) => {
+      const daysInFile = day.Date.slice(0, 10);
+      return daysInFile === this.state.date;
+    });
+    this.findTimeRange(dayReserves[0].Seats, this.state.time);
+  }
+
+  findTimeRange(day, time) {
+    const startReserveMoment = moment(time).subtract(2, 'h').subtract(30, 'm').format();
+    const endReserveMoment = moment(time).add(2, 'h').add(30, 'm').format();
+    const timeRange = day.filter((times) => {
+      const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
+      const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
+      if (testAfter && testBefore) {
+        return true;
+      }
+      return false;
+    });
+    const openTimes = this.getOpenSeatTimes(timeRange);
+    this.setState({
+      openSeatTimes: openTimes
+    })
+  }
+
+  getOpenSeatTimes(reserveRange) {
+    const openSeats = reserveRange.filter((seatTimes) => {
+      return this.state.partyAmount <= seatTimes.reservations.open;
+    });
+    return openSeats;
+  }
+
   setReservationTime(event) {
     this.getDay();
     const newTime = event.target.value;
@@ -246,7 +259,7 @@ class Reservations extends React.Component {
   findPartySize(event) {
     this.getDay();
     this.setState({
-      partySize: event.target.value,
+      partyAmount: event.target.value,
       find: false,
     });
   }
@@ -258,24 +271,89 @@ class Reservations extends React.Component {
     });
   }
 
+  selectDate(event) {
+    const selectedDate = event.target.getAttribute('value');
+    const selectedMonth = moment(selectedDate).format('MMMM YYYY');
+    const formattedDate = selectedDate.slice(0, 10);
+    const dayTimes = this.listingData.filter((day) => {
+      const daysFile = day.Date.slice(0, 10);
+      return daysFile === formattedDate;
+    });
+    if (dayTimes.length === 0) {
+      this.setState({
+        date: formattedDate,
+        month: {
+          month: selectedMonth,
+          ISO: selectedDate,
+        },
+        find: false,
+      });
+    } else {
+      this.setState({
+        date: formattedDate,
+        hours: dayTimes[0].Hours,
+        time: dayTimes[0].Hours.split('--')[0],
+        month: {
+          month: selectedMonth,
+          ISO: selectedDate,
+        },
+        find: false,
+      });
+      this.findTimeRange(dayTimes[0].Seats, dayTimes[0].Hours.split('--')[0]);
+    }
+  }
+
+  nextMonth() {
+    const nextMonth = moment(this.state.month.ISO).add(1, 'month');
+    const nextMonthName = nextMonth.format('MMMM YYYY');
+    this.setState({
+      month: {
+        month: nextMonthName,
+        ISO: nextMonth.format(),
+      },
+    });
+  };
+
+  backMonth() {
+    const backMonth = moment(this.state.month.ISO).subtract(1, 'month');
+    const backMonthName = backMonth.format('MMMM YYYY');
+    this.setState({
+      month: {
+        month: backMonthName,
+        ISO: backMonth.format(),
+      },
+    });
+  }
+
+
+
+
+
+
 
   render() {
     let findReservation = [];
     const errorMessage = (
       <ErrorMessage>
-        At the moment, there's no online availability within 2.5 hours of {moment(this.state.time).format('h:mm A')}.
+        At the moment, there's no online availability within 2.5 hours of { moment(this.state.time).format('h:mm A') }.
         <br />
         Have another time in mind?
       </ErrorMessage>
     );
     const open = this.state.hours.split('--')[0];
     const close = this.state.hours.split('--')[1];
-
-    const allAvailableTimes = [];
-
+    console.log(this.state.openSeatTimes)
+    let allAvailableTimes = [];
     this.state.openSeatTimes.forEach((time) => {
       const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
       allAvailableTimes.push(time.time, availableTimeAdd15);
+    });
+
+    allAvailableTimes = allAvailableTimes.filter((time) => {
+      const compareTime = moment(time);
+      if (compareTime.isBefore(close) && compareTime.isSameOrAfter(open)) {
+        return (Math.abs(moment(time).diff(moment(this.state.time), 'minutes')) <= 150);
+      }
     });
 
     if (allAvailableTimes.length === 0) {
@@ -288,9 +366,11 @@ class Reservations extends React.Component {
     } else if (allAvailableTimes.indexOf(this.state.time) !== -1) {
       const indexTime = allAvailableTimes.indexOf(this.state.time);
       for (let i = indexTime - 2; i <= indexTime + 2; i++) {
-        if (moment(allAvailableTimes[i]).isBefore(close) && moment(allAvailableTimes[i]).isSameOrAfter(open)) {
-          const availableTime = moment(allAvailableTimes[i]).format('h:mm A');
-          findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
+        if (i >= 0 && i < allAvailableTimes.length) {
+          if (moment(allAvailableTimes[i]).isBefore(close) && moment(allAvailableTimes[i]).isSameOrAfter(open)) {
+            const availableTime = moment(allAvailableTimes[i]).format('h:mm A');
+            findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
+          }
         }
       }
     } else if (allAvailableTimes.indexOf(this.state.time) === -1) {
@@ -330,7 +410,9 @@ class Reservations extends React.Component {
     const selectTime = (
       <SelectReservation>
         <SelectTitle>Select a time:</SelectTitle>
+        <SelectReservationTime>
         {findReservation}
+        </SelectReservationTime>
       </SelectReservation>
     );
 
@@ -343,7 +425,7 @@ class Reservations extends React.Component {
           <PartySize size={this.state.partyAmount} findPartySize={this.findPartySize} />
         </PartyModule>
         <DateTime>
-          <DateModule />
+          <DateModule next={this.nextMonth} back={this.backMonth} selectDate={this.selectDate} month={this.state.month} />
           <TimeModule setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
