@@ -279,16 +279,26 @@ class Reservations extends React.Component {
       const daysFile = day.Date.slice(0, 10);
       return daysFile === formattedDate;
     });
-    this.setState({
-      date: formattedDate,
-      hours: dayTimes[0].Hours,
-      time: dayTimes[0].Hours.split('--')[0],
-      month: {
-        month: selectedMonth,
-        ISO: selectedDate,
-      },
-    });
-    this.findTimeRange(dayTimes[0].Seats, dayTimes[0].Hours.split('--')[0]);
+    if (dayTimes.length === 0) {
+      this.setState({
+        date: formattedDate,
+        month: {
+          month: selectedMonth,
+          ISO: selectedDate,
+        },
+      });
+    } else {
+      this.setState({
+        date: formattedDate,
+        hours: dayTimes[0].Hours,
+        time: dayTimes[0].Hours.split('--')[0],
+        month: {
+          month: selectedMonth,
+          ISO: selectedDate,
+        },
+      });
+      this.findTimeRange(dayTimes[0].Seats, dayTimes[0].Hours.split('--')[0]);
+    }
   }
 
   nextMonth() {
