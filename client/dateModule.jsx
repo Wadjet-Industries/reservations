@@ -52,7 +52,7 @@ class DateModule extends React.Component {
     }
 
     this.openCalender = this.openCalender.bind(this);
-    // this.changeShownDate = this.changeShownDate.bind(this);
+    this.changeShownDate = this.changeShownDate.bind(this);
   }
 
   openCalender() {
@@ -61,12 +61,12 @@ class DateModule extends React.Component {
     });
   }
 
-  // changeShownDate(event) {
-  //   const clickedDate = event.target.getAttribute('value');
-  //   this.setState({
-  //     shownDate: moment(clickedDate).format('ddd, M/D'),
-  //   })
-  // }
+  changeShownDate(event) {
+    const clickedDate = event.target.getAttribute('value');
+    this.setState({
+      shownDate: moment(clickedDate).format('ddd, M/D'),
+    })
+  }
 
   render() {
     return (
@@ -74,7 +74,7 @@ class DateModule extends React.Component {
         <DateTitle>Date</DateTitle>
         <DateDisplay>{this.state.shownDate}</DateDisplay>
         <DateSelect onClick={this.openCalender}></DateSelect>
-        {this.state.calender ? <CalenderModule back={this.props.back} next={this.props.next} openCalender={this.openCalender} selectDate={this.props.selectDate} month={this.props.month} /> : ''}
+        {this.state.calender ? <CalenderModule back={this.props.back} next={this.props.next} openCalender={this.openCalender} changeShownDate={this.changeShownDate} selectDate={this.props.selectDate} month={this.props.month} /> : ''}
       </DateDiv>
     )
   }

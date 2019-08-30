@@ -21,9 +21,9 @@ border-collapse: collapse;
 };
 `;
 
-const CalenderDay = ({ day, selectDate, openCalender }) => {
+const CalenderDay = ({ day, selectDate, openCalender, changeShownDate }) => {
   return (
-    <CalenderTdFuture onClick={(event) => { selectDate(event); openCalender(); }} value={day.isoDate}>{day.thisDate}</CalenderTdFuture>
+    <CalenderTdFuture onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdFuture>
   );
 };
 

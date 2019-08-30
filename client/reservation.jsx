@@ -192,7 +192,7 @@ class Reservations extends React.Component {
         });
         this.setState({
           date: currentDay,
-          month: {month: currentMonth, ISO: moment().local().format()},
+          month: { month: currentMonth, ISO: moment().local().format() },
           hours: dayTimes[0].Hours,
           time: dayTimes[0].Hours.split('--')[0],
         });
@@ -220,12 +220,12 @@ class Reservations extends React.Component {
       const daysInFile = day.Date.slice(0, 10);
       return daysInFile === this.state.date;
     });
-    this.findTimeRange(dayReserves[0].Seats);
+    this.findTimeRange(dayReserves[0].Seats, this.state.time);
   }
 
-  findTimeRange(day) {
-    const startReserveMoment = moment(this.state.time).subtract(1, 'h').subtract(30, 'm').format();
-    const endReserveMoment = moment(this.state.time).add(1, 'h').add(30, 'm').format();
+  findTimeRange(day, time) {
+    const startReserveMoment = moment(time).subtract(1, 'h').subtract(30, 'm').format();
+    const endReserveMoment = moment(time).add(1, 'h').add(30, 'm').format();
     const timeRange = day.filter((times) => {
       const testAfter = moment(times.time).isSameOrAfter(startReserveMoment);
       const testBefore = moment(times.time).isSameOrBefore(endReserveMoment);
@@ -288,6 +288,7 @@ class Reservations extends React.Component {
         ISO: selectedDate,
       },
     });
+    this.findTimeRange(dayTimes[0].Seats, dayTimes[0].Hours.split('--')[0]);
   }
 
   nextMonth() {
@@ -322,7 +323,7 @@ class Reservations extends React.Component {
     let findReservation = [];
     const errorMessage = (
       <ErrorMessage>
-        At the moment, there's no online availability within 2.5 hours of {moment(this.state.time).format('h:mm A')}.
+        At the moment, there's no online availability within 2.5 hours of { moment(this.state.time).format('h:mm A') }.
         <br />
         Have another time in mind?
       </ErrorMessage>

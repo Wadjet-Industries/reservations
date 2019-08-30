@@ -46,7 +46,7 @@ border-radius: 25%;
 };
 `;
 
-const CalenderModule = ({ selectDate, month, next, back, openCalender }) => {
+const CalenderModule = ({ selectDate, month, next, back, openCalender, changeShownDate }) => {
   let calender = [];
   const startDay = moment(month.ISO).clone().startOf('month').startOf('week');
   const endDay = moment(month.ISO).clone().endOf('month').add(1, 'week').endOf('week');
@@ -83,7 +83,7 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender }) => {
             <th>Sat</th>
           </tr>
           {calender.map((week) => {
-            return <CalenderWeek openCalender={openCalender} selectDate={selectDate} week={week} />;
+            return <CalenderWeek changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;
           })}
       </thead>
     </CalenderGrid>
