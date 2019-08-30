@@ -24,12 +24,29 @@ const CalenderTitle = styled.span``;
 const CalenderGrid = styled.table`
 box-sizing: border-box;
 border-collapse: collapse;
-border: 1px solid #d8d9db;
+// border: 1px solid #d8d9db;
 align-self: center;
 justify-content: center;
 `;
 
-const CalenderModule = ({ month }) => {
+const NextButton = styled.button`
+
+border-radius: 25%;
+// border: 1px solid black;
+{NextButton}: hover {
+  border: 2px solid #DA3743
+};
+`;
+
+const BackButton = styled.button`
+border-radius: 25%;
+// border: 1px solid black;
+{BackButton}: hover {
+  border: 2px solid #DA3743
+};
+`;
+
+const CalenderModule = ({ selectDate, month, next, back, openCalender }) => {
   let calender = [];
   const startDay = moment(month.ISO).clone().startOf('month').startOf('week');
   const endDay = moment(month.ISO).clone().endOf('month').add(1, 'week').endOf('week');
@@ -44,13 +61,15 @@ const CalenderModule = ({ month }) => {
       };
     }));
   }
-
-  console.log(calender);
-  const a = '<div>hi</div>'
+  if (calender.length > 6) {
+    calender = calender.slice(0, 6);
+  }
   return (
     <CalenderDiv>
       <CalenderTitleDiv>
+        <BackButton onClick={back}>Back</BackButton>
         <CalenderTitle>{month.month}</CalenderTitle>
+        <NextButton onClick={next}>Next</NextButton>
       </CalenderTitleDiv>
       <CalenderGrid>
         <thead>
@@ -64,7 +83,7 @@ const CalenderModule = ({ month }) => {
             <th>Sat</th>
           </tr>
           {calender.map((week) => {
-            return <CalenderWeek week={week} />;
+            return <CalenderWeek openCalender={openCalender} selectDate={selectDate} week={week} />;
           })}
       </thead>
     </CalenderGrid>
