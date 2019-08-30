@@ -31,27 +31,33 @@ justify-content: center;
 const CalenderTitleDiv = styled.div`
 align-self: center;
 box-sizing: border-box;
-// position: absolute;
 height: 32px;
 box-sizing: border-box;
+display: flex;
+width: 100%;
+justify-content: space-between;
 `;
 
 const CalenderTitle = styled.span`
-
+align-self: center;
+justify-content: center;
+box-sizing: border-box;
+text-align: center;
 `;
 
 const CalenderGrid = styled.table`
 box-sizing: border-box;
 border-collapse: collapse;
 position: relative;
+width: 100%;
 `;
 
 const NextButton = styled.span`
 border-radius: 50%;
+align-self: flex-end;
 {NextButton}: hover {
   border: 2px solid #DA3743
 };
-position: absolute;
 background-size: 6px 8px;
 background-position: center;
 background-repeat: no-repeat;
@@ -65,11 +71,11 @@ box-sizing: border-box;
 
 
 const BackButton = styled.span`
+align-self: flex-start;
 border-radius: 50%;
 {NextButton}: hover {
   border: 2px solid #DA3743
 };
-position: absolute;
 background-size: 6px 8px;
 background-position: center;
 background-repeat: no-repeat;
