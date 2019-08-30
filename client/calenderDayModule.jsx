@@ -9,6 +9,7 @@ background-color: #fff;
 {CalenderTdFuture}: hover {
   border: 2px solid #DA3743
 };
+font-weight: 700;
 height: 36px;
 width: 34px;
 box-sizing: border-box;

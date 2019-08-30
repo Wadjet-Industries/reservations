@@ -43,6 +43,7 @@ align-self: center;
 justify-content: center;
 box-sizing: border-box;
 text-align: center;
+font-weight: 700;
 `;
 
 const CalenderGrid = styled.table`
