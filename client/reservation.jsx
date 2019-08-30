@@ -40,7 +40,7 @@ display: flex;
 flex-direction: column;
 // border: 1px solid black;
 width: 320px;
-height: 306.12px;
+height: 346.12px;
 border-radius: 1px;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
 `;
@@ -248,27 +248,27 @@ class Reservations extends React.Component {
   }
 
   setReservationTime(event) {
-    this.getDay();
     const newTime = event.target.value;
     this.setState({
       time: newTime,
       find: false,
     });
+    this.getDay();
   }
 
   findPartySize(event) {
-    this.getDay();
     this.setState({
       partyAmount: event.target.value,
       find: false,
     });
+    this.getDay();
   }
 
   findTime(event) {
-    this.getDay();
     this.setState({
       find: true,
     });
+    this.getDay();
   }
 
   selectDate(event) {
@@ -342,7 +342,6 @@ class Reservations extends React.Component {
     );
     const open = this.state.hours.split('--')[0];
     const close = this.state.hours.split('--')[1];
-    console.log(this.state.openSeatTimes)
     let allAvailableTimes = [];
     this.state.openSeatTimes.forEach((time) => {
       const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
