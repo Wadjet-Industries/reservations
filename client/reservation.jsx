@@ -295,7 +295,7 @@ class Reservations extends React.Component {
       const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
       allAvailableTimes.push(time.time, availableTimeAdd15);
     });
-
+    console.log(allAvailableTimes);
     if (allAvailableTimes.length === 0) {
       findReservation.push(errorMessage);
     } else if (allAvailableTimes.length < 5) {
@@ -306,9 +306,11 @@ class Reservations extends React.Component {
     } else if (allAvailableTimes.indexOf(this.state.time) !== -1) {
       const indexTime = allAvailableTimes.indexOf(this.state.time);
       for (let i = indexTime - 2; i <= indexTime + 2; i++) {
-        if (moment(allAvailableTimes[i]).isBefore(close) && moment(allAvailableTimes[i]).isSameOrAfter(open)) {
-          const availableTime = moment(allAvailableTimes[i]).format('h:mm A');
-          findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
+        if (i >= 0 && i < allAvailableTimes.length) {
+          if (moment(allAvailableTimes[i]).isBefore(close) && moment(allAvailableTimes[i]).isSameOrAfter(open)) {
+            const availableTime = moment(allAvailableTimes[i]).format('h:mm A');
+            findReservation.push(<PossibleTime>{availableTime}</PossibleTime>);
+          }
         }
       }
     } else if (allAvailableTimes.indexOf(this.state.time) === -1) {
