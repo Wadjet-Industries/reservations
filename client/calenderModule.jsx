@@ -3,6 +3,17 @@ import React from 'react';
 import moment from 'moment';
 import CalenderWeek from './calenderWeekModule.jsx';
 
+const CalenderContainer = styled.div`
+width: 288px;
+height: 302px;
+position: absolute;
+box-sizing: border-box;
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
+
+
 const CalenderDiv = styled.div`
 width: 288px;
 height: 302px;
@@ -12,6 +23,9 @@ background-color: #f1f2f4;
 border: 1px solid #d8d9db;
 display: flex;
 flex-direction: column;
+align-items: center;
+align-self: center;
+justify-content: center;
 `;
 
 const CalenderTitleDiv = styled.div`
@@ -24,26 +38,20 @@ const CalenderTitle = styled.span``;
 const CalenderGrid = styled.table`
 box-sizing: border-box;
 border-collapse: collapse;
-// border: 1px solid #d8d9db;
-align-self: center;
-justify-content: center;
+// align-self: center;
+// justify-content: center;
+position: aboslute;
 `;
 
-const NextButton = styled.button`
-
+const SwapButton = styled.button`
 border-radius: 25%;
-// border: 1px solid black;
 {NextButton}: hover {
   border: 2px solid #DA3743
 };
 `;
 
-const BackButton = styled.button`
-border-radius: 25%;
-// border: 1px solid black;
-{BackButton}: hover {
-  border: 2px solid #DA3743
-};
+const noBackButton = styled.button`
+color: #d8d9db;
 `;
 
 const CalenderModule = ({ selectDate, month, next, back, openCalender, changeShownDate }) => {
@@ -65,29 +73,31 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender, changeSho
     calender = calender.slice(0, 6);
   }
   return (
-    <CalenderDiv>
-      <CalenderTitleDiv>
-        {(moment(month.ISO).isSame(moment().local(), 'month')) ? <button></button> : <BackButton onClick={back}>Back</BackButton>}
-        <CalenderTitle>{month.month}</CalenderTitle>
-        <NextButton onClick={next}>Next</NextButton>
-      </CalenderTitleDiv>
-      <CalenderGrid>
-        <thead>
-          <tr>
-            <th>Sun</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-          {calender.map((week) => {
-            return <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;
-          })}
-      </thead>
-    </CalenderGrid>
-    </CalenderDiv>
+    <CalenderContainer>
+      <CalenderDiv>
+        <CalenderTitleDiv>
+          {(moment(month.ISO).isSame(moment().local(), 'month')) ? <button></button> : <SwapButton onClick={back}>Back</SwapButton>}
+          <CalenderTitle>{month.month}</CalenderTitle>
+          <SwapButton onClick={next}>Next</SwapButton>
+        </CalenderTitleDiv>
+        <CalenderGrid>
+          <thead>
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+            {calender.map((week) => {
+              return <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;
+            })}
+        </thead>
+        </CalenderGrid>
+      </CalenderDiv>
+    </CalenderContainer>
   )
 }
 

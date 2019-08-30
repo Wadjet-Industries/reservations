@@ -9,10 +9,12 @@ background-color: #fff;
 {CalenderTdFuture}: hover {
   border: 2px solid #DA3743
 };
-height: 30px;
-width: 30px;
+
+height: 36px;
+width: 34px;
 box-sizing: border-box;
 color: #000;
+text-align: center;
 `;
 
 
