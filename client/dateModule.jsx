@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import CalenderModule from './calenderModule.jsx';
 
 const DateDiv = styled.div`
 width: 50%;
@@ -29,13 +30,32 @@ height: 50%;
 margin: none;
 `;
 
-const DateModule = (props) => {
+class DateModule extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      calender: false
+    }
+
+    this.openCalender = this.openCalender.bind(this);
+  }
+
+  openCalender() {
+    this.setState((state) => {
+      return { calender: !state.calender }
+    });
+  }
+
+  render() {
   return (
-    <DateDiv>
-      <DateTitle>Date</DateTitle>
-      <DateSelect>Mon, 8/26</DateSelect>
-    </DateDiv>
-  );
-};
+      <DateDiv>
+        <DateTitle>Date</DateTitle>
+        <DateSelect onClick={this.openCalender}></DateSelect>
+        {this.state.calender ? <CalenderModule month={this.props.month} /> : ''}
+      </DateDiv>
+  )
+  }
+}
 
 export default DateModule;

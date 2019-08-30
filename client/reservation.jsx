@@ -6,10 +6,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 import PartySize from './partySize.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
-import moment from 'moment';
 
 const Title = styled.div`
 width: 100%;
@@ -39,8 +39,8 @@ box-sizing: border-box;
 display: flex;
 flex-direction: column;
 // border: 1px solid black;
-width: 20%;
-height: 300px;
+width: 320px;
+height: 306.12px;
 border-radius: 1px;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
 `;
@@ -141,6 +141,12 @@ const SelectTitle = styled.div`
 align-self: center;
 `;
 
+const SelectReservationTime = styled.div`
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+`;
+
 class Reservations extends React.Component {
   constructor(props) {
     super(props);
@@ -154,7 +160,7 @@ class Reservations extends React.Component {
       partyAmount: 1,
       date: '',
       openSeatTimes: [],
-      month: {},
+      month: {month: '', ISO: ''},
     };
 
     this.getListingData = this.getListingData.bind(this);
@@ -342,7 +348,9 @@ class Reservations extends React.Component {
     const selectTime = (
       <SelectReservation>
         <SelectTitle>Select a time:</SelectTitle>
+        <SelectReservationTime>
         {findReservation}
+        </SelectReservationTime>
       </SelectReservation>
     );
 
@@ -355,7 +363,7 @@ class Reservations extends React.Component {
           <PartySize size={this.state.partyAmount} findPartySize={this.findPartySize} />
         </PartyModule>
         <DateTime>
-          <DateModule />
+          <DateModule month={this.state.month} />
           <TimeModule setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
