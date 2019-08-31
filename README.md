@@ -1,13 +1,13 @@
 # Project Name
 
-> Project description
+Llaminati's Restaurant Reservation System
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/llaminati/Banner-Gallery
+  - https://github.com/llaminati/Menu
+  - https://github.com/llaminati/Reservations
+  - https://github.com/llaminati/Reviews
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@
 
 ## Usage
 
-> Some usage instructions
+
 
 ## Requirements
 
@@ -32,8 +32,6 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
 From within the root directory:
 
-```sh
-npm install -g webpack
 npm install
-```
+
 
