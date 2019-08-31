@@ -4,6 +4,7 @@ import moment from 'moment';
 import CalenderWeek from './calenderWeekModule.jsx';
 
 const CalenderContainer = styled.div`
+font-family: Brandon-Text-Medium;
 width: 288px;
 height: 302px;
 position: absolute;
@@ -70,7 +71,6 @@ box-sizing: border-box;
 `;
 
 
-
 const BackButton = styled.span`
 align-self: flex-start;
 border-radius: 50%;
@@ -88,7 +88,8 @@ border: 1px solid #d8d9db;
 box-sizing: border-box;`;
 
 const WeekDays = styled.th`
-font-weight: 400;
+font-family: Brandon-Text-Light;
+font-size: 80%;
 `;
 
 const NoBackButton = styled(BackButton)`
@@ -96,11 +97,14 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 pointer-events: none;
 `;
 
-const CalenderModule = ({ selectDate, month, next, back, openCalender, changeShownDate }) => {
+const CalenderModule = ({
+  selectDate, month, next, back, openCalender, changeShownDate,
+}) => {
   let calender = [];
   const startDay = moment(month.ISO).clone().startOf('month').startOf('week');
-  const endDay = moment(month.ISO).clone().endOf('month').add(1, 'week').endOf('week');
-  let date = startDay.clone().subtract(1, 'day');
+  const endDay = moment(month.ISO).clone().endOf('month').add(1, 'week')
+    .endOf('week');
+  const date = startDay.clone().subtract(1, 'day');
 
   while (date.isBefore(endDay, 'day')) {
     calender.push(Array(7).fill(0).map(() => {
@@ -118,7 +122,7 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender, changeSho
     <CalenderContainer>
       <CalenderDiv>
         <CalenderTitleDiv>
-          {(moment(month.ISO).isSame(moment().local(), 'month')) ? <NoBackButton></NoBackButton> : <BackButton onClick={back}></BackButton>}
+          {(moment(month.ISO).isSame(moment().local(), 'month')) ? <NoBackButton /> : <BackButton onClick={back} />}
           <CalenderTitle>{month.month}</CalenderTitle>
           <NextButton onClick={next}> </NextButton>
         </CalenderTitleDiv>
@@ -133,14 +137,12 @@ const CalenderModule = ({ selectDate, month, next, back, openCalender, changeSho
               <WeekDays>Fri</WeekDays>
               <WeekDays>Sat</WeekDays>
             </tr>
-            {calender.map((week) => {
-              return <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />;
-            })}
-        </thead>
+            {calender.map((week) => <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />)}
+          </thead>
         </CalenderGrid>
       </CalenderDiv>
     </CalenderContainer>
-  )
-}
+  );
+};
 
-export default CalenderModule
+export default CalenderModule;

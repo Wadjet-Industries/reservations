@@ -23,6 +23,7 @@ width: 100%;
 }
 margin: none;
 outline: none;
+color: #fff;
 `;
 
 TimeSelect.displayName = 'TimeSelect';
@@ -34,12 +35,26 @@ height: 50%;
 
 TimeTitle.displayName = 'TimeTitle';
 
-const TimeModule = ({ hours, setReservationTimes }) => {
+const TimeDisplay = styled.div`
+font-family: Brandon-Text-Light;
+font-weight: 300;
+box-sizing: border-box;
+width: 82%;
+align-items: center;
+position: absolute;
+pointer-events: none;
+font-size: 85%;
+margin-left: auto;
+margin-right: auto;
+pointer-event: none;
+`;
+
+const TimeModule = ({ time, hours, setReservationTimes }) => {
   const hour = hours;
   const timeOptions = [];
   const openClose = hour.split('--');
   const startHour = moment(openClose[0]).startOf('day');
-  const closeHour = moment(openClose[1]).endOf('day') ;
+  const closeHour = moment(openClose[1]).endOf('day');
   let durate = moment.duration(closeHour.diff(startHour)).as('hours');
   while (durate >= 0) {
     const time = startHour.format('h:mm A');
@@ -51,6 +66,7 @@ const TimeModule = ({ hours, setReservationTimes }) => {
   return (
     <TimeDiv>
       <TimeTitle>Time</TimeTitle>
+      <TimeDisplay>{moment(time).format('h:mm A')}</TimeDisplay>
       <TimeSelect onChange={setReservationTimes}>
         {timeOptions}
       </TimeSelect>

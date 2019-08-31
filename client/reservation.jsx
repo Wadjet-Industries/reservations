@@ -5,13 +5,38 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import moment from 'moment';
+
 import PartySize from './partySizeModule.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
+import BrandonTextRegular from './fonts/BrandonText-Regular.otf';
+import BrandonTextLight from './fonts/BrandonText-Light.otf';
+import BrandonTextMedium from './fonts/BrandonText-Medium.otf';
+import BrandonTextBold from './fonts/BrandonText-Bold.otf';
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: Brandon-Text-Regular;
+    src: url('${BrandonTextRegular}') format('opentype');
+  }
+  @font-face {
+    font-family: Brandon-Text-Medium;
+    src: url('${BrandonTextMedium}') format('opentype');
+  }
+  @font-face {
+    font-family: Brandon-Text-Bold;
+    src: url('${BrandonTextBold}') format('opentype');
+  }
+  @font-face {
+    font-family: Brandon-Text-Light;
+    src: url('${BrandonTextLight}') format('opentype');
+  }
+`;
 
 const Title = styled.div`
+font-family: Brandon-Text-Bold;
 width: 100%;
 box-sizing: border-box;
 color: #000;
@@ -20,9 +45,11 @@ align-self: center;
 text-align: center;
 border-bottom: 1px solid rgb(216, 217, 219);
 padding-bottom: 4%;
+font-weight: 700;
 `;
 
 const TitleModule = styled.div`
+font-family: Brandon-Text-Light;
 width: 90%;
 box-sizing: border-box;
 display: flex;
@@ -38,7 +65,6 @@ position: fixed;
 box-sizing: border-box;
 display: flex;
 flex-direction: column;
-// border: 1px solid black;
 width: 320px;
 height: 346.12px;
 border-radius: 1px;
@@ -68,6 +94,7 @@ height: 15%;
 `;
 
 const FindTable = styled.button`
+font: Brandon-Text-Regular;
 background-color: #DA3743;
 color: #fff;
 align-self: center;
@@ -110,6 +137,7 @@ margin-left: auto;
 `;
 
 const Booked = styled.div`
+font-family: Brandon-Text-Medium;
 align-self: left;
 font-size: 80%;
 `;
@@ -207,9 +235,7 @@ class Reservations extends React.Component {
       .then((res) => (
         res.json()
       ))
-      .then((data) => {
-        return data;
-      })
+      .then((data) => data)
       .catch((err) => {
         console.log('Error with retrieving data', err);
       });
@@ -236,14 +262,12 @@ class Reservations extends React.Component {
     });
     const openTimes = this.getOpenSeatTimes(timeRange);
     this.setState({
-      openSeatTimes: openTimes
-    })
+      openSeatTimes: openTimes,
+    });
   }
 
   getOpenSeatTimes(reserveRange) {
-    const openSeats = reserveRange.filter((seatTimes) => {
-      return this.state.partyAmount <= seatTimes.reservations.open;
-    });
+    const openSeats = reserveRange.filter((seatTimes) => this.state.partyAmount <= seatTimes.reservations.open);
     return openSeats;
   }
 
@@ -312,7 +336,7 @@ class Reservations extends React.Component {
         ISO: nextMonth.format(),
       },
     });
-  };
+  }
 
   backMonth() {
     const backMonth = moment(this.state.month.ISO).subtract(1, 'month');
@@ -326,16 +350,14 @@ class Reservations extends React.Component {
   }
 
 
-
-
-
-
-
   render() {
     let findReservation = [];
     const errorMessage = (
       <ErrorMessage>
-        At the moment, there's no online availability within 2.5 hours of { moment(this.state.time).format('h:mm A') }.
+        At the moment, there's no online availability within 2.5 hours of
+        {' '}
+        { moment(this.state.time).format('h:mm A') }
+.
         <br />
         Have another time in mind?
       </ErrorMessage>
@@ -374,14 +396,12 @@ class Reservations extends React.Component {
       }
     } else if (allAvailableTimes.indexOf(this.state.time) === -1) {
       let findTimes = [];
-      const filtered = allAvailableTimes.filter((time) => {
-        return moment(time).isBefore(close) && moment(time).isSameOrAfter(open);
-      });
+      const filtered = allAvailableTimes.filter((time) => moment(time).isBefore(close) && moment(time).isSameOrAfter(open));
       const diff = filtered.map((time) => {
         const minute = moment(time).diff((moment(this.state.time)), 'minutes');
         return Math.abs(minute);
       });
-      const sorted = diff.map(time => time).sort();
+      const sorted = diff.map((time) => time).sort();
       if (filtered.length <= 5) {
         findTimes = filtered;
       } else {
@@ -393,9 +413,9 @@ class Reservations extends React.Component {
         findTimes.sort((timeA, timeB) => {
           if (moment(timeA).isBefore(timeB)) {
             return -1;
-          } else if (moment(timeA).isAfter(timeB)) {
+          } if (moment(timeA).isAfter(timeB)) {
             return 1;
-          } else if (moment(timeA).isSame(timeB)) {
+          } if (moment(timeA).isSame(timeB)) {
             return 0;
           }
         });
@@ -410,13 +430,14 @@ class Reservations extends React.Component {
       <SelectReservation>
         <SelectTitle>Select a time:</SelectTitle>
         <SelectReservationTime>
-        {findReservation}
+          {findReservation}
         </SelectReservationTime>
       </SelectReservation>
     );
 
     return (
       <Reservation>
+        <GlobalStyle />
         <TitleModule>
           <Title>Make a reservation</Title>
         </TitleModule>
@@ -425,7 +446,7 @@ class Reservations extends React.Component {
         </PartyModule>
         <DateTime>
           <DateModule next={this.nextMonth} back={this.backMonth} selectDate={this.selectDate} month={this.state.month} />
-          <TimeModule setReservationTimes={this.setReservationTime} hours={this.state.hours} />
+          <TimeModule time={this.state.time} setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
           {this.state.find ? selectTime : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
