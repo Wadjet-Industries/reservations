@@ -33,7 +33,7 @@ outline: none;
 const DateSelectDiv = styled.div`
 position: absolute;
 margin: none;
-width: 39%;
+width: 38.955%;
 align-self: center;
 padding-top: 5px;
 `;
@@ -51,7 +51,7 @@ position: absolute;
 box-sizing: border-box;
 margin: none;
 justify-content: space-between;
-width: 39%;
+width: 38.955%;
 align-self: center;
 `;
 
