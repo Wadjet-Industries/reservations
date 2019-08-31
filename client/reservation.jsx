@@ -107,7 +107,8 @@ font-size: 90%;
 {FindTable}: hover {
   opacity: 0.7;
 }
-border-radius: 4%;
+border-radius: 2px;
+border: 1px solid #DA3743;
 `;
 
 FindTable.displayName = 'FindTable';
@@ -116,7 +117,7 @@ const FindDiv = styled.div`
 display: flex;
 flex-direction: column;
 box-sizing: border-box;
-width: 100%;
+width: 90%;
 padding-left: 4%;
 padding-right: 4%;
 margin-top: 5%;
@@ -146,29 +147,40 @@ font-size: 80%;
 
 const PossibleTime = styled.div`
 background-color: #DA3743;
-border: 1px solid #fff;
+border: 1px solid #Da3743;
+box-sizing: border-box;
 color: #fff;
-border-radius: 8%;
-width: 33%;
-display: block;
+border-radius: 2px;
 {PossibleTime}: hover {
   opacity: 0.7;
 }
+text-align: center;
+vertical-align: middle;
+
+height: 22%;
+
+font-size: 100%;
+margin: 1px;
+height: 50%
+padding: 1px;
 `;
 
 const ErrorMessage = styled.div``;
 
 const SelectReservation = styled.div`
+position: absolute;
 background-color: #fff;
 box-sizing: border-box;
 display: flex;
 justify-content: space-evenly;
+align-items: flex-start;
 align-content: space-between;
+flex-direction: column;
 `;
 SelectReservation.displayName = 'SelectReservation';
 
 const SelectTitle = styled.div`
-align-self: center;
+align-self: flex-start;
 `;
 
 const SelectReservationTime = styled.div`
@@ -364,6 +376,7 @@ class Reservations extends React.Component {
         Have another time in mind?
       </ErrorMessage>
     );
+    let noSpots = false;
     const open = this.state.hours.split('--')[0];
     const close = this.state.hours.split('--')[1];
     let allAvailableTimes = [];
@@ -380,7 +393,7 @@ class Reservations extends React.Component {
     });
 
     if (allAvailableTimes.length === 0) {
-      findReservation.push(errorMessage);
+      noSpots = true;
     } else if (allAvailableTimes.length < 5) {
       findReservation = allAvailableTimes.map((time) => {
         const availableTime = moment(time).format('h:mm A');
@@ -451,7 +464,7 @@ class Reservations extends React.Component {
           <TimeModule time={this.state.time} setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
-          {this.state.find ? selectTime : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
+          {this.state.find ? (noSpots ? errorMessage : selectTime) : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
         </FindDiv>
         <BookedDiv>
           <Booked>
