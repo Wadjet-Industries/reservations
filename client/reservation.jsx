@@ -101,8 +101,7 @@ background-color: #DA3743;
 color: #fff;
 align-self: center;
 width: 100%;
-height: 100%;
-size: 50%;
+height: 52.66px;
 font-size: 90%;
 {FindTable}: hover {
   opacity: 0.7;
@@ -113,6 +112,12 @@ border: 1px solid #DA3743;
 
 FindTable.displayName = 'FindTable';
 
+const FindButtonDiv = styled.div`
+box-sizing: border-box;
+width: 100%;
+
+`;
+
 const FindDiv = styled.div`
 display: flex;
 flex-direction: column;
@@ -122,7 +127,7 @@ padding-left: 4%;
 padding-right: 4%;
 margin-top: 5%;
 align-self: center;
-height: 15%;
+height: 33%;
 margin-right: auto;
 margin-left: auto;
 `;
@@ -134,18 +139,20 @@ box-sizing: border-box;
 width: 100%;
 display: flex;
 align-self: center;
-padding: 4%;
+padding-top: 4%;
 margin-right: auto;
 margin-left: auto;
 `;
 
 const Booked = styled.div`
 font-family: Brandon-Text-Medium;
-align-self: left;
+align-self: flex-start;
 font-size: 80%;
 `;
 
 const PossibleTime = styled.div`
+font-family: Brandon-Text-Light;
+font-size: 70%;
 background-color: #DA3743;
 border: 1px solid #Da3743;
 box-sizing: border-box;
@@ -156,37 +163,44 @@ border-radius: 2px;
 }
 text-align: center;
 vertical-align: middle;
-
-height: 22%;
-
-font-size: 100%;
-margin: 1px;
+width: 30%;
+height: 40px;
+margin: 2px;
 height: 50%
-padding: 1px;
+padding: 3px;
 `;
 
-const ErrorMessage = styled.div``;
+const ErrorMessage = styled.div`
+width: 100%;
+background-color: #F1F2F4;
+`;
 
 const SelectReservation = styled.div`
-position: absolute;
+position: relative;
 background-color: #fff;
 box-sizing: border-box;
 display: flex;
 justify-content: space-evenly;
 align-items: flex-start;
-align-content: space-between;
 flex-direction: column;
+height: 100%;
+width: 100%;
 `;
+
 SelectReservation.displayName = 'SelectReservation';
 
 const SelectTitle = styled.div`
+font-family: Brandon-Text-Bold;
 align-self: flex-start;
+width: 100%;
 `;
 
 const SelectReservationTime = styled.div`
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
+width: 100%;
+height: 100%;
 `;
 
 class Reservations extends React.Component {
@@ -464,13 +478,15 @@ class Reservations extends React.Component {
           <TimeModule time={this.state.time} setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
-          {this.state.find ? (noSpots ? errorMessage : selectTime) : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
-        </FindDiv>
-        <BookedDiv>
-          <Booked>
+          <FindButtonDiv>
+            {this.state.find ? (noSpots ? errorMessage : selectTime) : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
+          </FindButtonDiv>
+          <BookedDiv>
+            <Booked>
             Booked 65 times today
-          </Booked>
-        </BookedDiv>
+            </Booked>
+          </BookedDiv>
+        </FindDiv>
       </Reservation>
     );
   }
