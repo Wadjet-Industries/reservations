@@ -88,7 +88,8 @@ border: 1px solid #d8d9db;
 box-sizing: border-box;`;
 
 const WeekDays = styled.th`
-font-weight: 400;
+font-family: Josefin Sans;
+font-weight: 300;
 `;
 
 const NoBackButton = styled(BackButton)`

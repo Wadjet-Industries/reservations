@@ -35,7 +35,8 @@ pointer-events: none;
 font-size: 85%;
 margin-left: auto;
 margin-right: auto;
-font-weight: Light;
+font-family: Josefin Sans;
+font-weight: 300;;
 `;
 
 const SelectDiv = styled.div`

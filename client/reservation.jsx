@@ -19,7 +19,7 @@ color: #000;
 font-size: 120%;
 align-self: center;
 text-align: center;
-border-bottom: 1px solid rgb(216, 217, 219);
+border-bottom: 1px   solid rgb(216, 217, 219);
 padding-bottom: 4%;
 `;
 

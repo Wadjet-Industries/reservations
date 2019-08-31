@@ -36,6 +36,8 @@ height: 50%;
 TimeTitle.displayName = 'TimeTitle';
 
 const TimeDisplay = styled.div`
+font-family: Josefin Sans;
+font-weight: 300;
 box-sizing: border-box;
 width: 82%;
 align-items: center;
@@ -45,7 +47,6 @@ font-size: 85%;
 margin-left: auto;
 margin-right: auto;
 pointer-event: none;
-font-weight: Light;
 `;
 
 const TimeModule = ({ time, hours, setReservationTimes }) => {

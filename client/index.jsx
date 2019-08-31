@@ -7,7 +7,7 @@ import Reservations from './reservation.jsx';
 
 WebFont.load({
   google: {
-    families: ['Josefin Sans', 'sans-serif'],
+    families: ['Josefin Sans:100, 200, 300, 400, 700', 'Lota', 'sans-serif'],
   },
 });
 
