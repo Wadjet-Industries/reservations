@@ -4,7 +4,7 @@ import moment from 'moment';
 import CalenderModule from './calenderModule.jsx';
 
 const DateDiv = styled.div`
-font-family: Manjari;
+font-family: Josefin Sans;
 width: 50%;
 box-sizing: border-box;
 margin-right: 2.5%;
@@ -41,6 +41,7 @@ pointer-events: none;
 font-size: 85%;
 margin-left: auto;
 margin-right: auto;
+font-weight: Light;
 `;
 
 class DateModule extends React.Component {

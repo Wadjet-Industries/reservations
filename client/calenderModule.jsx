@@ -4,7 +4,7 @@ import moment from 'moment';
 import CalenderWeek from './calenderWeekModule.jsx';
 
 const CalenderContainer = styled.div`
-font-family: Manjari;
+font-family: Josefin Sans;
 width: 288px;
 height: 302px;
 position: absolute;
@@ -97,12 +97,12 @@ pointer-events: none;
 `;
 
 const CalenderModule = ({
- selectDate, month, next, back, openCalender, changeShownDate
+  selectDate, month, next, back, openCalender, changeShownDate,
 }) => {
   let calender = [];
   const startDay = moment(month.ISO).clone().startOf('month').startOf('week');
   const endDay = moment(month.ISO).clone().endOf('month').add(1, 'week')
-.endOf('week');
+    .endOf('week');
   const date = startDay.clone().subtract(1, 'day');
 
   while (date.isBefore(endDay, 'day')) {

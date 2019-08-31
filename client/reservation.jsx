@@ -35,7 +35,7 @@ margin-left: auto;
 `;
 
 const Reservation = styled.div`
-font-family: Manjari;
+font-family: Josefin Sans;
 position: fixed;
 box-sizing: border-box;
 display: flex;
@@ -70,6 +70,7 @@ height: 15%;
 `;
 
 const FindTable = styled.button`
+font: Josefin sans;
 background-color: #DA3743;
 color: #fff;
 align-self: center;

@@ -7,7 +7,7 @@ import Reservations from './reservation.jsx';
 
 WebFont.load({
   google: {
-    families: ['Manjari', 'sans-serif'],
+    families: ['Josefin Sans', 'sans-serif'],
   },
 });
 

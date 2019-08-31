@@ -45,6 +45,7 @@ font-size: 85%;
 margin-left: auto;
 margin-right: auto;
 pointer-event: none;
+font-weight: Light;
 `;
 
 const TimeModule = ({ time, hours, setReservationTimes }) => {
