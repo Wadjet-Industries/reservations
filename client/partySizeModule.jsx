@@ -42,10 +42,11 @@ width: 100%;
 `;
 
 const PartySelectDiv = styled.div`
+font-family: Manjari;
 `;
 
 const PartySize = ({ findPartySize, size }) => {
-  //take in max table amount
+  // take in max table amount
   const options = [];
   for (let i = 1; i <= 20; i++) {
     options.push(<option value={i}>{i}</option>);
@@ -54,7 +55,11 @@ const PartySize = ({ findPartySize, size }) => {
     <PartySelectDiv>
       <PartyTitle>Party Size</PartyTitle>
       <SelectDiv>
-        <PartyDisplay>For { size }</PartyDisplay>
+        <PartyDisplay>
+For
+          {' '}
+          { size }
+        </PartyDisplay>
         <PartySelect onChange={findPartySize}>
           {options}
         </PartySelect>
@@ -64,4 +69,3 @@ const PartySize = ({ findPartySize, size }) => {
 };
 
 export default PartySize;
-

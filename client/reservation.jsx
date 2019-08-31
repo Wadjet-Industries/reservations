@@ -11,6 +11,7 @@ import PartySize from './partySizeModule.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
 
+
 const Title = styled.div`
 width: 100%;
 box-sizing: border-box;
@@ -34,6 +35,7 @@ margin-left: auto;
 `;
 
 const Reservation = styled.div`
+font-family: Manjari;
 position: fixed;
 box-sizing: border-box;
 display: flex;
@@ -207,9 +209,7 @@ class Reservations extends React.Component {
       .then((res) => (
         res.json()
       ))
-      .then((data) => {
-        return data;
-      })
+      .then((data) => data)
       .catch((err) => {
         console.log('Error with retrieving data', err);
       });
@@ -236,14 +236,12 @@ class Reservations extends React.Component {
     });
     const openTimes = this.getOpenSeatTimes(timeRange);
     this.setState({
-      openSeatTimes: openTimes
-    })
+      openSeatTimes: openTimes,
+    });
   }
 
   getOpenSeatTimes(reserveRange) {
-    const openSeats = reserveRange.filter((seatTimes) => {
-      return this.state.partyAmount <= seatTimes.reservations.open;
-    });
+    const openSeats = reserveRange.filter((seatTimes) => this.state.partyAmount <= seatTimes.reservations.open);
     return openSeats;
   }
 
@@ -312,7 +310,7 @@ class Reservations extends React.Component {
         ISO: nextMonth.format(),
       },
     });
-  };
+  }
 
   backMonth() {
     const backMonth = moment(this.state.month.ISO).subtract(1, 'month');
@@ -326,16 +324,14 @@ class Reservations extends React.Component {
   }
 
 
-
-
-
-
-
   render() {
     let findReservation = [];
     const errorMessage = (
       <ErrorMessage>
-        At the moment, there's no online availability within 2.5 hours of { moment(this.state.time).format('h:mm A') }.
+        At the moment, there's no online availability within 2.5 hours of
+        {' '}
+        { moment(this.state.time).format('h:mm A') }
+.
         <br />
         Have another time in mind?
       </ErrorMessage>
@@ -374,14 +370,12 @@ class Reservations extends React.Component {
       }
     } else if (allAvailableTimes.indexOf(this.state.time) === -1) {
       let findTimes = [];
-      const filtered = allAvailableTimes.filter((time) => {
-        return moment(time).isBefore(close) && moment(time).isSameOrAfter(open);
-      });
+      const filtered = allAvailableTimes.filter((time) => moment(time).isBefore(close) && moment(time).isSameOrAfter(open));
       const diff = filtered.map((time) => {
         const minute = moment(time).diff((moment(this.state.time)), 'minutes');
         return Math.abs(minute);
       });
-      const sorted = diff.map(time => time).sort();
+      const sorted = diff.map((time) => time).sort();
       if (filtered.length <= 5) {
         findTimes = filtered;
       } else {
@@ -393,9 +387,9 @@ class Reservations extends React.Component {
         findTimes.sort((timeA, timeB) => {
           if (moment(timeA).isBefore(timeB)) {
             return -1;
-          } else if (moment(timeA).isAfter(timeB)) {
+          } if (moment(timeA).isAfter(timeB)) {
             return 1;
-          } else if (moment(timeA).isSame(timeB)) {
+          } if (moment(timeA).isSame(timeB)) {
             return 0;
           }
         });
@@ -410,7 +404,7 @@ class Reservations extends React.Component {
       <SelectReservation>
         <SelectTitle>Select a time:</SelectTitle>
         <SelectReservationTime>
-        {findReservation}
+          {findReservation}
         </SelectReservationTime>
       </SelectReservation>
     );
@@ -425,7 +419,7 @@ class Reservations extends React.Component {
         </PartyModule>
         <DateTime>
           <DateModule next={this.nextMonth} back={this.backMonth} selectDate={this.selectDate} month={this.state.month} />
-          <TimeModule setReservationTimes={this.setReservationTime} hours={this.state.hours} />
+          <TimeModule time={this.state.time} setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
           {this.state.find ? selectTime : <FindTable onClick={this.findTime}>Find a Table</FindTable>}

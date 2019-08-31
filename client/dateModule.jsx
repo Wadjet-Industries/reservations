@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import CalenderModule from './calenderModule.jsx';
 import moment from 'moment';
+import CalenderModule from './calenderModule.jsx';
 
 const DateDiv = styled.div`
+font-family: Manjari;
 width: 50%;
 box-sizing: border-box;
 margin-right: 2.5%;
@@ -49,23 +50,21 @@ class DateModule extends React.Component {
     this.state = {
       calender: false,
       shownDate: moment().local().format('ddd, M/D'),
-    }
+    };
 
     this.openCalender = this.openCalender.bind(this);
     this.changeShownDate = this.changeShownDate.bind(this);
   }
 
   openCalender() {
-    this.setState((state) => {
-      return { calender: !state.calender }
-    });
+    this.setState((state) => ({ calender: !state.calender }));
   }
 
   changeShownDate(event) {
     const clickedDate = event.target.getAttribute('value');
     this.setState({
       shownDate: moment(clickedDate).format('ddd, M/D'),
-    })
+    });
   }
 
   render() {
@@ -73,10 +72,10 @@ class DateModule extends React.Component {
       <DateDiv>
         <DateTitle>Date</DateTitle>
         <DateDisplay>{this.state.shownDate}</DateDisplay>
-        <DateSelect onClick={this.openCalender}></DateSelect>
+        <DateSelect onClick={this.openCalender} />
         {this.state.calender ? <CalenderModule back={this.props.back} next={this.props.next} openCalender={this.openCalender} changeShownDate={this.changeShownDate} selectDate={this.props.selectDate} month={this.props.month} /> : ''}
       </DateDiv>
-    )
+    );
   }
 }
 

@@ -51,6 +51,7 @@
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "webfontloader": "^1.6.28",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "whatwg-fetch": "^3.0.0"
