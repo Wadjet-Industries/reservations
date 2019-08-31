@@ -5,25 +5,51 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import moment from 'moment';
+
 import PartySize from './partySizeModule.jsx';
 import DateModule from './dateModule.jsx';
 import TimeModule from './timeModule.jsx';
+import BrandonTextRegular from './fonts/BrandonText-Regular.otf';
+import BrandonTextLight from './fonts/BrandonText-Light.otf';
+import BrandonTextMedium from './fonts/BrandonText-Medium.otf';
+import BrandonTextBold from './fonts/BrandonText-Bold.otf';
 
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: Brandon-Text-Regular;
+    src: url('${BrandonTextRegular}') format('opentype');
+  }
+  @font-face {
+    font-family: Brandon-Text-Medium;
+    src: url('${BrandonTextMedium}') format('opentype');
+  }
+  @font-face {
+    font-family: Brandon-Text-Bold;
+    src: url('${BrandonTextBold}') format('opentype');
+  }
+  @font-face {
+    font-family: Brandon-Text-Light;
+    src: url('${BrandonTextLight}') format('opentype');
+  }
+`;
 
 const Title = styled.div`
+font-family: Brandon-Text-Bold;
 width: 100%;
 box-sizing: border-box;
 color: #000;
 font-size: 120%;
 align-self: center;
 text-align: center;
-border-bottom: 1px   solid rgb(216, 217, 219);
+border-bottom: 1px solid rgb(216, 217, 219);
 padding-bottom: 4%;
+font-weight: 700;
 `;
 
 const TitleModule = styled.div`
+font-family: Brandon-Text-Light;
 width: 90%;
 box-sizing: border-box;
 display: flex;
@@ -35,12 +61,10 @@ margin-left: auto;
 `;
 
 const Reservation = styled.div`
-font-family: Josefin Sans;
 position: fixed;
 box-sizing: border-box;
 display: flex;
 flex-direction: column;
-// border: 1px solid black;
 width: 320px;
 height: 346.12px;
 border-radius: 1px;
@@ -70,7 +94,7 @@ height: 15%;
 `;
 
 const FindTable = styled.button`
-font: Josefin sans;
+font: Brandon-Text-Regular;
 background-color: #DA3743;
 color: #fff;
 align-self: center;
@@ -113,6 +137,7 @@ margin-left: auto;
 `;
 
 const Booked = styled.div`
+font-family: Brandon-Text-Medium;
 align-self: left;
 font-size: 80%;
 `;
@@ -412,6 +437,7 @@ class Reservations extends React.Component {
 
     return (
       <Reservation>
+        <GlobalStyle />
         <TitleModule>
           <Title>Make a reservation</Title>
         </TitleModule>

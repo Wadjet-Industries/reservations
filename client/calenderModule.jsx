@@ -4,7 +4,7 @@ import moment from 'moment';
 import CalenderWeek from './calenderWeekModule.jsx';
 
 const CalenderContainer = styled.div`
-font-family: Josefin Sans;
+font-family: Brandon-Text-Medium;
 width: 288px;
 height: 302px;
 position: absolute;
@@ -88,8 +88,8 @@ border: 1px solid #d8d9db;
 box-sizing: border-box;`;
 
 const WeekDays = styled.th`
-font-family: Josefin Sans;
-font-weight: 300;
+font-family: Brandon-Text-Light;
+font-size: 80%;
 `;
 
 const NoBackButton = styled(BackButton)`

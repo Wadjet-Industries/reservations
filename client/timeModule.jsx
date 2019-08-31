@@ -36,7 +36,7 @@ height: 50%;
 TimeTitle.displayName = 'TimeTitle';
 
 const TimeDisplay = styled.div`
-font-family: Josefin Sans;
+font-family: Brandon-Text-Light;
 font-weight: 300;
 box-sizing: border-box;
 width: 82%;

@@ -35,8 +35,7 @@ pointer-events: none;
 font-size: 85%;
 margin-left: auto;
 margin-right: auto;
-font-family: Josefin Sans;
-font-weight: 300;;
+font-family: Brandon-Text-Light;
 `;
 
 const SelectDiv = styled.div`
@@ -44,7 +43,7 @@ width: 100%;
 `;
 
 const PartySelectDiv = styled.div`
-font-family: Josefin Sans;
+font-family: Brandon-Text-Regular;
 `;
 
 const PartySize = ({ findPartySize, size }) => {
