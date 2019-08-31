@@ -3,9 +3,13 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 const TimeDiv = styled.div`
-box-sizing: border-box;
+font-family: Brandon-Text-Regular;
 width: 50%;
-margin-left: 2.5%;
+box-sizing: border-box;
+margin-right: 2.5%;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
 `;
 
 const TimeSelect = styled.select`
@@ -36,18 +40,59 @@ height: 50%;
 TimeTitle.displayName = 'TimeTitle';
 
 const TimeDisplay = styled.div`
-font-family: Brandon-Text-Light;
-font-weight: 300;
 box-sizing: border-box;
-width: 82%;
+width: 50%;
 align-items: center;
-position: absolute;
+align-self: flex-start;
 pointer-events: none;
 font-size: 85%;
-margin-left: auto;
-margin-right: auto;
-pointer-event: none;
+margin: none;
+font-family: Brandon-Text-Light;
+box-sizing: border-box;
 `;
+
+const TimeSelectDiv = styled.div`
+position: absolute;
+margin: none;
+width: 38.955%;
+align-self: center;
+padding-top: 5px;
+`;
+
+const TimeDisplayFinal = styled.div`
+width: 100%;
+margin: none;
+box-sizing: border-box;
+`;
+
+const TimeDisplayWrap = styled.div`
+pointer-events: none
+display: flex;
+flex-direction: row;
+position: absolute;
+box-sizing: border-box;
+margin: none;
+justify-content: space-between;
+width: 38.955%;
+align-self: center;
+`;
+
+
+const DropDownDiv = styled.div`
+align-self: flex-end;
+height: 100%;
+`;
+
+const DropDownIcon = styled.svg`
+width: 8px;
+padding-bottom: 5px;
+`;
+
+
+const DropDownPath = styled.path`
+fill: rgb(51, 51, 51);
+`;
+
 
 const TimeModule = ({ time, hours, setReservationTimes }) => {
   const hour = hours;
@@ -66,10 +111,19 @@ const TimeModule = ({ time, hours, setReservationTimes }) => {
   return (
     <TimeDiv>
       <TimeTitle>Time</TimeTitle>
-      <TimeDisplay>{moment(time).format('h:mm A')}</TimeDisplay>
-      <TimeSelect onChange={setReservationTimes}>
-        {timeOptions}
-      </TimeSelect>
+      <TimeDisplayFinal>
+        <TimeSelectDiv>
+          <TimeSelect onChange={setReservationTimes}>
+            {timeOptions}
+          </TimeSelect>
+        </TimeSelectDiv>
+        <TimeDisplayWrap>
+          <TimeDisplay>{moment(time).format('h:mm A')}</TimeDisplay>
+          <DropDownDiv>
+            <DropDownIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8.07 5.24"><DropDownPath d="M4.39 5.09l.71-.71 2.82-2.82a.5.5 0 0 0 0-.71l-.7-.7a.5.5 0 0 0-.71 0L4 2.62 1.56.15a.5.5 0 0 0-.71 0l-.7.7a.5.5 0 0 0 0 .71L3 4.39l.71.71a.5.5 0 0 0 .68-.01z" /></DropDownIcon>
+          </DropDownDiv>
+        </TimeDisplayWrap>
+      </TimeDisplayFinal>
     </TimeDiv>
   );
 };

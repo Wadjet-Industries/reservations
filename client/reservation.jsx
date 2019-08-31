@@ -88,6 +88,8 @@ box-sizing: border-box;
 padding-left: 4%;
 padding-right: 4%;
 padding-bottom: 4%;
+margin-right: auto;
+margin-left: auto;
 display: flex;
 width: 90%;
 height: 15%;
