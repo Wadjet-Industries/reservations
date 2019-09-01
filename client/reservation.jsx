@@ -152,7 +152,7 @@ font-size: 80%;
 
 const PossibleTime = styled.div`
 font-family: Brandon-Text-Light;
-font-size: 70%;
+font-size: 80%;
 background-color: #DA3743;
 border: 1px solid #Da3743;
 box-sizing: border-box;
@@ -161,13 +161,18 @@ border-radius: 2px;
 {PossibleTime}: hover {
   opacity: 0.7;
 }
-text-align: center;
-vertical-align: middle;
 width: 30%;
-height: 40px;
-margin: 2px;
-height: 50%
-padding: 3px;
+height: 32px;
+margin-right: 4px;
+margin-bottom: 4px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`;
+
+const TimeText = styled.span`
+align-self: center;
 `;
 
 const ErrorMessage = styled.div`
@@ -180,7 +185,7 @@ position: relative;
 background-color: #fff;
 box-sizing: border-box;
 display: flex;
-justify-content: space-evenly;
+justify-content: space-between;
 align-items: flex-start;
 flex-direction: column;
 height: 100%;
@@ -200,7 +205,7 @@ display: flex;
 flex-direction: row;
 flex-wrap: wrap;
 width: 100%;
-height: 100%;
+align-content: space-around;
 `;
 
 class Reservations extends React.Component {
@@ -451,7 +456,7 @@ class Reservations extends React.Component {
       }
       findReservation = findTimes.map((time) => {
         const availableTime = moment(time).format('h:mm A');
-        return (<PossibleTime>{availableTime}</PossibleTime>);
+        return (<PossibleTime><TimeText>{availableTime}</TimeText></PossibleTime>);
       });
     }
 
