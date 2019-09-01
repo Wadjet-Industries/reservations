@@ -43,7 +43,6 @@ TimeTitle.displayName = 'TimeTitle';
 
 const TimeDisplay = styled.div`
 box-sizing: border-box;
-width: 50%;
 align-items: center;
 align-self: flex-start;
 pointer-events: none;

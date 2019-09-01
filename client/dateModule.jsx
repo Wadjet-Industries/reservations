@@ -59,7 +59,6 @@ align-self: center;
 
 const DateDisplay = styled.div`
 box-sizing: border-box;
-width: 50%;
 align-items: center;
 align-self: flex-start;
 pointer-events: none;
