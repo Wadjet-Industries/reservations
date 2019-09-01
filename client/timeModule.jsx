@@ -6,10 +6,11 @@ const TimeDiv = styled.div`
 font-family: Brandon-Text-Regular;
 width: 50%;
 box-sizing: border-box;
-margin-right: 2.5%;
+padding-left: 2%;
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
+margin-top: 5%;
 `;
 
 const TimeSelect = styled.select`
@@ -35,6 +36,7 @@ TimeSelect.displayName = 'TimeSelect';
 const TimeTitle = styled.div`
 margin: none;
 height: 50%;
+margin-bottom: 10%;
 `;
 
 TimeTitle.displayName = 'TimeTitle';
@@ -54,7 +56,7 @@ box-sizing: border-box;
 const TimeSelectDiv = styled.div`
 position: absolute;
 margin: none;
-width: 38.955%;
+width: 39.365%;
 align-self: center;
 padding-top: 5px;
 `;
@@ -73,7 +75,7 @@ position: absolute;
 box-sizing: border-box;
 margin: none;
 justify-content: space-between;
-width: 38.955%;
+width: 39.365%;
 align-self: center;
 `;
 

@@ -93,6 +93,7 @@ margin-left: auto;
 display: flex;
 width: 90%;
 height: 15%;
+justify-content: space-around;
 `;
 
 const FindTable = styled.button`
@@ -115,7 +116,6 @@ FindTable.displayName = 'FindTable';
 const FindButtonDiv = styled.div`
 box-sizing: border-box;
 width: 100%;
-
 `;
 
 const FindDiv = styled.div`
@@ -125,7 +125,7 @@ box-sizing: border-box;
 width: 90%;
 padding-left: 4%;
 padding-right: 4%;
-margin-top: 5%;
+margin-top: 10%;
 align-self: center;
 height: 33%;
 margin-right: auto;
@@ -178,6 +178,10 @@ align-self: center;
 const ErrorMessage = styled.div`
 width: 100%;
 background-color: #F1F2F4;
+`;
+
+const ErrorMessageText = styled.span`
+font-family: Brandon-Text-Regular;
 `;
 
 const SelectReservation = styled.div`
@@ -387,12 +391,14 @@ class Reservations extends React.Component {
     let findReservation = [];
     const errorMessage = (
       <ErrorMessage>
+        <ErrorMessageText>
         At the moment, there's no online availability within 2.5 hours of
-        {' '}
-        { moment(this.state.time).format('h:mm A') }
+          {' '}
+          { moment(this.state.time).format('h:mm A') }
 .
-        <br />
+          <br />
         Have another time in mind?
+        </ErrorMessageText>
       </ErrorMessage>
     );
     let noSpots = false;

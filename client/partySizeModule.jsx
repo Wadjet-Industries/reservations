@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const PartyTitle = styled.div`
 margin: none;
 height: 50%;
+margin-bottom: 10%;
 `;
 
 const PartyDisplayFinal = styled.div`
