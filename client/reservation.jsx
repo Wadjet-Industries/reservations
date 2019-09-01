@@ -93,6 +93,8 @@ margin-left: auto;
 display: flex;
 width: 90%;
 height: 15%;
+margin-top: 2%;
+margin-bottom: 2%;
 justify-content: space-around;
 `;
 

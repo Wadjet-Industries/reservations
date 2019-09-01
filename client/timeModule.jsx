@@ -64,6 +64,7 @@ const TimeDisplayFinal = styled.div`
 width: 100%;
 margin: none;
 box-sizing: border-box;
+margin-top: 5%;
 `;
 
 const TimeDisplayWrap = styled.div`
