@@ -9,6 +9,7 @@ import Reservations from '../client/reservation';
 import TimeModule from '../client/timeModule.jsx';
 import PartySize from '../client/partySizeModule.jsx';
 import CalenderModule from '../client/calenderModule.jsx';
+import CalenderWeek from '../client/calenderWeekModule.jsx';
 import fetch from '../__mocks__/fetch.js';
 
 global.fetch = fetch;
@@ -100,5 +101,16 @@ describe('Calender Module', () => {
     wrap.find('NoBackButton').simulate('click');
     expect(mockBackFn).toHaveBeenCalledTimes(0);
   });
+});
 
+describe('Calender Week module', () => {
+  const testWeek = [{ thisDate: "1", isoDate: "2019-09-01T00:00:00-07:00" }, { thisDate: "2", isoDate: "2019-09-02T00:00:00-07:00" }, { thisDate: "3", isoDate: "2019-09-03T00:00:00-07:00" }, { thisDate: "4", isoDate: "2019-09-04T00:00:00-07:00" }, { thisDate: "5", isoDate: "2019-09-05T00:00:00-07:00" }, { thisDate: "6", isoDate: "2019-09-06T00:00:00-07:00" }, { thisDate: "7", isoDate: "2019-09-07T00:00:00-07:00" }];
+
+  const currentMonth = moment().local();
+  const currentTestMonth = { month: currentMonth.format('MMMM YYYY'), ISO: moment().local().format().slice(0, 10) };
+
+  it('tests the map function works', () => {
+    const wrap = shallow(<CalenderWeek week={testWeek} month={currentTestMonth} />);
+    expect(wrap.exists()).toBe(true);
+  })
 });
