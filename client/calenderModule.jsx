@@ -54,6 +54,8 @@ position: relative;
 width: 100%;
 `;
 
+CalenderGrid.displayName = 'CalenderGrid';
+
 const NextButton = styled.span`
 border-radius: 50%;
 align-self: flex-end;
@@ -69,7 +71,7 @@ height: 32px;
 border: 1px solid #d8d9db;
 box-sizing: border-box;
 `;
-
+NextButton.displayName = 'NextButton';
 
 const BackButton = styled.span`
 align-self: flex-start;
@@ -87,6 +89,8 @@ height: 32px;
 border: 1px solid #d8d9db;
 box-sizing: border-box;`;
 
+BackButton.displayName = 'BackButton'
+
 const WeekDays = styled.th`
 font-family: Brandon-Text-Light;
 font-size: 80%;
@@ -96,6 +100,8 @@ const NoBackButton = styled(BackButton)`
 background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5.24 8.07'%3E%3Cg%3E%3Cpath style='fill:%23E1E1E1' d='M5.09 3.68L4.39 3 1.56.15a.5.5 0 0 0-.71 0l-.7.7a.5.5 0 0 0 0 .71L2.62 4 .15 6.51a.5.5 0 0 0 0 .71l.71.71a.5.5 0 0 0 .71 0L4.39 5.1l.71-.71a.5.5 0 0 0-.01-.71z'/%3E%3C/g%3E%3C/svg%3E");
 pointer-events: none;
 `;
+
+NoBackButton.displayName = 'NoBackButton';
 
 const CalenderModule = ({
   selectDate, month, next, back, openCalender, changeShownDate,
