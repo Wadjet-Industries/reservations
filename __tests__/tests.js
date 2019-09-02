@@ -100,4 +100,5 @@ describe('Calender Module', () => {
     wrap.find('NoBackButton').simulate('click');
     expect(mockBackFn).toHaveBeenCalledTimes(0);
   });
+
 });
