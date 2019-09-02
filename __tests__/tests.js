@@ -5,11 +5,13 @@ import {
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import moment from 'moment';
+import { find, findAll } from 'styled-components/test-utils';
 import Reservations from '../client/reservation';
 import TimeModule from '../client/timeModule.jsx';
 import PartySize from '../client/partySizeModule.jsx';
 import CalenderModule from '../client/calenderModule.jsx';
 import CalenderWeek from '../client/calenderWeekModule.jsx';
+import CalenderDay from '../client/calenderDayModule.jsx';
 import fetch from '../__mocks__/fetch.js';
 
 global.fetch = fetch;
@@ -112,5 +114,57 @@ describe('Calender Week module', () => {
   it('tests the map function works', () => {
     const wrap = shallow(<CalenderWeek week={testWeek} month={currentTestMonth} />);
     expect(wrap.exists()).toBe(true);
-  })
+  });
+});
+
+describe('Calender Day Module', () => {
+  const testDay = { thisDate: moment().local().format('D'), isoDate: moment().local().format() };
+  const testMonth = {month: moment().local().format('MMMM YYYY'), ISO: moment().local().format() }
+  const mockSelectDate = jest.fn();
+  const mockOpenCalender = jest.fn();
+  const mockChangeShownDate = jest.fn();
+
+  it('should render a day', () => {
+    const wrap = shallow(<CalenderDay day={testDay} month={testMonth} />);
+    expect(wrap.exists()).toBe(true);
+  });
+
+  it('should register a click event when the element is clicked', () => {
+    const wrap = shallow(<CalenderDay day={testDay} month={testMonth} selectDate={mockSelectDate} openCalender={mockOpenCalender} changeShownDate={mockChangeShownDate} />);
+
+    wrap.find('CalenderTdCurrentMonth').simulate('click');
+    expect(mockSelectDate).toHaveBeenCalled();
+    expect(mockOpenCalender).toHaveBeenCalled();
+    expect(mockChangeShownDate).toHaveBeenCalled();
+  });
+
+  it('should render correct td for current month and current day', () => {
+    const wrap = shallow(<CalenderDay day={testDay} month={testMonth} selectDate={mockSelectDate} openCalender={mockOpenCalender} changeShownDate={mockChangeShownDate} />);
+
+    expect(wrap.find('CalenderTdCurrentMonth').exists()).toBe(true);
+  });
+
+  it('should render correct td for a day in the month after current month', () => {
+    const aheadDay = { thisDate: moment().local().add(1, 'month').format('D'), isoDate: moment().local().add(1, 'month').format() };
+    const wrap = shallow(<CalenderDay day={aheadDay} month={testMonth} selectDate={mockSelectDate} openCalender={mockOpenCalender} changeShownDate={mockChangeShownDate} />);
+
+    expect(wrap.find('CalenderTdNotCurrentMonth').exists()).toBe(true);
+  });
+
+  it('should render correct td for a day in the month before current month', () => {
+    const behindDay = { thisDate: moment().local().subtract(1, 'month').format('D'), isoDate: moment().local().subtract(1, 'month').format() };
+    const wrap = shallow(<CalenderDay day={behindDay} month={testMonth} selectDate={mockSelectDate} openCalender={mockOpenCalender} changeShownDate={mockChangeShownDate} />);
+
+    expect(wrap.find('CalenderTdBeforeDayDiffMonth').exists()).toBe(true);
+  });
+
+  if (moment().local().format('D') !== '1') {
+    it('should render correct td for day in the same month but before current day', () => {
+      const behindDay = { thisDate: moment().local().subtract(1, 'days').format('D'), isoDate: moment().local().subtract(1, 'days').format() };
+
+      const wrap = shallow(<CalenderDay day={behindDay} month={testMonth} selectDate={mockSelectDate} openCalender={mockOpenCalender} changeShownDate={mockChangeShownDate} />);
+
+      expect(wrap.find('CalenderTdBeforeDaySameMonth').exists()).toBe(true);
+    });
+  }
 });
