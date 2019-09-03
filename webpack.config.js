@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './client/index.jsx',
+  entry: './client/reservation.jsx',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'public'),
+    library: 'ReservationsModule',
   },
   module: {
     rules: [

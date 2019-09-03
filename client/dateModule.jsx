@@ -103,6 +103,12 @@ class DateModule extends React.Component {
 
     this.openCalender = this.openCalender.bind(this);
     this.changeShownDate = this.changeShownDate.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
   openCalender() {
@@ -116,12 +122,24 @@ class DateModule extends React.Component {
     });
   }
 
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({
+        calender: false,
+      });
+    }
+  }
+
   render() {
     return (
       <DateDiv>
         <DateTitle>Date</DateTitle>
         <DateDisplayFinal>
-          <DateSelectDiv>
+          <DateSelectDiv ref={this.setWrapperRef}>
             <DateSelect onClick={this.openCalender} />
             {this.state.calender ? <CalenderModule back={this.props.back} next={this.props.next} openCalender={this.openCalender} changeShownDate={this.changeShownDate} selectDate={this.props.selectDate} month={this.props.month} /> : ''}
           </DateSelectDiv>

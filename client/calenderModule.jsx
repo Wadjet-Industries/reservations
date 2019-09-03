@@ -89,7 +89,7 @@ height: 32px;
 border: 1px solid #d8d9db;
 box-sizing: border-box;`;
 
-BackButton.displayName = 'BackButton'
+BackButton.displayName = 'BackButton';
 
 const WeekDays = styled.th`
 font-family: Brandon-Text-Light;
