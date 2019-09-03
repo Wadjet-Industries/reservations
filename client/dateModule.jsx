@@ -31,6 +31,8 @@ margin: none;
 outline: none;
 `;
 
+DateSelect.displayName = 'DateSelect';
+
 const DateSelectDiv = styled.div`
 position: absolute;
 margin: none;

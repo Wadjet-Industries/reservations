@@ -152,6 +152,8 @@ align-self: flex-start;
 font-size: 80%;
 `;
 
+Booked.displayName = 'Booked';
+
 const PossibleTime = styled.div`
 font-family: Brandon-Text-Light;
 font-size: 80%;
@@ -182,9 +184,13 @@ width: 100%;
 background-color: #F1F2F4;
 `;
 
+ErrorMessage.displayName = 'ErrorMessage';
+
 const ErrorMessageText = styled.span`
 font-family: Brandon-Text-Regular;
 `;
+
+ErrorMessageText.displayName = 'ErrorMessageText';
 
 const SelectReservation = styled.div`
 position: relative;
@@ -213,6 +219,8 @@ flex-wrap: wrap;
 width: 100%;
 align-content: space-around;
 `;
+
+SelectReservationTime.displayName = 'SelectReservationTime';
 
 const BookedSVG = styled.svg`
 width: 24px;
@@ -252,7 +260,6 @@ class Reservations extends React.Component {
     this.getDay = this.getDay.bind(this);
     this.findTimeRange = this.findTimeRange.bind(this);
     this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
-    // this.updateTimeForDays = this.updateTimeForDays.bind(this);
     this.selectDate = this.selectDate.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
     this.backMonth = this.backMonth.bind(this);
