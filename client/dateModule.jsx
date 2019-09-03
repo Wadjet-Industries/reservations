@@ -6,11 +6,12 @@ import CalenderModule from './calenderModule.jsx';
 const DateDiv = styled.div`
 font-family: Brandon-Text-Regular;
 width: 50%;
+padding-right: 2%;
 box-sizing: border-box;
-margin-right: 2.5%;
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
+margin-top: 5%;
 `;
 
 const DateSelect = styled.select`
@@ -30,10 +31,12 @@ margin: none;
 outline: none;
 `;
 
+DateSelect.displayName = 'DateSelect';
+
 const DateSelectDiv = styled.div`
 position: absolute;
 margin: none;
-width: 38.955%;
+width: 39.365%;
 align-self: center;
 padding-top: 5px;
 `;
@@ -41,6 +44,7 @@ padding-top: 5px;
 const DateTitle = styled.div`
 height: 50%;
 margin: none;
+margin-bottom: 10%;
 `;
 
 const DateDisplayWrap = styled.div`
@@ -51,13 +55,12 @@ position: absolute;
 box-sizing: border-box;
 margin: none;
 justify-content: space-between;
-width: 38.955%;
+width: 39.365%;
 align-self: center;
 `;
 
 const DateDisplay = styled.div`
 box-sizing: border-box;
-width: 50%;
 align-items: center;
 align-self: flex-start;
 pointer-events: none;
@@ -81,6 +84,7 @@ const DateDisplayFinal = styled.div`
 width: 100%;
 margin: none;
 box-sizing: border-box;
+margin-top: 5%;
 `;
 
 

@@ -80,7 +80,7 @@ db.once('open', () => {
   const generateDatesPerListing = () => {
     const allDays = [];
     const seats = Math.floor(Math.random() * 101);
-    let openingHour = Math.floor(Math.random() * 24);
+    let openingHour = Math.floor(Math.random() * 18) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
     let closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
     const current = moment().local();
 

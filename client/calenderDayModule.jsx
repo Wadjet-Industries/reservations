@@ -17,24 +17,30 @@ color: #000;
 text-align: center;
 `;
 
+CalenderTdCurrentMonth.displayName = 'CalenderTdCurrentMonth';
 
 const CalenderTdNotCurrentMonth = styled(CalenderTdCurrentMonth)`
 background-color: #f1f2f4;
 color: #000;
 `;
 
+CalenderTdNotCurrentMonth.displayName = 'CalenderTdNotCurrentMonth';
+
 const CalenderTdBeforeDaySameMonth = styled(CalenderTdCurrentMonth)`
 pointer-events: none;
 color: #d8d9db;
 `;
+
+CalenderTdBeforeDaySameMonth.displayName = 'CalenderTdBeforeDaySameMonth';
 
 const CalenderTdBeforeDayDiffMonth = styled(CalenderTdNotCurrentMonth) `
 pointer-events: none;
 color: #d8d9db;
 `;
 
-const CalenderDay = ({ month, day, selectDate, openCalender, changeShownDate }) => {
+CalenderTdBeforeDayDiffMonth.displayName = 'CalenderTdBeforeDayDiffMonth';
 
+const CalenderDay = ({ month, day, selectDate, openCalender, changeShownDate }) => {
   const currentMonth = <CalenderTdCurrentMonth onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdCurrentMonth>;
   const notCurrentMonth = <CalenderTdNotCurrentMonth onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdNotCurrentMonth>;
   const beforeDaySameMonth = <CalenderTdBeforeDaySameMonth onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdBeforeDaySameMonth>;

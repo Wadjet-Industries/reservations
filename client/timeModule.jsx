@@ -6,10 +6,11 @@ const TimeDiv = styled.div`
 font-family: Brandon-Text-Regular;
 width: 50%;
 box-sizing: border-box;
-margin-right: 2.5%;
+padding-left: 2%;
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
+margin-top: 5%;
 `;
 
 const TimeSelect = styled.select`
@@ -35,13 +36,13 @@ TimeSelect.displayName = 'TimeSelect';
 const TimeTitle = styled.div`
 margin: none;
 height: 50%;
+margin-bottom: 10%;
 `;
 
 TimeTitle.displayName = 'TimeTitle';
 
 const TimeDisplay = styled.div`
 box-sizing: border-box;
-width: 50%;
 align-items: center;
 align-self: flex-start;
 pointer-events: none;
@@ -54,7 +55,7 @@ box-sizing: border-box;
 const TimeSelectDiv = styled.div`
 position: absolute;
 margin: none;
-width: 38.955%;
+width: 39.365%;
 align-self: center;
 padding-top: 5px;
 `;
@@ -63,6 +64,7 @@ const TimeDisplayFinal = styled.div`
 width: 100%;
 margin: none;
 box-sizing: border-box;
+margin-top: 5%;
 `;
 
 const TimeDisplayWrap = styled.div`
@@ -73,7 +75,7 @@ position: absolute;
 box-sizing: border-box;
 margin: none;
 justify-content: space-between;
-width: 38.955%;
+width: 39.365%;
 align-self: center;
 `;
 
@@ -102,8 +104,8 @@ const TimeModule = ({ time, hours, setReservationTimes }) => {
   const closeHour = moment(openClose[1]).endOf('day');
   let durate = moment.duration(closeHour.diff(startHour)).as('hours');
   while (durate >= 0) {
-    const time = startHour.format('h:mm A');
-    timeOptions.push(<option value={startHour.format()}>{time}</option>);
+    const thisTime = startHour.format('h:mm A');
+    timeOptions.push(<option value={startHour.format()}>{thisTime}</option>);
     startHour.add(30, 'm');
     durate = moment.duration(closeHour.diff(startHour)).as('hours');
   }

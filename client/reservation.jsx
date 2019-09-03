@@ -93,6 +93,9 @@ margin-left: auto;
 display: flex;
 width: 90%;
 height: 15%;
+margin-top: 2%;
+margin-bottom: 2%;
+justify-content: space-around;
 `;
 
 const FindTable = styled.button`
@@ -101,27 +104,32 @@ background-color: #DA3743;
 color: #fff;
 align-self: center;
 width: 100%;
-height: 100%;
-size: 50%;
+height: 52.66px;
 font-size: 90%;
 {FindTable}: hover {
   opacity: 0.7;
 }
-border-radius: 4%;
+border-radius: 2px;
+border: 1px solid #DA3743;
 `;
 
 FindTable.displayName = 'FindTable';
+
+const FindButtonDiv = styled.div`
+box-sizing: border-box;
+width: 100%;
+`;
 
 const FindDiv = styled.div`
 display: flex;
 flex-direction: column;
 box-sizing: border-box;
-width: 100%;
+width: 90%;
 padding-left: 4%;
 padding-right: 4%;
-margin-top: 5%;
+margin-top: 10%;
 align-self: center;
-height: 15%;
+height: 33%;
 margin-right: auto;
 margin-left: auto;
 `;
@@ -133,49 +141,101 @@ box-sizing: border-box;
 width: 100%;
 display: flex;
 align-self: center;
-padding: 4%;
+padding-top: 4%;
 margin-right: auto;
 margin-left: auto;
 `;
 
 const Booked = styled.div`
 font-family: Brandon-Text-Medium;
-align-self: left;
+align-self: flex-start;
 font-size: 80%;
 `;
 
+Booked.displayName = 'Booked';
+
 const PossibleTime = styled.div`
+font-family: Brandon-Text-Light;
+font-size: 80%;
 background-color: #DA3743;
-border: 1px solid #fff;
+border: 1px solid #Da3743;
+box-sizing: border-box;
 color: #fff;
-border-radius: 8%;
-width: 33%;
-display: block;
+border-radius: 2px;
 {PossibleTime}: hover {
   opacity: 0.7;
 }
+width: 30%;
+height: 32px;
+margin-right: 4px;
+margin-bottom: 4px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 `;
 
-const ErrorMessage = styled.div``;
+const TimeText = styled.span`
+align-self: center;
+`;
+
+const ErrorMessage = styled.div`
+width: 100%;
+background-color: #F1F2F4;
+`;
+
+ErrorMessage.displayName = 'ErrorMessage';
+
+const ErrorMessageText = styled.span`
+font-family: Brandon-Text-Regular;
+`;
+
+ErrorMessageText.displayName = 'ErrorMessageText';
 
 const SelectReservation = styled.div`
+position: relative;
 background-color: #fff;
 box-sizing: border-box;
 display: flex;
-justify-content: space-evenly;
-align-content: space-between;
+justify-content: space-between;
+align-items: flex-start;
+flex-direction: column;
+height: 100%;
+width: 100%;
 `;
+
 SelectReservation.displayName = 'SelectReservation';
 
 const SelectTitle = styled.div`
-align-self: center;
+font-family: Brandon-Text-Bold;
+align-self: flex-start;
+width: 100%;
 `;
 
 const SelectReservationTime = styled.div`
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
+width: 100%;
+align-content: space-around;
 `;
+
+SelectReservationTime.displayName = 'SelectReservationTime';
+
+const BookedSVG = styled.svg`
+width: 24px;
+height: 24px;
+background-color: rgb(255, 255, 255);
+`;
+
+const BookedMask = styled.mask`
+fill: #FFF;
+`;
+
+const BookedPath = styled.path`
+fill: #333333
+`;
+{/* <BookedSVG viewBox="0 0 24 24"><polygon points="0 0 24 0 24 24 0 24"></polygon><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/ic_social_proof"><BookedMask></BookedMask><path d="M15.5,5 C15.2239,5 15,5.223846 15,5.5 L15,6.5 C15,6.77615 15.2239,7 15.5,7 L17.5858,7 L14,10.58578 L12.70711,9.29291 L12.35355,8.93933 C12.15829,8.74408 11.84171,8.74408 11.64645,8.93933 L11.29289,9.29291 L5,15.5858 L5,7 L11.5,7 C11.77614,7 12,6.77615 12,6.5 L12,5.5 C12,5.22385 11.77614,5 11.5,5 L5,5 C3.89543,5 3,5.89542 3,7 L3,17 C3,18.1046 3.89543,19 5,19 L19,19 C20.1046,19 21,18.1046 21,17 L21,14.5 C21,14.2238 20.7761,14 20.5,14 L19.5,14 C19.2239,14 19,14.2238 19,14.5 L19,17 L6.4142,17 L12,11.41422 L13.2929,12.70709 L13.6464,13.06067 C13.8417,13.25592 14.1583,13.25592 14.3536,13.06067 L14.7071,12.70709 L19,8.41422 L19,10.5 C19,10.77615 19.2239,11 19.5,11 L20.5,11 C20.7761,11 21,10.77615 21,10.5 L21,6 L21,5.5 C21,5.223846 20.7761,5 20.5,5 L20,5 L15.5,5 Z" fill="#333333" fill-rule="nonzero" mask="url(#mask-2)"></path></g></g></BookedSVG> */}
 
 class Reservations extends React.Component {
   constructor(props) {
@@ -200,7 +260,6 @@ class Reservations extends React.Component {
     this.getDay = this.getDay.bind(this);
     this.findTimeRange = this.findTimeRange.bind(this);
     this.getOpenSeatTimes = this.getOpenSeatTimes.bind(this);
-    // this.updateTimeForDays = this.updateTimeForDays.bind(this);
     this.selectDate = this.selectDate.bind(this);
     this.nextMonth = this.nextMonth.bind(this);
     this.backMonth = this.backMonth.bind(this);
@@ -356,14 +415,17 @@ class Reservations extends React.Component {
     let findReservation = [];
     const errorMessage = (
       <ErrorMessage>
+        <ErrorMessageText>
         At the moment, there's no online availability within 2.5 hours of
-        {' '}
-        { moment(this.state.time).format('h:mm A') }
+          {' '}
+          { moment(this.state.time).format('h:mm A') }
 .
-        <br />
+          <br />
         Have another time in mind?
+        </ErrorMessageText>
       </ErrorMessage>
     );
+    let noSpots = false;
     const open = this.state.hours.split('--')[0];
     const close = this.state.hours.split('--')[1];
     let allAvailableTimes = [];
@@ -371,16 +433,14 @@ class Reservations extends React.Component {
       const availableTimeAdd15 = moment(time.time).add(15, 'm').format();
       allAvailableTimes.push(time.time, availableTimeAdd15);
     });
-
     allAvailableTimes = allAvailableTimes.filter((time) => {
       const compareTime = moment(time);
       if (compareTime.isBefore(close) && compareTime.isSameOrAfter(open)) {
         return (Math.abs(moment(time).diff(moment(this.state.time), 'minutes')) <= 150);
       }
     });
-
     if (allAvailableTimes.length === 0) {
-      findReservation.push(errorMessage);
+      noSpots = true;
     } else if (allAvailableTimes.length < 5) {
       findReservation = allAvailableTimes.map((time) => {
         const availableTime = moment(time).format('h:mm A');
@@ -403,7 +463,7 @@ class Reservations extends React.Component {
         const minute = moment(time).diff((moment(this.state.time)), 'minutes');
         return Math.abs(minute);
       });
-      const sorted = diff.map((time) => time).sort();
+      const sorted = diff.map((time) => time).sort((timeA, timeB) => timeA - timeB);
       if (filtered.length <= 5) {
         findTimes = filtered;
       } else {
@@ -424,7 +484,7 @@ class Reservations extends React.Component {
       }
       findReservation = findTimes.map((time) => {
         const availableTime = moment(time).format('h:mm A');
-        return (<PossibleTime>{availableTime}</PossibleTime>);
+        return (<PossibleTime><TimeText>{availableTime}</TimeText></PossibleTime>);
       });
     }
 
@@ -451,13 +511,15 @@ class Reservations extends React.Component {
           <TimeModule time={this.state.time} setReservationTimes={this.setReservationTime} hours={this.state.hours} />
         </DateTime>
         <FindDiv>
-          {this.state.find ? selectTime : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
-        </FindDiv>
-        <BookedDiv>
-          <Booked>
+          <FindButtonDiv>
+            {this.state.find ? (noSpots ? errorMessage : selectTime) : <FindTable onClick={this.findTime}>Find a Table</FindTable>}
+          </FindButtonDiv>
+          <BookedDiv>
+            <Booked>
             Booked 65 times today
-          </Booked>
-        </BookedDiv>
+            </Booked>
+          </BookedDiv>
+        </FindDiv>
       </Reservation>
     );
   }
