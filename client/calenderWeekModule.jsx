@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import CalenderDay from './calenderDayModule.jsx';
 
 const CalenderWeek = ({ month, week, selectDate, openCalender, changeShownDate }) => {

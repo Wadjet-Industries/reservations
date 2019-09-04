@@ -5,7 +5,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+// import styled, { createGlobalStyle } from 'styled-components';
 import moment from 'moment';
 
 import PartySize from './partySizeModule.jsx';
@@ -16,7 +16,7 @@ import BrandonTextLight from './fonts/BrandonText-Light.otf';
 import BrandonTextMedium from './fonts/BrandonText-Medium.otf';
 import BrandonTextBold from './fonts/BrandonText-Bold.otf';
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = styled.createGlobalStyle`
   @font-face {
     font-family: Brandon-Text-Regular;
     src: url('${BrandonTextRegular}') format('opentype');
@@ -70,7 +70,7 @@ height: 346.12px;
 border-radius: 1px;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
 right: 10%;
-top: 10%;
+top: 50%;
 `;
 
 const PartyModule = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import moment from 'moment';
 
 const CalenderTdCurrentMonth = styled.td`
@@ -33,14 +33,16 @@ color: #d8d9db;
 
 CalenderTdBeforeDaySameMonth.displayName = 'CalenderTdBeforeDaySameMonth';
 
-const CalenderTdBeforeDayDiffMonth = styled(CalenderTdNotCurrentMonth) `
+const CalenderTdBeforeDayDiffMonth = styled(CalenderTdNotCurrentMonth)`
 pointer-events: none;
 color: #d8d9db;
 `;
 
 CalenderTdBeforeDayDiffMonth.displayName = 'CalenderTdBeforeDayDiffMonth';
 
-const CalenderDay = ({ month, day, selectDate, openCalender, changeShownDate }) => {
+const CalenderDay = ({
+ month, day, selectDate, openCalender, changeShownDate
+}) => {
   const currentMonth = <CalenderTdCurrentMonth onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdCurrentMonth>;
   const notCurrentMonth = <CalenderTdNotCurrentMonth onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdNotCurrentMonth>;
   const beforeDaySameMonth = <CalenderTdBeforeDaySameMonth onClick={(event) => { selectDate(event); openCalender(); changeShownDate(event); }} value={day.isoDate}>{day.thisDate}</CalenderTdBeforeDaySameMonth>;
