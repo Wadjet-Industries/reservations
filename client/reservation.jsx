@@ -58,6 +58,7 @@ flex-direction: column;
 padding: 4%;
 margin-right: auto;
 margin-left: auto;
+
 `;
 
 const Reservation = styled.div`

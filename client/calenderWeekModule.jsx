@@ -5,8 +5,8 @@ import CalenderDay from './calenderDayModule.jsx';
 const CalenderWeek = ({ month, week, selectDate, openCalender, changeShownDate }) => {
   return (
     <tr>
-      {week.map((day) => {
-        return <CalenderDay month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} day={day} />;
+      {week.map((day, i) => {
+        return <CalenderDay key={day + i} month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} day={day} />;
       })}
     </tr>
   )

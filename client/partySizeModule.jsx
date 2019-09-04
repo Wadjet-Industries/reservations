@@ -94,7 +94,7 @@ const PartySize = ({ findPartySize, size }) => {
   // take in max table amount
   const options = [];
   for (let i = 1; i <= 20; i++) {
-    options.push(<option value={i}>{i}</option>);
+    options.push(<option key={i} value={i}>{i}</option>);
   }
   return (
     <PartySelectDiv>
