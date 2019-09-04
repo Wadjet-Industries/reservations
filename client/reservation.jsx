@@ -70,8 +70,8 @@ height: 346.12px;
 border-radius: 1px;
 background-color: #fff;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
-right: 30%;
-top: 28%;
+right: 15vw;
+top: 35vh;
 `;
 
 const PartyModule = styled.div`
