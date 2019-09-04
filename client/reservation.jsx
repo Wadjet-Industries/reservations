@@ -68,9 +68,10 @@ flex-direction: column;
 width: 320px;
 height: 346.12px;
 border-radius: 1px;
+background-color: #fff;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
-right: 10%;
-top: 50%;
+right: 30%;
+top: 28%;
 `;
 
 const PartyModule = styled.div`
