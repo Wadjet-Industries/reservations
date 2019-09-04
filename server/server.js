@@ -17,7 +17,7 @@ app.get('/api/:id/reservations', (req, res) => {
   database.getListingData(param)
     .then((data) => {
       const dataForListing = data[0].Dates.slice();
-      res.send(dataForListing).sendStatus(200);
+      res.send(dataForListing);
     })
     .catch((err) => {
       console.log('Error with retriving data for listing', err);

@@ -69,6 +69,8 @@ width: 320px;
 height: 346.12px;
 border-radius: 1px;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
+right: 10%;
+top: 10%;
 `;
 
 const PartyModule = styled.div`
@@ -194,7 +196,6 @@ align-items: center;
 `;
 
 const SelectReservation = styled.div`
-position: relative;
 background-color: #fff;
 box-sizing: border-box;
 display: flex;
