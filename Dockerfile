@@ -6,8 +6,8 @@ WORKDIR /src/app
 
 COPY . /src/app
 
-RUN npm install --only-prod
+RUN npm install --only=prod
 
 EXPOSE 3002
 
-CMD ['npm', "run", "seed", "&&", "npm", "run", "start"]
+CMD [ "npm", "run", "start" ]

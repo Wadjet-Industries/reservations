@@ -14,10 +14,12 @@
     "nodemon": "nodemon server/server.js",
     "test:watch": "jest --watchAll --config jest.config.js",
     "test:coverage": "jest --verbose --coverage",
-    "start": "node server/server.js"
+    "server": "node server/server.js",
+    "start": "concurrently \"npm run seed\" \"npm run server\""
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "moment": "^2.24.0",

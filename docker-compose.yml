@@ -1,12 +1,12 @@
 version: '3'
 
-service:
+services:
   database:
     image: mongo:latest
 
   reservations:
     build: .
     depends_on:
-      - 'seed'
+      - 'database'
     ports:
       - '3008:3002'
