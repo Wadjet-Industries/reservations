@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 
 
-mongoose.connect('mongodb://localhost/Reservations', { useNewUrlParser: true })
+mongoose.connect('mongodb://database/Reservations', { useNewUrlParser: true })
   .then(() => { console.log('Mango be connected'); })
   .catch((error) => { console.log('Mango tree have error ', error); });
 
