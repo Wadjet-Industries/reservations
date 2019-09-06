@@ -7,7 +7,7 @@ services:
   reservations:
     build: .
     depends_on:
-      - 'seed'
+      - 'database'
     ports:
       - '3008:3002'
 
