@@ -58,7 +58,7 @@ flex-direction: column;
 padding: 4%;
 margin-right: auto;
 margin-left: auto;
-
+MongoNetworkError: failed to connect to server [database:27017] on first connect [MongoNetworkError: getaddrinfo ENOTFOUND database database:27017
 `;
 
 const Reservation = styled.div`
@@ -295,7 +295,7 @@ class Reservations extends React.Component {
   }
 
   getListingData(listing = 'L1') {
-    return fetch(`http://localhost:3002/api/${listing}/reservations`, {
+    return fetch(`http://localhost:3008/api/${listing}/reservations`, {
       method: 'GET',
     })
       .then((res) => (

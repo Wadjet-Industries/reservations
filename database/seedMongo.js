@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 
 
-mongoose.connect('mongodb://localhost/Reservations', { useNewUrlParser: true })
+mongoose.connect('mongodb://database/Reservations', { useNewUrlParser: true })
   .then(() => { console.log('Mango be connected'); })
   .catch((error) => { console.log('Mango tree have error ', error); });
 
@@ -82,9 +82,9 @@ db.once('open', () => {
     const seats = Math.floor(Math.random() * 101);
     let openingHour = Math.floor(Math.random() * 18) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
     let closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
-    const current = moment().local();
+    const current = moment().local().subtract(2, 'day');
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 102; i++) {
       const currentDate = current.format();
       const open = generateMomentTime(current, openingHour);
       const close = generateMomentTime(current, closingHour);
