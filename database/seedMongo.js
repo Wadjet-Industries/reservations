@@ -14,7 +14,6 @@ mongoose.connect('mongodb://database/Reservations', { useNewUrlParser: true })
 const db = mongoose.connection;
 
 db.once('open', () => {
-
   const reservationSchema = new mongoose.Schema({
     Listing: String,
     Dates: [
@@ -44,7 +43,7 @@ db.once('open', () => {
     const date = thisMoment.format().slice(0, 11);
     const timeZone = thisMoment.format().slice(19);
     let hour = Math.floor(time);
-    if(hour < 10) {
+    if (hour < 10) {
       hour = `0${hour}`;
     }
     if (time % 1 !== 0) {
@@ -80,16 +79,17 @@ db.once('open', () => {
   const generateDatesPerListing = () => {
     const allDays = [];
     const seats = Math.floor(Math.random() * 101);
-    let openingHour = Math.floor(Math.random() * 18) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
-    let closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+    const openingHour = Math.floor(Math.random() * 18) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
+    const closingHour = openingHour + Math.ceil(Math.random() * (24 - openingHour)) + (Math.floor((Math.random() * 2)) ? 0.5 : 0);
     const current = moment().local().subtract(2, 'day');
 
     for (let i = 0; i < 102; i++) {
       const currentDate = current.format();
       const open = generateMomentTime(current, openingHour);
       const close = generateMomentTime(current, closingHour);
-      const hours = `${open}--${close}`
-      const thisDate = { SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(open, close, seats, currentDate)
+      const hours = `${open}--${close}`;
+      const thisDate = {
+        SeatNumber: seats, Hours: hours, Date: currentDate, Seats: generateSeatsPerTimePerDay(open, close, seats, currentDate)
       };
       current.add(1, 'day');
       allDays.push(thisDate);
@@ -111,7 +111,10 @@ db.once('open', () => {
       allData.push(restaurant);
     }
     ReservationDocument.insertMany(allData)
-      .then(() => { console.log('Mango planted'); })
+      .then(() => {
+        console.log('Mango planted');
+        mongoose.disconnect();
+      })
       .catch((error) => { console.log('Error with Mango planting', error); });
   })();
 });
