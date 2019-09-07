@@ -295,7 +295,7 @@ class Reservations extends React.Component {
   }
 
   getListingData(listing = 'L1') {
-    return fetch(`http://13.52.75.97:3008/api/${listing}/reservations`, {
+    return fetch(`http://54.67.39.70:3008/api/${listing}/reservations`, {
       method: 'GET',
     })
       .then((res) => (
