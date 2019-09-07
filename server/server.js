@@ -10,8 +10,8 @@ const app = express();
 const port = 3002;
 const database = require('../database/database.js');
 
-app.use(morgan());
 app.use(cors());
+app.use(morgan());
 app.use(compression());
 app.use('/:id/reservations', express.static('public'));
 
