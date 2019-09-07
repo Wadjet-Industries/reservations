@@ -10,4 +10,4 @@ RUN npm install --only=prod
 
 EXPOSE 3002
 
-CMD [ "npm", "run", "server" ]
+CMD [ "npm", "run", "start" ]
