@@ -1,11 +1,5 @@
-FROM node:8.15.1
+FROM mongo:latest
 
-run mkdir -p database/
+COPY reservations.json /reservations.json
 
-WORKDIR database/
-
-COPY . database/
-
-RUN npm install mongoose moment --save
-
-CMD ["node", "database/seedMongo.js"]
+CMD mongoimport --host database --db Reservations --type json --file /reservations.json --jsonArray
