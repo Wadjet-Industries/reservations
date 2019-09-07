@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
+const compression = require('compression');
+
 
 const app = express();
 const port = 3002;
@@ -10,6 +12,7 @@ const database = require('../database/database.js');
 
 app.use(morgan());
 app.use(cors());
+app.use(compression());
 app.use('/:id/reservations', express.static('public'));
 
 app.use(express.static('public'));
