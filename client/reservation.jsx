@@ -62,7 +62,7 @@ MongoNetworkError: failed to connect to server [database:27017] on first connect
 `;
 
 const Reservation = styled.div`
-z-index: 5000;
+z-index: 1000;
 position: fixed;
 box-sizing: border-box;
 display: flex;
