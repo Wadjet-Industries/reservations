@@ -74,7 +74,7 @@ background-color: #ffffff;
 box-shadow: 0px 2px 8px 0px rgba(153, 153, 153, 0.4);
 opacity: 1;
 right: 10vw;
-top: 25vh;
+top: 30vh;
 `;
 
 const PartyModule = styled.div`
