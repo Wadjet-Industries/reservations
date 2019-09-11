@@ -36,8 +36,8 @@ npm install
 
 ## RESTful CRUD API
 
-GET: '/api/:id/reservations'
-POST: '/api/reservation'
-PUT: '/api/:id/reservation'
-DELETE: /api/:id/reservation
+ - GET: '/api/:id/reservations'
+ - POST: '/api/reservation'
+ - PUT: '/api/:id/reservation'
+ - DELETE: '/api/:id/reservation'
 
