@@ -2,7 +2,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://database/Reservations', { useNewUrlParser: true })
+//Changed this from database to localhost:27017 to have it run successfully in local computer
+mongoose.connect('mongodb://localhost:27017/Reservations', { useNewUrlParser: true })
   .then(() => { console.log('Mango be connected'); })
   .catch((error) => { console.log('Mango tree have error ', error); });
 

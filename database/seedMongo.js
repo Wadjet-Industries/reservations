@@ -6,7 +6,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-
+//Changed this from database to localhost to have it work on local computer
 mongoose.connect('mongodb://localhost:27017/Reservations', { useNewUrlParser: true })
   .then(() => { console.log('Mango be connected'); })
   .catch((error) => { console.log('Mango tree have error ', error); });

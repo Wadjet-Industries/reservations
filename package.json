@@ -15,7 +15,7 @@
     "test:watch": "jest --watchAll --config jest.config.js",
     "test:coverage": "jest --verbose --coverage",
     "server": "node server/server.js",
-    "start": "concurrently \"npm run seed\" \"npm run server\""
+    "start": "concurrently \"npm run seed\" \"npm run server\"" 
   },
   "dependencies": {
     "body-parser": "^1.19.0",
