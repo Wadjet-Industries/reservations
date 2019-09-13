@@ -21,10 +21,11 @@ client.connect((err) => {
 const generateReservations = (restaurant, date) => {
   console.log(restaurant);
   // const randomNumberOfSeatsToReserve = Math.floor(Math.random() * (10 - 1) + 1)
-  const timeOpen = restaurant.starting_time;
-  const timeClose = restaurant.ending_time;
-  console.log(restaurant.rest_id, timeOpen, timeClose);
-  // for (let timeOpen = )
+  const timeOpen = moment({
+    hour: restaurant.starting_time, minute: 0, seconds: 0, milliseconds: 0,
+  });
+  console.log(date, timeOpen.hours());
+
 
   const reservationsObj = {
     restaurant_foreign_key: restaurant.rest_id,
@@ -35,17 +36,16 @@ const generateReservations = (restaurant, date) => {
 };
 
 const generateTimeSlotsPerDay = (numberofMonths, numberOfRestaurants) => {
-  const currentFullDate = moment().format('YYYY-DD-MM');
+  // const currentFullDate = moment().format('YYYY-DD-MM');
   const currentDateDay = Number(moment().format('DD'));
 
-  const endMonthFullDate = moment(currentFullDate).endOf('month');
+  const endMonthFullDate = moment().endOf('month');
   const currentMonthLastDay = Number(endMonthFullDate.format('DD'));
-  // For every restaurant: generate 1 month of data starting at current date
+
 
   for (let z = 1; z < numberOfRestaurants; z++) {
-    for (let y = currentDateDay; y < currentMonthLastDay; y++) {
+    for (let y = currentDateDay; y < currentMonthLastDay + 1; y++) {
       // For every day until the end of the month, generate reservations
-
       const queryText = 'SELECT * FROM restaurant WHERE rest_id = $1';
       const values = [z];
       client.query(queryText, values, (err, res) => {
@@ -63,17 +63,17 @@ const generateTimeSlotsPerDay = (numberofMonths, numberOfRestaurants) => {
 // Generate restaurants first
 const generate_restaurants = (callback) => {
   const restaurantArray = [];
-  const numberOfRestaurants = 11;
+  const numberOfRestaurants = 2;
   for (let i = 1; i < numberOfRestaurants; i++) {
     const genStartTime = Math.floor(Math.random() * (7 - 4) + 4) + 12;
     const genEndTime = Math.floor(Math.random() * (12 - 10) + 10) + 12;
-    const startTime = `${genStartTime}:00:00`;
-    const endTime = `${genEndTime}:00:00`;
+    // const startTime = genStartTime;
+    // const endTime = genEndTime;
     const restaurantObj = {
       rest_id: i,
       total_capacity: Math.floor(Math.random() * (50 - 10) + 10),
-      starting_time: startTime,
-      ending_time: endTime,
+      starting_time: genStartTime,
+      ending_time: genEndTime,
     };
     const insertText = 'INSERT INTO restaurant(total_capacity, starting_time, ending_time) VALUES ($1, $2, $3)';
     const values = [restaurantObj.total_capacity, restaurantObj.starting_time, restaurantObj.ending_time];
@@ -82,7 +82,7 @@ const generate_restaurants = (callback) => {
         console.log(err.stack);
       } else {
         // console.log(i);
-        if (i === 10) {
+        if (i === numberOfRestaurants - 1) {
           callback(3, numberOfRestaurants);
         }
       }
