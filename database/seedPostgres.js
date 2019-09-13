@@ -29,8 +29,10 @@ const generateReservations = (restaurant, date) => {
   for (let i = restaurant.starting_time; i < restaurant.ending_time; i++) {
     let capacityAvailablePerTimeSlot = restaurant.total_capacity;
     console.log('hour per restaurant: ', i);
-    const genRandomAmtOfReservations = Math.floor(Math.random() * (7 - 4) + 4);
+
+    const genRandomAmtOfReservations = Math.floor(Math.random() * (7 - 0) + 0);
     for (let y = 0; y < genRandomAmtOfReservations; y++) {
+      console.log('reservations per hour: ', y);
       if (capacityAvailablePerTimeSlot !== 0) {
         // Generate number of seats to reserve based off of the current capacity
         const seatsToReservePerReservation = Math.floor(Math.random() * (capacityAvailablePerTimeSlot - 1) + 1);
@@ -49,8 +51,6 @@ const generateReservations = (restaurant, date) => {
         client.query(insertText, values, (err, res) => {
           if (err) {
             console.log(err.stack);
-          } else {
-            console.log(y);
           }
         });
       }
@@ -85,14 +85,17 @@ const generateTimeSlotsPerDay = (numberofMonths, numberOfRestaurants) => {
 
 // Generate restaurants first
 const generate_restaurants = (callback) => {
-  const numberOfRestaurants = 10000;
+  const numberOfRestaurants = 1000000;
   for (let i = 1; i < numberOfRestaurants; i++) {
+    if (i % 10000 === 0) {
+      console.log(i);
+    }
     const genStartTime = Math.floor(Math.random() * (7 - 4) + 4) + 12;
     const genEndTime = Math.floor(Math.random() * (12 - 10) + 10) + 12;
 
     const restaurantObj = {
       rest_id: i,
-      total_capacity: Math.floor(Math.random() * (50 - 10) + 10),
+      total_capacity: Math.floor(Math.random() * (30 - 10) + 10),
       starting_time: genStartTime,
       ending_time: genEndTime,
     };
@@ -102,7 +105,9 @@ const generate_restaurants = (callback) => {
       if (err) {
         console.log(err.stack);
       } else {
-        console.log('Restaurant:', i);
+        if (i % 10000 === 0) {
+          console.log(i);
+        }
         if (i === numberOfRestaurants - 1) {
           callback(3, numberOfRestaurants);
         }
