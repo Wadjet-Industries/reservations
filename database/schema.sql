@@ -5,8 +5,8 @@ CREATE DATABASE reservations_service;
 CREATE TABLE restaurant (
   rest_id SERIAL PRIMARY KEY,
   total_capacity int NOT NULL,
-  starting_time text,
-  ending_time text
+  starting_time int,
+  ending_time int
 );
 
 -- CREATE TABLE time_slot (
@@ -22,6 +22,6 @@ CREATE TABLE reservations (
   reservation_id SERIAL PRIMARY KEY,
   restaurant_foreign_key int REFERENCES restaurant(rest_id),
   reservation_day text,
-  reservation_time text,
+  reservation_time int,
   number_of_seats_reserved int
 );
