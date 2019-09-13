@@ -29,19 +29,18 @@ app.get('/api/:id/reservations', (req, res) => {
     });
 });
 
-//Post methods are not ID specific, so don't need to include it
+// Post methods are not ID specific, so don't need to include it
 app.post('/api/reservation', (req, res) => {
   res.send('hello');
-})
+});
 
 app.put('/api/:id/reservations', (req, res) => {
   const param = req.params.id;
-  //Need to change a reservation
-})
+  // Need to change a reservation
+});
 
-app.delete('/api/:id/reservation' , (req, res) => {
+app.delete('/api/:id/reservation', (req, res) => {
   const param = req.params.id;
-
-})
+});
 
 app.listen(port, () => { console.log(`argh matey we be arriving at port ${port}`); });
