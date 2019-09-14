@@ -1,6 +1,9 @@
-/* eslint-disable no-loop-func */
 const { Client } = require('pg');
+/* eslint-disable no-loop-func */
 const moment = require('moment');
+const fast_csv = require('fast-csv');
+// const fs = require('file-system');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 const client = new Client({
   user: 'Admin',
@@ -18,13 +21,10 @@ client.connect((err) => {
   }
 });
 
-const generateReservations = (restaurant, date, currentRestaurant) => {
-  // Loop through each hour that the restaurant is open for
-  // if (currentRestaurant % 10000 === 0) {
-  // console.log('Time to seed restaurant: c', currentRestaurant);
-  // }
-  for (let i = restaurant.starting_time; i < restaurant.ending_time; i++) {
-    let capacityAvailablePerTimeSlot = restaurant.total_capacity;
+const generateReservations = (currentRestaurntObj, currentDay) => {
+  const reservationsArray = [];
+  for (let i = currentRestaurntObj.starting_time; i < currentRestaurntObj.ending_time; i++) {
+    let capacityAvailablePerTimeSlot = currentRestaurntObj.total_capacity;
     const genRandomAmtOfReservations = Math.floor(Math.random() * (7 - 0) + 0);
 
     for (let y = 0; y < genRandomAmtOfReservations; y++) {
@@ -35,52 +35,53 @@ const generateReservations = (restaurant, date, currentRestaurant) => {
         capacityAvailablePerTimeSlot -= seatsToReservePerReservation;
 
         const reservationObj = {
-          restaurant_foreign_key: restaurant.rest_id,
-          reservation_day: date,
+          restaurant_foreign_key: currentRestaurntObj.rest_id,
+          reservation_day: currentDay,
           reservation_time: i,
           number_of_seats_reserved: seatsToReservePerReservation,
         };
-        const insertText = 'INSERT INTO reservations(restaurant_foreign_key, reservation_day, reservation_time, number_of_seats_reserved) VALUES ($1, $2, $3, $4)';
-        const values = [reservationObj.restaurant_foreign_key, reservationObj.reservation_day, reservationObj.reservation_time, reservationObj.number_of_seats_reserved];
-        client.query(insertText, values, (err, res) => {
-          if (err) {
-            console.log(err.stack);
-          }
-        });
+        // console.log(reservationObj);
+        reservationsArray.push(reservationObj);
       }
     }
   }
+  console.log(reservationsArray);
+  const csvWriter = createCsvWriter({
+    path: '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv',
+    header: [
+      { id: 'restaurant_foreign_key', title: 'restaurant_foreign_key' },
+      { id: 'reservation_day', title: 'reservation_day' },
+      { id: 'reservation_time', title: 'reservation_time' },
+      { id: 'number_of_seats_reserved', title: 'number_of_seats_reserved' },
+    ],
+  });
+  const records = restaurantArray;
+
+  csvWriter.writeRecords(records) // returns a promise
+    .then(() => {
+      console.log('...Done');
+      console.log(records);
+    })
+    .catch(() => {
+      console.log('err');
+    });
 };
 
-const generateTimeSlotsPerDay = (numberOfRestaurants) => {
+// Generate each Restaurant
+const generateRestaurants = () => {
+  const numberOfRestaurants = 1000;
   const currentDateDay = Number(moment().format('DD'));
   const endMonthFullDate = moment().endOf('month');
   const currentMonthLastDay = Number(endMonthFullDate.format('DD'));
 
-  for (let z = 1; z < numberOfRestaurants; z++) {
-    const queryText = 'SELECT * FROM restaurant WHERE rest_id = $1';
-    const values = [z];
-    // For every day until the end of the month, generate reservations
-    client.query(queryText, values, (err, res) => {
-      if (err) {
-        console.log(err.stack);
-      } else {
-        for (let y = currentDateDay; y < currentMonthLastDay + 1; y++) {
-          const currentDayOfMonth = moment().set('date', y).format('YYYY-DD-MM');
-          // console.log('Time to seed restaurant: ', z);
-          generateReservations(res.rows[0], currentDayOfMonth, z);
-        }
-      }
-    });
-  }
-};
+  const restaurantArray = [];
 
-// Generate restaurants first
-const generate_restaurants = (callback) => {
-  const numberOfRestaurants = 100000;
   for (let i = 1; i < numberOfRestaurants; i++) {
-    const genStartTime = Math.floor(Math.random() * (7 - 4) + 4) + 12;
-    const genEndTime = Math.floor(Math.random() * (12 - 10) + 10) + 12;
+    // const genStartTime = Math.floor(Math.random() * (7 - 4) + 4) + 12;
+    // const genEndTime = Math.floor(Math.random() * (12 - 10) + 10) + 12;
+
+    const genStartTime = 20;
+    const genEndTime = 23;
 
     const restaurantObj = {
       rest_id: i,
@@ -88,23 +89,38 @@ const generate_restaurants = (callback) => {
       starting_time: genStartTime,
       ending_time: genEndTime,
     };
-    const insertText = 'INSERT INTO restaurant(total_capacity, starting_time, ending_time) VALUES ($1, $2, $3)';
-    const values = [restaurantObj.total_capacity, restaurantObj.starting_time, restaurantObj.ending_time];
-    client.query(insertText, values, (err, res) => {
-      if (err) {
-        console.log(err.stack);
-      } else {
-        if (i % 10000 === 0 || i % 1000 === 0) {
-          console.log('Number of Restaurants inserted:', i);
-        }
-        if (i === numberOfRestaurants - 1) {
-          console.log('Begin generating reservations...');
-          callback(numberOfRestaurants);
-        }
-      }
-    });
+    // console.log(restaurantObj);
+    restaurantArray.push(restaurantObj);
+
+    // For every restaurant, loop through current date to the end of the month
+    // Change date here for data
+    for (let y = currentDateDay; y < currentDateDay + 7 + 1; y++) {
+      const currentDayOfMonth = moment().set('date', y).format('YYYY-DD-MM');
+      generateReservations(restaurantObj, currentDayOfMonth);
+      // For every day of each restaurant: generate reservations for each hour
+    }
+    if (i % 10000 === 0) {
+      console.log('Restaurant: ', i);
+    }
   }
+  const csvWriter = createCsvWriter({
+    path: '/Users/Admin/Documents/HRSF122/sdc-project/data.csv',
+    header: [
+      { id: 'rest_id', title: 'rest_id' },
+      { id: 'total_capacity', title: 'total_capacity' },
+      { id: 'starting_time', title: 'starting_time' },
+      { id: 'ending_time', title: 'ending_time' },
+    ],
+  });
+  const records = restaurantArray;
+
+  csvWriter.writeRecords(records) // returns a promise
+    .then(() => {
+      console.log('...Done');
+      console.log(records);
+    })
+    .catch(() => {
+      console.log('err');
+    });
 };
-generate_restaurants((numberOfRestaurants) => {
-  generateTimeSlotsPerDay(numberOfRestaurants);
-});
+generateRestaurants();
