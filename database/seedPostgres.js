@@ -21,41 +21,51 @@ client.connect((err) => {
   }
 });
 
-const generateReservations = (currentRestaurntObj, currentDay) => {
+const generateReservations = (numberOfRestaurants) => {
   const reservationsArray = [];
-  for (let i = currentRestaurntObj.starting_time; i < currentRestaurntObj.ending_time; i++) {
-    let capacityAvailablePerTimeSlot = currentRestaurntObj.total_capacity;
-    const genRandomAmtOfReservations = Math.floor(Math.random() * (7 - 0) + 0);
+  const numOfReservations = 10000001;
+  const currentDateDay = Number(moment().format('DD'));
+  const sevenDaysFromToday = currentDateDay + 7;
+  // const endMonthFullDate = moment().endOf('month');
+  // const currentMonthLastDay = Number(endMonthFullDate.format('DD'));
+  // const genRandomAmtOfReservations = Math.floor(Math.random() * (1000000 - 0) + 0);
+  for (let i = 1; i < numOfReservations; i++) {
+    const randomDayWithinTheWeek = Math.floor(Math.random() * (currentDateDay - sevenDaysFromToday) + sevenDaysFromToday);
 
-    for (let y = 0; y < genRandomAmtOfReservations; y++) {
-      if (capacityAvailablePerTimeSlot !== 0) {
-        // Generate number of seats to reserve based off of the current capacity
-        const seatsToReservePerReservation = Math.floor(Math.random() * (capacityAvailablePerTimeSlot - 1) + 1);
-        // Subtract the reserved seats from the total capacity of current time block
-        capacityAvailablePerTimeSlot -= seatsToReservePerReservation;
+    const formatedRandomDay = moment().set('date', randomDayWithinTheWeek).format('YYYY-MM-DD', moment.ISO_8601);
 
-        const reservationObj = {
-          restaurant_foreign_key: currentRestaurntObj.rest_id,
-          reservation_day: currentDay,
-          reservation_time: i,
-          number_of_seats_reserved: seatsToReservePerReservation,
-        };
-        // console.log(reservationObj);
-        reservationsArray.push(reservationObj);
-      }
-    }
+    const reservationTime = moment().set({
+      hour: Math.floor(Math.random() * (21 - 16) + 16),
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }).format('HH:mm:ss', moment.ISO_8601);
+    // console.log(reservation_time);
+
+
+    const reservationObj = {
+      reservation_id: i,
+      restaurant_foreign_key: Math.floor(Math.random() * ((numberOfRestaurants + 1) - 1) + 1),
+      reservation_day: formatedRandomDay,
+      reservation_time: reservationTime,
+      number_of_seats_reserved: Math.floor(Math.random() * (10 - 5) + 5),
+    };
+    // console.log(reservationObj);
+    reservationsArray.push(reservationObj);
   }
-  console.log(reservationsArray);
+
+  // console.log(reservationsArray);
   const csvWriter = createCsvWriter({
     path: '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv',
     header: [
+      { id: 'reservation_id', title: 'reservation_id' },
       { id: 'restaurant_foreign_key', title: 'restaurant_foreign_key' },
       { id: 'reservation_day', title: 'reservation_day' },
       { id: 'reservation_time', title: 'reservation_time' },
       { id: 'number_of_seats_reserved', title: 'number_of_seats_reserved' },
     ],
   });
-  const records = restaurantArray;
+  const records = reservationsArray;
 
   csvWriter.writeRecords(records) // returns a promise
     .then(() => {
@@ -69,42 +79,42 @@ const generateReservations = (currentRestaurntObj, currentDay) => {
 
 // Generate each Restaurant
 const generateRestaurants = () => {
-  const numberOfRestaurants = 1000;
-  const currentDateDay = Number(moment().format('DD'));
-  const endMonthFullDate = moment().endOf('month');
-  const currentMonthLastDay = Number(endMonthFullDate.format('DD'));
-
+  const numberOfRestaurants = 1000000;
   const restaurantArray = [];
 
   for (let i = 1; i < numberOfRestaurants; i++) {
-    // const genStartTime = Math.floor(Math.random() * (7 - 4) + 4) + 12;
-    // const genEndTime = Math.floor(Math.random() * (12 - 10) + 10) + 12;
+    const genStarthour = Math.floor(Math.random() * (16 - 14) + 14);
+    const genEndHour = Math.floor(Math.random() * (23 - 21) + 21);
 
-    const genStartTime = 20;
-    const genEndTime = 23;
+    const startTime = moment().set({
+      hour: genStarthour,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }).format('HH:mm:ss', moment.ISO_8601);
+
+    const endTime = moment().set({
+      hour: genEndHour,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }).format('HH:mm:ss', moment.ISO_8601);
 
     const restaurantObj = {
       rest_id: i,
-      total_capacity: Math.floor(Math.random() * (20 - 10) + 10),
-      starting_time: genStartTime,
-      ending_time: genEndTime,
+      total_capacity: Math.floor(Math.random() * (70 - 50) + 50),
+      starting_time: startTime,
+      ending_time: endTime,
     };
     // console.log(restaurantObj);
     restaurantArray.push(restaurantObj);
 
-    // For every restaurant, loop through current date to the end of the month
-    // Change date here for data
-    for (let y = currentDateDay; y < currentDateDay + 7 + 1; y++) {
-      const currentDayOfMonth = moment().set('date', y).format('YYYY-DD-MM');
-      generateReservations(restaurantObj, currentDayOfMonth);
-      // For every day of each restaurant: generate reservations for each hour
-    }
     if (i % 10000 === 0) {
       console.log('Restaurant: ', i);
     }
   }
   const csvWriter = createCsvWriter({
-    path: '/Users/Admin/Documents/HRSF122/sdc-project/data.csv',
+    path: '/Users/Admin/Documents/HRSF122/sdc-project/restaurants.csv',
     header: [
       { id: 'rest_id', title: 'rest_id' },
       { id: 'total_capacity', title: 'total_capacity' },
@@ -118,6 +128,7 @@ const generateRestaurants = () => {
     .then(() => {
       console.log('...Done');
       console.log(records);
+      generateReservations(numberOfRestaurants);
     })
     .catch(() => {
       console.log('err');

@@ -1,27 +1,27 @@
-DROP DATABASE IF EXISTS reservations_service;
+-- DROP DATABASE IF EXISTS reservations_service;
 
-CREATE DATABASE reservations_service;
+-- CREATE DATABASE reservations_service;
+\c reservations_service;
 
-CREATE TABLE restaurant (
+DROP TABLE IF EXISTS restaurants;
+
+CREATE TABLE restaurants (
   rest_id SERIAL PRIMARY KEY,
   total_capacity int NOT NULL,
-  starting_time int,
-  ending_time int
+  starting_time varchar(50),
+  ending_time varchar(50)
 );
 
--- CREATE TABLE time_slot (
---   time_slot_id SERIAL PRIMARY KEY,
---   restaurant_id int REFERENCES restaurant(rest_id),
---   calendar_date date,
---   calendar_time time,
---   number_of_open_seats int,
---   number_of_reserved_seats int
--- );
+COPY restaurants FROM '/Users/Admin/Documents/HRSF122/sdc-project/restaurants.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE IF EXISTS reservations;
 
 CREATE TABLE reservations (
   reservation_id SERIAL PRIMARY KEY,
-  restaurant_foreign_key int REFERENCES restaurant(rest_id),
-  reservation_day text,
-  reservation_time int,
-  number_of_seats_reserved int
+  restaurant_foreign_key int,
+  reservation_day date,
+  reservation_time varchar(50),
+  number_of_seats_reserved smallint
 );
+
+COPY reservations FROM '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv' DELIMITER ',' CSV HEADER;
