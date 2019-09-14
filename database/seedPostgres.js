@@ -18,21 +18,16 @@ client.connect((err) => {
   }
 });
 
-const generateReservations = (restaurant, date) => {
-  // console.log(restaurant);
-  // console.log(date);
-  // const randomNumberOfSeatsToReserve = Math.floor(Math.random() * (10 - 1) + 1)
-  const timeOpen = moment({
-    hour: restaurant.starting_time, minute: 0, seconds: 0, milliseconds: 0,
-  });
+const generateReservations = (restaurant, date, currentRestaurant) => {
   // Loop through each hour that the restaurant is open for
+  // if (currentRestaurant % 10000 === 0) {
+  // console.log('Time to seed restaurant: c', currentRestaurant);
+  // }
   for (let i = restaurant.starting_time; i < restaurant.ending_time; i++) {
     let capacityAvailablePerTimeSlot = restaurant.total_capacity;
-    console.log('hour per restaurant: ', i);
-
     const genRandomAmtOfReservations = Math.floor(Math.random() * (7 - 0) + 0);
+
     for (let y = 0; y < genRandomAmtOfReservations; y++) {
-      console.log('reservations per hour: ', y);
       if (capacityAvailablePerTimeSlot !== 0) {
         // Generate number of seats to reserve based off of the current capacity
         const seatsToReservePerReservation = Math.floor(Math.random() * (capacityAvailablePerTimeSlot - 1) + 1);
@@ -45,7 +40,6 @@ const generateReservations = (restaurant, date) => {
           reservation_time: i,
           number_of_seats_reserved: seatsToReservePerReservation,
         };
-        // console.log(reservationObj);
         const insertText = 'INSERT INTO reservations(restaurant_foreign_key, reservation_day, reservation_time, number_of_seats_reserved) VALUES ($1, $2, $3, $4)';
         const values = [reservationObj.restaurant_foreign_key, reservationObj.reservation_day, reservationObj.reservation_time, reservationObj.number_of_seats_reserved];
         client.query(insertText, values, (err, res) => {
@@ -58,44 +52,39 @@ const generateReservations = (restaurant, date) => {
   }
 };
 
-const generateTimeSlotsPerDay = (numberofMonths, numberOfRestaurants) => {
-  // const currentFullDate = moment().format('YYYY-DD-MM');
+const generateTimeSlotsPerDay = (numberOfRestaurants) => {
   const currentDateDay = Number(moment().format('DD'));
-
   const endMonthFullDate = moment().endOf('month');
   const currentMonthLastDay = Number(endMonthFullDate.format('DD'));
-
 
   for (let z = 1; z < numberOfRestaurants; z++) {
     const queryText = 'SELECT * FROM restaurant WHERE rest_id = $1';
     const values = [z];
-    for (let y = currentDateDay; y < currentMonthLastDay + 1; y++) {
-      // For every day until the end of the month, generate reservations
-      client.query(queryText, values, (err, res) => {
-        if (err) {
-          console.log(err.stack);
-        } else {
+    // For every day until the end of the month, generate reservations
+    client.query(queryText, values, (err, res) => {
+      if (err) {
+        console.log(err.stack);
+      } else {
+        for (let y = currentDateDay; y < currentMonthLastDay + 1; y++) {
           const currentDayOfMonth = moment().set('date', y).format('YYYY-DD-MM');
-          generateReservations(res.rows[0], currentDayOfMonth);
+          // console.log('Time to seed restaurant: ', z);
+          generateReservations(res.rows[0], currentDayOfMonth, z);
         }
-      });
-    }
+      }
+    });
   }
 };
 
 // Generate restaurants first
 const generate_restaurants = (callback) => {
-  const numberOfRestaurants = 1000000;
+  const numberOfRestaurants = 100000;
   for (let i = 1; i < numberOfRestaurants; i++) {
-    if (i % 10000 === 0) {
-      console.log(i);
-    }
     const genStartTime = Math.floor(Math.random() * (7 - 4) + 4) + 12;
     const genEndTime = Math.floor(Math.random() * (12 - 10) + 10) + 12;
 
     const restaurantObj = {
       rest_id: i,
-      total_capacity: Math.floor(Math.random() * (30 - 10) + 10),
+      total_capacity: Math.floor(Math.random() * (20 - 10) + 10),
       starting_time: genStartTime,
       ending_time: genEndTime,
     };
@@ -105,18 +94,17 @@ const generate_restaurants = (callback) => {
       if (err) {
         console.log(err.stack);
       } else {
-        if (i % 10000 === 0) {
-          console.log(i);
+        if (i % 10000 === 0 || i % 1000 === 0) {
+          console.log('Number of Restaurants inserted:', i);
         }
         if (i === numberOfRestaurants - 1) {
-          callback(3, numberOfRestaurants);
+          console.log('Begin generating reservations...');
+          callback(numberOfRestaurants);
         }
       }
     });
   }
 };
-
-// Run the generate_restaurant seeding script
-// On callback run the generateTimesSlotsPerDay function based on
-// Number of months
-generate_restaurants(generateTimeSlotsPerDay);
+generate_restaurants((numberOfRestaurants) => {
+  generateTimeSlotsPerDay(numberOfRestaurants);
+});
