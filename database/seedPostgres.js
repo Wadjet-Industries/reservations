@@ -82,6 +82,7 @@ const generateReservations = (numberOfRestaurants) => {
     .pipe(ws)
     .on('finish', () => (console.log('done')))
     .on('end', process.exit);
+};
 
 
 // Generate each Restaurant
