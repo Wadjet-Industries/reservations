@@ -1,34 +1,33 @@
-const { Client } = require('pg');
+// const { Client } = require('pg');
 /* eslint-disable no-loop-func */
 const moment = require('moment');
-const fast_csv = require('fast-csv');
-// const fs = require('file-system');
+const fs = require('fs');
+const fastcsv = require('fast-csv');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-const client = new Client({
-  user: 'Admin',
-  host: 'localhost',
-  database: 'reservations_service',
-  port: 5432,
-  password: '',
-});
 
-client.connect((err) => {
-  if (err) {
-    console.log(err.stack);
-  } else {
-    console.log('connected to node-gres');
-  }
-});
+// const client = new Client({
+//   user: 'Admin',
+//   host: 'localhost',
+//   database: 'reservations_service',
+//   port: 5432,
+//   password: '',
+// });
+
+// client.connect((err) => {
+//   if (err) {
+//     console.log(err.stack);
+//   } else {
+//     console.log('connected to node-gres');
+//   }
+// });
 
 const generateReservations = (numberOfRestaurants) => {
   const reservationsArray = [];
-  const numOfReservations = 40000001;
+  const numOfReservations = 20000001;
   const currentDateDay = Number(moment().format('DD'));
   const sevenDaysFromToday = currentDateDay + 7;
-  // const endMonthFullDate = moment().endOf('month');
-  // const currentMonthLastDay = Number(endMonthFullDate.format('DD'));
-  // const genRandomAmtOfReservations = Math.floor(Math.random() * (1000000 - 0) + 0);
+
   for (let i = 1; i < numOfReservations; i++) {
     const randomDayWithinTheWeek = Math.floor(Math.random() * (currentDateDay - sevenDaysFromToday) + sevenDaysFromToday);
     if (i % 100000 === 0) {
@@ -43,7 +42,6 @@ const generateReservations = (numberOfRestaurants) => {
       second: 0,
       millisecond: 0,
     }).format('HH:mm:ss', moment.ISO_8601);
-    // console.log(reservation_time);
 
 
     const reservationObj = {
@@ -57,33 +55,39 @@ const generateReservations = (numberOfRestaurants) => {
     reservationsArray.push(reservationObj);
   }
 
-  // console.log(reservationsArray);
-  const csvWriter = createCsvWriter({
-    path: '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv',
-    header: [
-      { id: 'reservation_id', title: 'reservation_id' },
-      { id: 'restaurant_foreign_key', title: 'restaurant_foreign_key' },
-      { id: 'reservation_day', title: 'reservation_day' },
-      { id: 'reservation_time', title: 'reservation_time' },
-      { id: 'number_of_seats_reserved', title: 'number_of_seats_reserved' },
-    ],
-  });
-  const records = reservationsArray;
+  // const csvWriter = createCsvWriter({
+  //   path: '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv',
+  //   header: [
+  //     { id: 'reservation_id', title: 'reservation_id' },
+  //     { id: 'restaurant_foreign_key', title: 'restaurant_foreign_key' },
+  //     { id: 'reservation_day', title: 'reservation_day' },
+  //     { id: 'reservation_time', title: 'reservation_time' },
+  //     { id: 'number_of_seats_reserved', title: 'number_of_seats_reserved' },
+  //   ],
+  // });
+  // const records = reservationsArray;
 
-  csvWriter.writeRecords(records) // returns a promise
-    .then(() => {
-      console.log('...Done');
-      console.log(records);
-    })
-    .catch(() => {
-      console.log('err');
-    });
-};
+  // csvWriter.writeRecords(records) // returns a promise
+  //   .then(() => {
+  //     console.log('...Done');
+  //     console.log(records);
+  //   })
+  //   .catch(() => {
+  //     console.log('err');
+  //   });
+  const ws = fs.createWriteStream('/Users/Admin/Documents/HRSF122/sdc-project/restaurantTest.csv');
+
+  fastcsv
+    .write(reservationsArray, { headers: true })
+    .pipe(ws)
+    .on('finish', () => (console.log('done')))
+    .on('end', process.exit);
+
 
 // Generate each Restaurant
 const generateRestaurants = () => {
-  const numberOfRestaurants = 10000001;
-  const restaurantArray = [];
+  const numberOfRestaurants = 1000001;
+  let restaurantArray = [];
 
   for (let i = 1; i < numberOfRestaurants; i++) {
     const genStarthour = Math.floor(Math.random() * (16 - 14) + 14);
@@ -125,12 +129,14 @@ const generateRestaurants = () => {
       { id: 'ending_time', title: 'ending_time' },
     ],
   });
-  const records = restaurantArray;
+  let records = restaurantArray;
 
   csvWriter.writeRecords(records) // returns a promise
     .then(() => {
       console.log('...Done');
       console.log(records);
+      records = 0;
+      restaurantArray = 0;
       generateReservations(numberOfRestaurants);
     })
     .catch(() => {

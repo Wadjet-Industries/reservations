@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const compression = require('compression');
-
+const postgresClient = require('../database/psqlDatabase.js');
 
 const app = express();
 const port = 3002;
@@ -19,14 +19,23 @@ app.use(express.static('public'));
 
 app.get('/api/:id/reservations', (req, res) => {
   const param = req.params.id;
-  database.getListingData(param)
-    .then((data) => {
-      const dataForListing = data[0].Dates.slice();
-      res.send(dataForListing);
-    })
-    .catch((err) => {
-      console.log('Error with retriving data for listing', err);
-    });
+  // database.getListingData(param)
+  //   .then((data) => {
+  //     const dataForListing = data[0].Dates.slice();
+  //     res.send(dataForListing);
+  //   })
+  //   .catch((err) => {
+  //     console.log('Error with retriving data for listing', err);
+  //   });
+  const queryString = 'SELECT * from reservations where restaurant_foreign_key = ? VALUES($1)';
+  const values = [param];
+  postgresClient.client.query(queryString, values, (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(res);
+    }
+  })
 });
 
 // Post methods are not ID specific, so don't need to include it
