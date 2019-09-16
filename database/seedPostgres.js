@@ -5,6 +5,9 @@ const fs = require('fs');
 const fastcsv = require('fast-csv');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
+const writeReservations = fs.createWriteStream('/Users/Admin/Documents/HRSF122/sdc-project/reservationsTest.csv');
+// writeReservations.write({ headers: true });
+
 
 // const client = new Client({
 //   user: 'Admin',
@@ -22,66 +25,62 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 //   }
 // });
 
-const generateReservations = (numberOfRestaurants) => {
+// writeTenMillionReservations(writeReservations, 'utf-8', numberOfRestaurants, () => {
+//   writeReservations.end();
+// });
+
+const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, callback) => {
   const reservationsArray = [];
-  const numOfReservations = 20000001;
+  const numOfReservations = 10000001;
   const currentDateDay = Number(moment().format('DD'));
   const sevenDaysFromToday = currentDateDay + 7;
 
-  for (let i = 1; i < numOfReservations; i++) {
-    const randomDayWithinTheWeek = Math.floor(Math.random() * (currentDateDay - sevenDaysFromToday) + sevenDaysFromToday);
-    if (i % 100000 === 0) {
-      console.log(i);
+  let index = 0;
+  function write() {
+    let ok = true;
+    do {
+      index += 1;
+      const randomDayWithinTheWeek = Math.floor(Math.random() * (currentDateDay - sevenDaysFromToday) + sevenDaysFromToday);
+      if (index % 100000 === 0) {
+        console.log(index);
+      }
+
+      const formatedRandomDay = moment().set('date', randomDayWithinTheWeek).format('YYYY-MM-DD', moment.ISO_8601);
+
+      const reservationTime = moment().set({
+        hour: Math.floor(Math.random() * (21 - 16) + 16),
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      }).format('HH:mm:ss', moment.ISO_8601);
+
+
+      // const reservationObj = {
+      //   reservation_id: numOfReservations,
+      //   restaurant_foreign_key: Math.floor(Math.random() * (numberOfRestaurants - 1) + 1),
+      //   reservation_day: formatedRandomDay,
+      //   reservation_time: reservationTime,
+      //   number_of_seats_reserved: Math.floor(Math.random() * (10 - 5) + 5),
+      // };
+      const reservationObj = `${index}, ${Math.floor(Math.random() * (numberOfRestaurants - 1) + 1)}, ${formatedRandomDay}, ${reservationTime}, ${Math.floor(Math.random() * (10 - 5) + 5)}\n`;
+      // console.log(reservationObj);
+
+      if (index === numOfReservations) {
+        writer.write(reservationObj, encoding, callback);
+      } else {
+        // see if we should continue, or wait
+        // don't pass the callback, because we're not done yet.
+        ok = writer.write(reservationObj, encoding);
+      }
+    } while (numOfReservations > 0 && ok);
+    if (numOfReservations > 0) {
+      // had to stop early!
+      // write some more once it drains
+      writer.once('drain', write);
     }
-
-    const formatedRandomDay = moment().set('date', randomDayWithinTheWeek).format('YYYY-MM-DD', moment.ISO_8601);
-
-    const reservationTime = moment().set({
-      hour: Math.floor(Math.random() * (21 - 16) + 16),
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-    }).format('HH:mm:ss', moment.ISO_8601);
-
-
-    const reservationObj = {
-      reservation_id: i,
-      restaurant_foreign_key: Math.floor(Math.random() * (numberOfRestaurants - 1) + 1),
-      reservation_day: formatedRandomDay,
-      reservation_time: reservationTime,
-      number_of_seats_reserved: Math.floor(Math.random() * (10 - 5) + 5),
-    };
-    // console.log(reservationObj);
-    reservationsArray.push(reservationObj);
   }
-
-  // const csvWriter = createCsvWriter({
-  //   path: '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv',
-  //   header: [
-  //     { id: 'reservation_id', title: 'reservation_id' },
-  //     { id: 'restaurant_foreign_key', title: 'restaurant_foreign_key' },
-  //     { id: 'reservation_day', title: 'reservation_day' },
-  //     { id: 'reservation_time', title: 'reservation_time' },
-  //     { id: 'number_of_seats_reserved', title: 'number_of_seats_reserved' },
-  //   ],
-  // });
-  // const records = reservationsArray;
-
-  // csvWriter.writeRecords(records) // returns a promise
-  //   .then(() => {
-  //     console.log('...Done');
-  //     console.log(records);
-  //   })
-  //   .catch(() => {
-  //     console.log('err');
-  //   });
-  const ws = fs.createWriteStream('/Users/Admin/Documents/HRSF122/sdc-project/restaurantTest.csv');
-
-  fastcsv
-    .write(reservationsArray, { headers: true })
-    .pipe(ws)
-    .on('finish', () => (console.log('done')))
-    .on('end', process.exit);
+  write();
+  // reservationsArray.push(reservationObj);
 };
 
 
@@ -138,7 +137,9 @@ const generateRestaurants = () => {
       console.log(records);
       records = 0;
       restaurantArray = 0;
-      generateReservations(numberOfRestaurants);
+      writeTenMillionReservations(writeReservations, 'utf-8', numberOfRestaurants, () => {
+        writeReservations.end();
+      });
     })
     .catch(() => {
       console.log('err');

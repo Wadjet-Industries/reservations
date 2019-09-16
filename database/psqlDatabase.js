@@ -5,7 +5,6 @@ const client = new Client({
   host: 'localhost',
   database: 'reservations_service',
   port: 5432,
-  password: '',
 });
 
 client.connect((err) => {
@@ -16,5 +15,4 @@ client.connect((err) => {
   }
 });
 
-exports.module = client;
-
+module.exports = client;

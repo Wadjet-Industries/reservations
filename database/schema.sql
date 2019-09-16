@@ -24,4 +24,4 @@ CREATE TABLE reservations (
   number_of_seats_reserved smallint
 );
 
-COPY reservations FROM '/Users/Admin/Documents/HRSF122/sdc-project/reservations.csv' DELIMITER ',' CSV HEADER;
+COPY reservations FROM '/Users/Admin/Documents/HRSF122/sdc-project/reservationsTest.csv' DELIMITER ',' CSV HEADER;

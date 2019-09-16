@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const compression = require('compression');
-const postgresClient = require('../database/psqlDatabase.js');
+const client = require('../database/psqlDatabase.js');
 
 const app = express();
 const port = 3002;
@@ -17,7 +17,7 @@ app.use('/:id/reservations', express.static('public'));
 
 app.use(express.static('public'));
 
-app.get('/api/:id/reservations', (req, res) => {
+app.get('/api/:id/reservations', (req, response) => {
   const param = req.params.id;
   // database.getListingData(param)
   //   .then((data) => {
@@ -27,15 +27,17 @@ app.get('/api/:id/reservations', (req, res) => {
   //   .catch((err) => {
   //     console.log('Error with retriving data for listing', err);
   //   });
-  const queryString = 'SELECT * from reservations where restaurant_foreign_key = ? VALUES($1)';
-  const values = [param];
-  postgresClient.client.query(queryString, values, (err, res) => {
+  const queryString = 'SELECT * from reservations where reservations.restaurant_foreign_key = $1';
+  const values = [Number(param)];
+  console.log(values, queryString);
+  client.query(queryString, values, (err, res) => {
     if (err) {
-      console.log(err);
+      console.log('ERROR:', err);
     } else {
-      console.log(res);
+      console.log(res.rows[0]);
+      response.send(res.rows);
     }
-  })
+  });
 });
 
 // Post methods are not ID specific, so don't need to include it
