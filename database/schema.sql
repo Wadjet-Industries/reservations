@@ -3,7 +3,7 @@
 -- CREATE DATABASE reservations_service;
 \c reservations_service;
 
-DROP TABLE IF EXISTS restaurants;
+DROP TABLE IF EXISTS restaurants CASCADE;
 
 CREATE TABLE restaurants (
   rest_id SERIAL PRIMARY KEY,
@@ -14,7 +14,7 @@ CREATE TABLE restaurants (
 
 COPY restaurants FROM '/Users/Admin/Documents/HRSF122/sdc-project/restaurants.csv' DELIMITER ',' CSV HEADER;
 
-DROP TABLE IF EXISTS reservations;
+DROP TABLE IF EXISTS reservations CASCADE;
 
 CREATE TABLE reservations (
   reservation_id SERIAL PRIMARY KEY,

@@ -23,7 +23,7 @@ client.connect((err) => {
 
 const generateReservations = (numberOfRestaurants) => {
   const reservationsArray = [];
-  const numOfReservations = 10000001;
+  const numOfReservations = 40000001;
   const currentDateDay = Number(moment().format('DD'));
   const sevenDaysFromToday = currentDateDay + 7;
   // const endMonthFullDate = moment().endOf('month');
@@ -31,6 +31,9 @@ const generateReservations = (numberOfRestaurants) => {
   // const genRandomAmtOfReservations = Math.floor(Math.random() * (1000000 - 0) + 0);
   for (let i = 1; i < numOfReservations; i++) {
     const randomDayWithinTheWeek = Math.floor(Math.random() * (currentDateDay - sevenDaysFromToday) + sevenDaysFromToday);
+    if (i % 100000 === 0) {
+      console.log(i);
+    }
 
     const formatedRandomDay = moment().set('date', randomDayWithinTheWeek).format('YYYY-MM-DD', moment.ISO_8601);
 
@@ -45,7 +48,7 @@ const generateReservations = (numberOfRestaurants) => {
 
     const reservationObj = {
       reservation_id: i,
-      restaurant_foreign_key: Math.floor(Math.random() * ((numberOfRestaurants + 1) - 1) + 1),
+      restaurant_foreign_key: Math.floor(Math.random() * (numberOfRestaurants - 1) + 1),
       reservation_day: formatedRandomDay,
       reservation_time: reservationTime,
       number_of_seats_reserved: Math.floor(Math.random() * (10 - 5) + 5),
@@ -79,7 +82,7 @@ const generateReservations = (numberOfRestaurants) => {
 
 // Generate each Restaurant
 const generateRestaurants = () => {
-  const numberOfRestaurants = 1000000;
+  const numberOfRestaurants = 10000001;
   const restaurantArray = [];
 
   for (let i = 1; i < numberOfRestaurants; i++) {
