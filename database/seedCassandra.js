@@ -4,33 +4,12 @@ const moment = require('moment');
 const fs = require('fs');
 const fastcsv = require('fast-csv');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const datetime = require('node-datetime');
 
-const writeReservations = fs.createWriteStream('/Users/Admin/Documents/HRSF122/sdc-project/reservationsTest.csv');
-// writeReservations.write({ headers: true });
+const writeReservations = fs.createWriteStream('/Users/Admin/Documents/HRSF122/sdc-project/reservationsCassandra.csv');
 
-
-// const client = new Client({
-//   user: 'Admin',
-//   host: 'localhost',
-//   database: 'reservations_service',
-//   port: 5432,
-//   password: '',
-// });
-
-// client.connect((err) => {
-//   if (err) {
-//     console.log(err.stack);
-//   } else {
-//     console.log('connected to node-gres');
-//   }
-// });
-
-// writeTenMillionReservations(writeReservations, 'utf-8', numberOfRestaurants, () => {
-//   writeReservations.end();
-// });
-
+const restaurantObjectStore = {};
 const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, callback) => {
-  const reservationsArray = [];
   const numOfReservations = 100000001;
   const currentDateDay = Number(moment().format('DD'));
   const sevenDaysFromToday = currentDateDay + 7;
@@ -45,7 +24,7 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
         console.log(index);
       }
 
-      const formatedRandomDay = moment().set('date', randomDayWithinTheWeek).format('YYYY-MM-DD', moment.ISO_8601);
+      const formatedRandomDay = moment().set('date', randomDayWithinTheWeek).format('YYYY-MM-DD');
 
       const reservationTime = moment().set({
         hour: Math.floor(Math.random() * (21 - 16) + 16),
@@ -53,23 +32,20 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
         second: 0,
         millisecond: 0,
       }).format('HH:mm:ss', moment.ISO_8601);
-      const date = datetime.create(reservationTime);
 
-      // const reservationObj = {
-      //   reservation_id: numOfReservations,
-      //   restaurant_foreign_key: Math.floor(Math.random() * (numberOfRestaurants - 1) + 1),
-      //   reservation_day: formatedRandomDay,
-      //   reservation_time: reservationTime,
-      //   number_of_seats_reserved: Math.floor(Math.random() * (10 - 5) + 5),
-      // };
-      const reservationObj = `${index},${Math.floor(Math.random() * (numberOfRestaurants - 1) + 1)},${formatedRandomDay}, ${reservationTime},${Math.floor(Math.random() * (10 - 5) + 5)}\n`;
+      const randoSelectedRestaurant = Math.floor(Math.random() * (numberOfRestaurants - 1) + 1);
+
+      const { total_capacity } = restaurantObjectStore[randoSelectedRestaurant];
+      const { rest_id } = restaurantObjectStore[randoSelectedRestaurant];
+
+      const reservationTemplate = `${index}, ${randoSelectedRestaurant},${formatedRandomDay}, ${reservationTime},${Math.floor(Math.random() * (10 - 5) + 5)},${total_capacity}\n`;
 
       if (index === numOfReservations) {
-        writer.write(reservationObj, encoding, callback);
+        writer.write(reservationTemplate, encoding, callback);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(reservationObj, encoding);
+        ok = writer.write(reservationTemplate, encoding);
       }
     } while (numOfReservations > 0 && ok);
     if (numOfReservations > 0) {
@@ -79,7 +55,6 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
     }
   }
   write();
-  // reservationsArray.push(reservationObj);
 };
 
 
@@ -92,35 +67,37 @@ const generateRestaurants = () => {
     const genStarthour = Math.floor(Math.random() * (16 - 14) + 14);
     const genEndHour = Math.floor(Math.random() * (23 - 21) + 21);
 
-    const startTime = moment().set({
-      hour: genStarthour,
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-    }).format('HH:mm:ss', moment.ISO_8601);
+    // const startTime = moment().set({
+    //   hour: genStarthour,
+    //   minute: 0,
+    //   second: 0,
+    //   millisecond: 0,
+    // }).format('HH:mm:ss', moment.ISO_8601);
 
-    const endTime = moment().set({
-      hour: genEndHour,
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-    }).format('HH:mm:ss', moment.ISO_8601);
+    // const endTime = moment().set({
+    //   hour: genEndHour,
+    //   minute: 0,
+    //   second: 0,
+    //   millisecond: 0,
+    // }).format('HH:mm:ss', moment.ISO_8601);
+
 
     const restaurantObj = {
       rest_id: i,
       total_capacity: Math.floor(Math.random() * (70 - 50) + 50),
-      starting_time: startTime,
-      ending_time: endTime,
+      starting_time: `${genStarthour}:00:00`,
+      ending_time: `${genEndHour}:00:00`,
     };
     // console.log(restaurantObj);
     restaurantArray.push(restaurantObj);
+    restaurantObjectStore[restaurantObj.rest_id] = restaurantObj;
 
     if (i % 10000 === 0) {
       console.log('Restaurant: ', i);
     }
   }
   const csvWriter = createCsvWriter({
-    path: '/Users/Admin/Documents/HRSF122/sdc-project/restaurants.csv',
+    path: '/Users/Admin/Documents/HRSF122/sdc-project/restaurantsCassandra.csv',
     header: [
       { id: 'rest_id', title: 'rest_id' },
       { id: 'total_capacity', title: 'total_capacity' },
