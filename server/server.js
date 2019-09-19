@@ -13,11 +13,13 @@ const database = require('../database/database.js');
 app.use(cors());
 app.use(morgan());
 app.use(compression());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use('/:id/reservations', express.static('public'));
 
 app.use(express.static('public'));
 
-app.get('/api/:id/reservations', (req, response) => {
+app.get('/api/reservations/:id', (req, response) => {
   const param = req.params.id;
   // database.getListingData(param)
   //   .then((data) => {
@@ -27,7 +29,7 @@ app.get('/api/:id/reservations', (req, response) => {
   //   .catch((err) => {
   //     console.log('Error with retriving data for listing', err);
   //   });
-  const queryString = 'SELECT * from reservations where reservations.restaurant_foreign_key = $1';
+  const queryString = 'SELECT * FROM restaurants INNER JOIN reservations ON restaurants.rest_id = reservations.restaurant_foreign_key where reservations.restaurant_foreign_key = $1';
   const values = [Number(param)];
   console.log(values, queryString);
   client.query(queryString, values, (err, res) => {
@@ -42,7 +44,8 @@ app.get('/api/:id/reservations', (req, response) => {
 
 // Post methods are not ID specific, so don't need to include it
 app.post('/api/reservation', (req, res) => {
-  res.send('hello');
+  // console.log(req.body);
+  // const queryString = 'INSERT'
 });
 
 app.put('/api/:id/reservations', (req, res) => {

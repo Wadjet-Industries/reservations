@@ -25,4 +25,4 @@ build/
 dist/
 
 aws-keys.json
-reservationTest.csv
+*.csv
