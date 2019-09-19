@@ -73,6 +73,7 @@ const generateRestaurants = () => {
     //   second: 0,
     //   millisecond: 0,
     // }).format('HH:mm:ss', moment.ISO_8601);
+    const startTime = new Date(Date.UTC(0, 0, 0, genStarthour, 0, 0));
 
     // const endTime = moment().set({
     //   hour: genEndHour,
@@ -81,6 +82,7 @@ const generateRestaurants = () => {
     //   millisecond: 0,
     // }).format('HH:mm:ss', moment.ISO_8601);
 
+    const endTime = new Date(Date.UTC(0, 0, 0, genEndHour, 0, 0))
 
     const restaurantObj = {
       rest_id: i,
