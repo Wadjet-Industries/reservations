@@ -31,7 +31,7 @@ const writeReservations = fs.createWriteStream('/Users/Admin/Documents/HRSF122/s
 
 const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, callback) => {
   const reservationsArray = [];
-  const numOfReservations = 100000001;
+  const numOfReservations = 10000001;
   const currentDateDay = Number(moment().format('DD'));
   const sevenDaysFromToday = currentDateDay + 7;
 
@@ -53,7 +53,7 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
         second: 0,
         millisecond: 0,
       }).format('HH:mm:ss', moment.ISO_8601);
-      const date = datetime.create(reservationTime);
+      // const date = datetime.create(reservationTime);
 
       // const reservationObj = {
       //   reservation_id: numOfReservations,
@@ -62,7 +62,7 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
       //   reservation_time: reservationTime,
       //   number_of_seats_reserved: Math.floor(Math.random() * (10 - 5) + 5),
       // };
-      const reservationObj = `${index},${Math.floor(Math.random() * (numberOfRestaurants - 1) + 1)},${formatedRandomDay}, ${reservationTime},${Math.floor(Math.random() * (10 - 5) + 5)}\n`;
+      const reservationObj = `${index}, ${Math.floor(Math.random() * (numberOfRestaurants - 1) + 1)}, ${formatedRandomDay}, ${reservationTime},${Math.floor(Math.random() * (10 - 5) + 5)}\n`;
 
       if (index === numOfReservations) {
         writer.write(reservationObj, encoding, callback);
@@ -85,7 +85,7 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
 
 // Generate each Restaurant
 const generateRestaurants = () => {
-  const numberOfRestaurants = 10000001;
+  const numberOfRestaurants = 1000001;
   let restaurantArray = [];
 
   for (let i = 1; i < numberOfRestaurants; i++) {
