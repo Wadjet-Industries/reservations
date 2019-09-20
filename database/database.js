@@ -26,7 +26,7 @@ const reservationSchema = new mongoose.Schema({
   ]
 });
 
-const ReservationDocument = mongoose.model('Reservation', reservationSchema);
+const ReservationDocument =  mongoose.model('Reservation', reservationSchema);
 
 const getListingData = (listing) => (
   ReservationDocument.find({ Listing: listing })
