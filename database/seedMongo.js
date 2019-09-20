@@ -5,6 +5,9 @@
 
 const mongoose = require('mongoose');
 const moment = require('moment');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const fs = require('fs');
+
 
 
 mongoose.connect('mongodb://localhost:27017/Reservations', { useNewUrlParser: true })
@@ -108,8 +111,33 @@ db.once('open', () => {
         Dates: generateDatesPerListing()
       };
       const restaurant = new ReservationDocument(restaurantObj);
+      console.log(i);
       allData.push(restaurant);
     }
+    const csvWriter = createCsvWriter({
+      path: '/Users/Admin/Documents/HRSF122/sdc-project/data.csv',
+      header: [
+        { id: 'Listing', title: 'Listing' },
+        { id: 'Dates', title: ' Dates' },
+      ]
+    });
+
+    const records = JSON.stringify(allData);
+    // console.log(records);
+    fs.writeFile('/Users/Admin/Documents/HRSF122/sdc-project/data.csv', records, (err) => {
+      if (err) {
+        return console.log(err);
+      }
+
+      console.log('The file was saved!');
+    });
+
+
+    // csvWriter.writeRecords(records) // returns a promise
+    //   .then(() => {
+    //     console.log('...Done');
+    //   });
+
     ReservationDocument.insertMany(allData)
       .then(() => {
         console.log('Mango planted');

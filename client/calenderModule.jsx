@@ -143,7 +143,7 @@ const CalenderModule = ({
               <WeekDays>Fri</WeekDays>
               <WeekDays>Sat</WeekDays>
             </tr>
-            {calender.map((week, i) => <CalenderWeek key={week + i} month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />)}
+            {calender.map((week, i) => <CalenderWeek month={month} changeShownDate={changeShownDate} openCalender={openCalender} selectDate={selectDate} week={week} />)}
           </thead>
         </CalenderGrid>
       </CalenderDiv>

@@ -105,7 +105,7 @@ const TimeModule = ({ time, hours, setReservationTimes }) => {
   let durate = moment.duration(closeHour.diff(startHour)).as('hours');
   while (durate >= 0) {
     const thisTime = startHour.format('h:mm A');
-    timeOptions.push(<option key={thisTime} value={startHour.format()}>{thisTime}</option>);
+    timeOptions.push(<option value={startHour.format()}>{thisTime}</option>);
     startHour.add(30, 'm');
     durate = moment.duration(closeHour.diff(startHour)).as('hours');
   }

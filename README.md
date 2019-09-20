@@ -34,4 +34,10 @@ From within the root directory:
 
 npm install
 
+## RESTful CRUD API
+
+ - GET: '/api/reservations/:id'
+ - POST: '/api/reservation'
+ - PUT: '/api/reservation/:id'
+ - DELETE: '/api/reservation/:id'
 
