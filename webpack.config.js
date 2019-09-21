@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './client/reservation.jsx',
+  entry: './client/index.jsx',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'public'),
