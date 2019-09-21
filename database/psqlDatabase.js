@@ -1,13 +1,18 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
-const client = new Client({
+const pool = new Pool({
   user: 'Admin',
   host: 'localhost',
   database: 'reservations_service',
   port: 5432,
 });
 
-client.connect((err) => {
+pool.on('error', (err, client) => {
+  console.error(err);
+  process.exit(-1);
+})
+
+pool.connect((err) => {
   if (err) {
     console.log(err.stack);
   } else {
@@ -15,4 +20,4 @@ client.connect((err) => {
   }
 });
 
-module.exports = client;
+module.exports = pool;
