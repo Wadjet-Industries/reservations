@@ -16,9 +16,14 @@ app.use(morgan('dev'));
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use('/restaurants/:id', express.static('public'));
+
 
 // app.use(express.static('public'));
+
+app.use('/restaurants/:id', expressStaticGzip('public', {
+ enableBrotli: true,
+ orderPreference: ['br', 'gz']
+}));
 
 app.use('/', expressStaticGzip('public', {
  enableBrotli: true,
