@@ -2,7 +2,7 @@ config:
   target: 'http://localhost:3002/api/restaurants'
   # processor: './artilleryDynamic.js'
   phases:
-    - duration: 60
+    - duration: 180
       arrivalRate: 100
   defaults:
     headers:

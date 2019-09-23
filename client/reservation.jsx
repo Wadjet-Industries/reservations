@@ -295,19 +295,19 @@ class Reservations extends React.Component {
       });
   }
 
-  getListingData(listing = '1') {
-    return fetch(`/api/restaurants/${listing}` , {
+  getListingData(id = '1') {
+    return fetch(`/api/restaurants/${id}`, {
     /* return fetch(`http://54.67.39.70:3008/api/${listing}/reservations`, { */
       method: 'GET',
-    })
-      .then((res) => (res.json()))
+    });
+    /* .then((res) => (res.json()))
       .then((data) => {
         console.log(data);
-        return data
-        })
+        return data;
+      })
       .catch((err) => {
         console.log('Error with retrieving data', err);
-      });
+      }); */
   }
 
   getDay() {
