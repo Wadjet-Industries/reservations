@@ -21,7 +21,7 @@ module.exports = {
       deleteOriginalAssets: false,
     })
   ],
-  entry: './client/reservation.jsx',
+  entry: './client/index.jsx',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'public'),

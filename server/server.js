@@ -18,14 +18,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-// app.use(express.static('public'));
+// app.use(express.static(path.join(__dirname , '../public')));
 
 app.use('/restaurants/:id', expressStaticGzip('public', {
  enableBrotli: true,
  orderPreference: ['br', 'gz']
 }));
 
-app.use('/', expressStaticGzip('public', {
+app.use(expressStaticGzip('public', {
  enableBrotli: true,
  orderPreference: ['br', 'gz']
 }));
