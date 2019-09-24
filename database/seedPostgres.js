@@ -31,7 +31,7 @@ const writeReservations = fs.createWriteStream('/Users/Admin/Documents/HRSF122/s
 
 const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, callback) => {
   const reservationsArray = [];
-  const numOfReservations = 10000001;
+  const numOfReservations = 100000001;
   const currentDateDay = Number(moment().format('DD'));
   const sevenDaysFromToday = currentDateDay + 7;
 
@@ -85,7 +85,7 @@ const writeTenMillionReservations = (writer, encoding, numberOfRestaurants, call
 
 // Generate each Restaurant
 const generateRestaurants = () => {
-  const numberOfRestaurants = 1000001;
+  const numberOfRestaurants = 10000001;
   let restaurantArray = [];
 
   for (let i = 1; i < numberOfRestaurants; i++) {

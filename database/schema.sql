@@ -25,3 +25,8 @@ CREATE TABLE reservations (
 );
 
 COPY reservations FROM '/Users/Admin/Documents/HRSF122/sdc-project/reservationsTest.csv' DELIMITER ',' CSV HEADER;
+
+CREATE INDEX restaurant_id_index ON reservations(restaurant_foreign_key);
+CREATE INDEX rest_id_index ON restaurants(rest_id);
+
+ALTER TABLE reservations ADD CONSTRAINT rest_fk FOREIGN KEY (restaurant_foreign_key) REFERENCES restaurants(rest_id) ON DELETE CASCADE;
