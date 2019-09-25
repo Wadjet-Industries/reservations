@@ -25,6 +25,8 @@ app.use('/restaurants/:id', expressStaticGzip('public', {
  orderPreference: ['br', 'gz']
 }));
 
+app.use('/loaderio-726de530634cb017cfec041a36f14024/' , express.static('loader'));
+
 app.use(expressStaticGzip('public', {
  enableBrotli: true,
  orderPreference: ['br', 'gz']
