@@ -1,11 +1,4 @@
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: 'Admin',
-  host: 'localhost',
-  database: 'reservations_service',
-  port: 5432,
-});
+const pool = require('./postgresConfig.js');
 
 pool.on('error', (err, client) => {
   console.error(err);

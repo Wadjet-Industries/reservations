@@ -31,3 +31,4 @@ aws-keys.json
 *.br
 *.gz
 main.js
+postgresConfig.js
