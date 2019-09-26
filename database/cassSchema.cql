@@ -25,3 +25,4 @@ CREATE TABLE reservations_service.reservations (
 );
 
 COPY reservations_service.reservations (reservation_id, rest_id, reservation_day, reservation_time, number_of_seats_reserved, total_capacity) FROM '/Users/Admin/Documents/HRSF122/sdc-project/reservationsCassandra.csv' WITH DELIMITER=',' AND HEADER=TRUE;
+
