@@ -8,10 +8,10 @@ const pool = new Pool({
   port: 5432,
 });
 
-pool.on('error', (err, client) => {
+pool.on('error', (err) => {
   console.error(err);
   process.exit(-1);
-})
+});
 
 pool.connect((err) => {
   if (err) {

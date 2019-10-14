@@ -12,8 +12,8 @@ const app = express();
 const port = 3002;
 
 app.use(cors());
-app.use(morgan('dev'));
-app.use(compression());
+// app.use(morgan('dev'));
+// app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -26,19 +26,19 @@ app.use('/restaurants/:id', expressStaticGzip('public', {
 }));
 
 app.use(expressStaticGzip('public', {
- enableBrotli: true,
+ enableBrotli: true,  
  orderPreference: ['br', 'gz']
 }));
 
-app.get('/api/restaurants/:id', (req, response) => {
+app.get('/api/restaurants/:id', (req, res) => {
   const params = req.params.id;
-  const queryString = 'SELECT * FROM restaurants INNER JOIN reservations ON restaurants.rest_id = reservations.restaurant_foreign_key where reservations.restaurant_foreign_key = $1';
+  const queryString = 'SELECT restaurants.rest_id, restaurants.total_capacity, reservations.reservation_id, reservations.restaurant_foreign_key, reservations.reservation_day, reservations.reservation_time, reservations.number_of_seats_reserved FROM restaurants INNER JOIN reservations ON restaurants.rest_id = reservations.restaurant_foreign_key where reservations.restaurant_foreign_key = $1';
   const values = [params];
-  pool.query(queryString, values, (err, res) => {
+  pool.query(queryString, values, (err, result) => {
     if (err) {
       res.send(err);
     } else {
-      response.send(res.rows);
+      res.send(result.rows);
     }
   });
 });
