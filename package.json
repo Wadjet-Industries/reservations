@@ -74,6 +74,6 @@
     "url-loader": "^2.1.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.7"
+    "webpack-cli": "^3.3.12"
   }
 }
